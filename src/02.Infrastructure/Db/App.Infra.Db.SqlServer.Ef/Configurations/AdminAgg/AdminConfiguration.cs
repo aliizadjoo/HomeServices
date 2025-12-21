@@ -1,0 +1,29 @@
+﻿using App.Domain.Core.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace App.Infra.Db.SqlServer.Ef.Configurations.AdminAgg
+{
+    public class AdminConfiguration : IEntityTypeConfiguration<Admin>
+    {
+        public void Configure(EntityTypeBuilder<Admin> builder)
+        {
+            builder.ToTable("Admins");
+            builder.HasKey(x => x.Id);
+
+            builder.Property(x => x.StaffCode)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            builder.HasOne(x => x.AppUser)
+                .WithOne(a=>a.AdminProfile)
+                .HasForeignKey<Admin>(x => x.AppUserId)
+                .OnDelete(DeleteBehavior.NoAction);
+        }
+    }
+}

@@ -11,6 +11,10 @@ namespace App.Domain.Core.Entities
         public string Address { get; set; }
        
         public int AppUserId { get; set; }
-        public AppUser AppUser { get; set; } 
+        public AppUser AppUser { get; set; }
+
+
+        public List<Order> Orders { get; set; } = [];
+        public List<Review> Reviews { get; set; } = [];
     }
 }

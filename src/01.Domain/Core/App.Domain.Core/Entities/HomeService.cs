@@ -16,5 +16,6 @@ namespace App.Domain.Core.Entities
         public Category Category { get; set; }
 
         public List<Order> Orders { get; set; } = [];
+        public List<Expert> Experts { get; set; } = [];
     }
 }

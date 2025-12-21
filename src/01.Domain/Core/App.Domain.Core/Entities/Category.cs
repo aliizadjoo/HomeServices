@@ -11,6 +11,7 @@ namespace App.Domain.Core.Entities
         public string Title { get; set; }
         public string? ImagePath { get; set; } 
 
+
         public List<HomeService> Services { get; set; } = [];
     }
 }
