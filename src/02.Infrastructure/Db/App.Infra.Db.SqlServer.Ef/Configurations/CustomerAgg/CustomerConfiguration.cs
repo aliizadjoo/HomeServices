@@ -39,6 +39,15 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.CustomerAgg
                 .HasForeignKey(r => r.CustomerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.HasData(new Customer
+            {
+                Id = 1,
+                AppUserId = 2,
+                Address = "تهران، خیابان آزادی، پلاک ۱",
+                CreatedAt = new DateTime(2025, 1, 1, 10, 0, 0),
+                IsDeleted = false
+            });
+
         }
     }
 }

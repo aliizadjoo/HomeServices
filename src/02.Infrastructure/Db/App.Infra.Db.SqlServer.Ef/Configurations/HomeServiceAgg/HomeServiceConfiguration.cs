@@ -41,6 +41,30 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.HomeServiceAgg
                 .OnDelete(DeleteBehavior.NoAction);
 
 
+
+            builder.HasData(
+        new HomeService
+        {
+            Id = 1,
+            Name = "نظافت منزل",
+            Description = "نظافت کامل فضاهای داخلی ساختمان",
+            BasePrice = 500000m,
+            CategoryId = 1,
+            CreatedAt = new DateTime(2025, 1, 1),
+            IsDeleted = false
+        },
+        new HomeService
+        {
+            Id = 2,
+            Name = "تعمیر کولر آبی",
+            Description = "سرویس دوره‌ای و تعمیر موتور کولر",
+            BasePrice = 300000m,
+            CategoryId = 2,
+            CreatedAt = new DateTime(2025, 1, 1),
+            IsDeleted = false
+        }
+    );
+
         }
     }
 }

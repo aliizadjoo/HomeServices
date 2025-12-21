@@ -23,7 +23,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ReviewAgg
 
             builder.Property(r => r.Score)
                 .IsRequired();
-    
+
             builder.HasOne(r => r.Order)
                 .WithOne(o => o.Review)
                 .HasForeignKey<Review>(r => r.OrderId)
@@ -38,8 +38,26 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ReviewAgg
 
             builder.HasOne(r => r.Expert)
                 .WithMany(e => e.Reviews)
-                .HasForeignKey(r=> r.ExpertId)
+                .HasForeignKey(r => r.ExpertId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+
+
+
+
+            builder.HasData(new Review
+            {
+                Id = 1,
+                OrderId = 1,
+                CustomerId = 1,
+                ExpertId = 1,
+                Comment = "بسیار تمیز و با حوصله کار انجام شد. راضی بودم.",
+                Score = 5,
+                CreatedAt = new DateTime(2025, 2, 2),
+                IsDeleted = false
+            });
+
+
 
         }
     }

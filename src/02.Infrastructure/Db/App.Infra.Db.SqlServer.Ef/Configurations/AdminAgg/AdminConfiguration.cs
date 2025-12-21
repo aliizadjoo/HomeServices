@@ -24,6 +24,15 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.AdminAgg
                 .WithOne(a=>a.AdminProfile)
                 .HasForeignKey<Admin>(x => x.AppUserId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasData(new Admin
+            {
+                Id = 1,
+                AppUserId = 1,
+                StaffCode = "ADM-1001",
+                CreatedAt = new DateTime(2025, 1, 1, 10, 0, 0),
+                IsDeleted = false
+            });
         }
     }
 }

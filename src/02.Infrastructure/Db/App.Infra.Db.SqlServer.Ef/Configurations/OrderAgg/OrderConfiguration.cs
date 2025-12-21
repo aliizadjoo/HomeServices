@@ -51,9 +51,21 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.OrderAgg
             builder.HasOne(o=>o.Review)
                 .WithOne(r=>r.Order)
                 .HasForeignKey<Review>(r=>r.OrderId)
-                .OnDelete(DeleteBehavior.NoAction); 
+                .OnDelete(DeleteBehavior.NoAction);
 
 
+            builder.HasData(new Order
+            {
+                Id = 1,
+                CustomerId = 1,
+                HomeServiceId = 1,
+                Description = "نظافت آپارتمان ۸۰ متری، دو خوابه",
+                Status = OrderStatus.WaitingForProposals,
+                ExecutionDate = new DateTime(2025, 2, 1),
+                ExecutionTime = new TimeSpan(10, 0, 0), 
+                CreatedAt = new DateTime(2025, 1, 10),
+                IsDeleted = false
+            });
 
         }
     }

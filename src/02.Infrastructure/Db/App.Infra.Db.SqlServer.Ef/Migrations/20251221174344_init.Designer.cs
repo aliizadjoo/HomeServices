@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infra.Db.SqlServer.Ef.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251221154128_CoreEntitie")]
-    partial class CoreEntitie
+    [Migration("20251221174344_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,6 +53,16 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         .IsUnique();
 
                     b.ToTable("Admins", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AppUserId = 1,
+                            CreatedAt = new DateTime(2025, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            StaffCode = "ADM-1001"
+                        });
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.AppUser", b =>
@@ -131,6 +141,59 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AppUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "081004b3-e25c-4414-9694-44e5c2fd863f",
+                            Email = "admin@site.com",
+                            EmailConfirmed = true,
+                            FirstName = "Admin",
+                            LastName = "System",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@SITE.COM",
+                            NormalizedUserName = "ADMIN@SITE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL4Tp49DzswqZ6q7mepXL9QgUeLu2a79cBvt7ur6nUGpKZ1dFdTkUAAiZR+TtArxfQ==",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "admin@site.com"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "df5dbb19-753c-4cc7-a623-13c8508d00f8",
+                            Email = "customer@site.com",
+                            EmailConfirmed = true,
+                            FirstName = "Ali",
+                            LastName = "Moshtari",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "CUSTOMER@SITE.COM",
+                            NormalizedUserName = "CUSTOMER@SITE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL4Tp49DzswqZ6q7mepXL9QgUeLu2a79cBvt7ur6nUGpKZ1dFdTkUAAiZR+TtArxfQ==",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "customer@site.com"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "58afcc4e-2a82-4ad6-8e12-665778173973",
+                            Email = "expert@site.com",
+                            EmailConfirmed = true,
+                            FirstName = "Reza",
+                            LastName = "Karshenas",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "EXPERT@SITE.COM",
+                            NormalizedUserName = "EXPERT@SITE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL4Tp49DzswqZ6q7mepXL9QgUeLu2a79cBvt7ur6nUGpKZ1dFdTkUAAiZR+TtArxfQ==",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "expert@site.com"
+                        });
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.Category", b =>
@@ -158,6 +221,22 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            Title = "نظافت و پذیرایی"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            Title = "تعمیرات و تأسیسات"
+                        });
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.Customer", b =>
@@ -188,6 +267,16 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         .IsUnique();
 
                     b.ToTable("Customers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "تهران، خیابان آزادی، پلاک ۱",
+                            AppUserId = 2,
+                            CreatedAt = new DateTime(2025, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false
+                        });
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.Expert", b =>
@@ -221,6 +310,17 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         .IsUnique();
 
                     b.ToTable("Experts", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AppUserId = 3,
+                            Bio = "متخصص در امور فنی با ۱۰ سال سابقه کار",
+                            CreatedAt = new DateTime(2025, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            ProfilePicture = "expert-profile.jpg"
+                        });
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.HomeService", b =>
@@ -259,6 +359,28 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("HomeServices", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BasePrice = 500000m,
+                            CategoryId = 1,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "نظافت کامل فضاهای داخلی ساختمان",
+                            IsDeleted = false,
+                            Name = "نظافت منزل"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BasePrice = 300000m,
+                            CategoryId = 2,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "سرویس دوره‌ای و تعمیر موتور کولر",
+                            IsDeleted = false,
+                            Name = "تعمیر کولر آبی"
+                        });
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.Order", b =>
@@ -304,6 +426,20 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                     b.HasIndex("HomeServiceId");
 
                     b.ToTable("Orders", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 1,
+                            Description = "نظافت آپارتمان ۸۰ متری، دو خوابه",
+                            ExecutionDate = new DateTime(2025, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExecutionTime = new TimeSpan(0, 10, 0, 0, 0),
+                            HomeServiceId = 1,
+                            IsDeleted = false,
+                            Status = 1
+                        });
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.Proposal", b =>
@@ -347,6 +483,19 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("Proposals", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "با تجهیزات کامل نظافتی در زمان تعیین شده حضور خواهم یافت.",
+                            ExpertId = 1,
+                            IsDeleted = false,
+                            OrderId = 1,
+                            ProposedPrice = 550000m,
+                            Status = 1
+                        });
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.Review", b =>
@@ -390,6 +539,19 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         .IsUnique();
 
                     b.ToTable("Reviews", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Comment = "بسیار تمیز و با حوصله کار انجام شد. راضی بودم.",
+                            CreatedAt = new DateTime(2025, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 1,
+                            ExpertId = 1,
+                            IsDeleted = false,
+                            OrderId = 1,
+                            Score = 5
+                        });
                 });
 
             modelBuilder.Entity("ExpertHomeService", b =>

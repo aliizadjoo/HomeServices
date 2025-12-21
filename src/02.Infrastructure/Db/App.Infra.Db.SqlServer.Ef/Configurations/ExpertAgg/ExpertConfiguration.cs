@@ -43,6 +43,15 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
                 .HasForeignKey(r=>r.ExpertId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.HasData(new Expert
+            {
+                Id = 1,
+                AppUserId = 3,
+                Bio = "متخصص در امور فنی با ۱۰ سال سابقه کار",
+                ProfilePicture = "expert-profile.jpg",
+                CreatedAt = new DateTime(2025, 1, 1, 10, 0, 0),
+                IsDeleted = false
+            });
 
 
         }
