@@ -137,7 +137,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AppUsers", (string)null);
+                    b.ToTable("AspNetUsers", (string)null);
 
                     b.HasData(
                         new
@@ -154,6 +154,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             NormalizedUserName = "ADMIN@SITE.COM",
                             PasswordHash = "AQAAAAIAAYagAAAAEL4Tp49DzswqZ6q7mepXL9QgUeLu2a79cBvt7ur6nUGpKZ1dFdTkUAAiZR+TtArxfQ==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "B6FE5F0E-18B5-4062-AEF8-11555793E7CB",
                             TwoFactorEnabled = false,
                             UserName = "admin@site.com"
                         },
@@ -171,6 +172,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             NormalizedUserName = "CUSTOMER@SITE.COM",
                             PasswordHash = "AQAAAAIAAYagAAAAEL4Tp49DzswqZ6q7mepXL9QgUeLu2a79cBvt7ur6nUGpKZ1dFdTkUAAiZR+TtArxfQ==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "D4D09FBB-ED60-4E17-B03E-B9B4B6C70E5D",
                             TwoFactorEnabled = false,
                             UserName = "customer@site.com"
                         },
@@ -188,6 +190,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             NormalizedUserName = "EXPERT@SITE.COM",
                             PasswordHash = "AQAAAAIAAYagAAAAEL4Tp49DzswqZ6q7mepXL9QgUeLu2a79cBvt7ur6nUGpKZ1dFdTkUAAiZR+TtArxfQ==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "9489458F-27BA-400D-A45F-AFCE3D9A8D26",
                             TwoFactorEnabled = false,
                             UserName = "expert@site.com"
                         });
