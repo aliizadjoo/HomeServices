@@ -53,6 +53,8 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.OrderAgg
                 .HasForeignKey<Review>(r=>r.OrderId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.HasQueryFilter(o => !o.IsDeleted);
+
 
             builder.HasData(new Order
             {

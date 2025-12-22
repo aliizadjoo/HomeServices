@@ -39,6 +39,9 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.CustomerAgg
                 .HasForeignKey(r => r.CustomerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+
+            builder.HasQueryFilter(c => !c.IsDeleted);
+
             builder.HasData(new Customer
             {
                 Id = 1,

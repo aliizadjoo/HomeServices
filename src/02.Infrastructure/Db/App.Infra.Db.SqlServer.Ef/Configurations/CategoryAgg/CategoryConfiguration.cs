@@ -31,6 +31,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.CategoryAgg
                 .HasForeignKey(h=>h.CategoryId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.HasQueryFilter(c => !c.IsDeleted);
 
             builder.HasData(
                   new Category { Id = 1, Title = "نظافت و پذیرایی", CreatedAt = new DateTime(2025, 1, 1), IsDeleted = false },

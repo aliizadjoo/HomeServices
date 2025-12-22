@@ -43,7 +43,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.AppUserAgg
                  .IsRequired(false)
                  .OnDelete(DeleteBehavior.NoAction);
 
-
+            
 
 
             var adminUser = new AppUser

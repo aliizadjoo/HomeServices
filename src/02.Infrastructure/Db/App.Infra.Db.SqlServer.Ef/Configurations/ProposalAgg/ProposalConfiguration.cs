@@ -42,6 +42,8 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ProposalAgg
                 .HasForeignKey(p => p.ExpertId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.HasQueryFilter(p => !p.IsDeleted);
+
 
             builder.HasData(new Proposal
             {

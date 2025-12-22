@@ -40,6 +40,9 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.HomeServiceAgg
                 .HasForeignKey(o=>o.HomeServiceId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.HasQueryFilter(hc => !hc.IsDeleted);
+
+
 
 
             builder.HasData(

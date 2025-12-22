@@ -25,6 +25,8 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.AdminAgg
                 .HasForeignKey<Admin>(x => x.AppUserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.HasQueryFilter(a => !a.IsDeleted);
+
             builder.HasData(new Admin
             {
                 Id = 1,

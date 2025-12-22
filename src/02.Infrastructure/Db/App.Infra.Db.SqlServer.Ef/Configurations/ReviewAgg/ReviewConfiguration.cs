@@ -41,7 +41,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ReviewAgg
                 .HasForeignKey(r => r.ExpertId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-
+            builder.HasQueryFilter(r => !r.IsDeleted);
 
 
 

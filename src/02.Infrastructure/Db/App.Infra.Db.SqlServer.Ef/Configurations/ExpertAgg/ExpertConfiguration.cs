@@ -43,6 +43,8 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
                 .HasForeignKey(r=>r.ExpertId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.HasQueryFilter(e => !e.IsDeleted);
+
             builder.HasData(new Expert
             {
                 Id = 1,
