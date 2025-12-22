@@ -47,7 +47,7 @@ namespace App.Infra.Data.Repos.Ef.CategoryAgg
             var query = _context.Categories
                         .AsNoTracking();
 
-            if (!string.IsNullOrEmpty(search))
+            if (!string.IsNullOrWhiteSpace(search))
             {
                 query = query.Where(c => c.Title.Contains(search));
 
@@ -76,6 +76,8 @@ namespace App.Infra.Data.Repos.Ef.CategoryAgg
                     .SetProperty(c => c.ImagePath, c => categoryDto.ImagePath ?? c.ImagePath),
                     cancellationToken);
         }
+
+
 
     }
 }

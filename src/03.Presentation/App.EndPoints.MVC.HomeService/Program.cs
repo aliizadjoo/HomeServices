@@ -1,7 +1,9 @@
 using App.Domain.Core.Contract.CategoryAgg.Repository;
+using App.Domain.Core.Contract.HomeServiceAgg.Repository;
 using App.Domain.Core.Entities;
 using App.Framework;
 using App.Infra.Data.Repos.Ef.CategoryAgg;
+using App.Infra.Data.Repos.Ef.HomeServiceAgg;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IHomeServiceRepository, HomeServiceRepository>();
 
 builder.Services.AddIdentity<AppUser, IdentityRole<int>>(options =>
 {
