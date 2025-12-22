@@ -28,7 +28,7 @@ namespace App.Infra.Data.Repos.Ef.CategoryAgg
 
         }
 
-        public async Task<CategoryDto?> GerById(int categoryId, CancellationToken cancellationToken)
+        public async Task<CategoryDto?> GetById(int categoryId, CancellationToken cancellationToken)
         {
             return await _context.Categories
                        .AsNoTracking()
@@ -73,7 +73,7 @@ namespace App.Infra.Data.Repos.Ef.CategoryAgg
                 .Where(c => c.Id == categoryDto.Id)
                 .ExecuteUpdateAsync(setter => setter
                     .SetProperty(c => c.Title, categoryDto.Title)
-                    .SetProperty(c => c.ImagePath, categoryDto.ImagePath),
+                    .SetProperty(c => c.ImagePath, c => categoryDto.ImagePath ?? c.ImagePath),
                     cancellationToken);
         }
 
