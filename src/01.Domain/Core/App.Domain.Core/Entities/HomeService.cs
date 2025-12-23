@@ -11,9 +11,9 @@ namespace App.Domain.Core.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal BasePrice { get; set; }
+        public string ImagePath { get; set; }
         public int CategoryId { get; set; }
 
-        public string? ImagePath { get; set; }
         public Category Category { get; set; }
         public List<Order> Orders { get; set; } = [];
         public List<Expert> Experts { get; set; } = [];

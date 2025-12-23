@@ -14,15 +14,15 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.AdminAgg
         public void Configure(EntityTypeBuilder<Admin> builder)
         {
             builder.ToTable("Admins");
-            builder.HasKey(x => x.Id);
+            builder.HasKey(a => a.Id);
 
-            builder.Property(x => x.StaffCode)
+            builder.Property(a => a.StaffCode)
                 .IsRequired()
                 .HasMaxLength(50);
 
-            builder.HasOne(x => x.AppUser)
-                .WithOne(a=>a.AdminProfile)
-                .HasForeignKey<Admin>(x => x.AppUserId)
+            builder.HasOne(a => a.AppUser)
+                .WithOne(ap=>ap.AdminProfile)
+                .HasForeignKey<Admin>(a => a.AppUserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasQueryFilter(a => !a.IsDeleted);

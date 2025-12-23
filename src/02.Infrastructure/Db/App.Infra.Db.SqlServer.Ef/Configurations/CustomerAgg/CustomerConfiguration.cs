@@ -34,6 +34,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.CustomerAgg
                 .HasForeignKey(o => o.CustomerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+
             builder.HasMany(c => c.Reviews)
                 .WithOne(r => r.Customer)
                 .HasForeignKey(r => r.CustomerId)

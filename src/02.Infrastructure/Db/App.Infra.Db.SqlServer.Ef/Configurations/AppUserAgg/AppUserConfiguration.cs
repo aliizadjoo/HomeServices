@@ -84,6 +84,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.AppUserAgg
 
             var expertUser = new AppUser
             {
+
                 Id = 3,
                 FirstName = "Reza",
                 LastName = "Karshenas",
