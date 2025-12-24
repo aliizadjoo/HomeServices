@@ -23,7 +23,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.CategoryAgg
                 .HasMaxLength(200);
 
             builder.Property(c => c.ImagePath)
-                .IsRequired(false);
+                .IsRequired();
 
 
             builder.HasMany(c=>c.Services)
@@ -34,8 +34,8 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.CategoryAgg
             builder.HasQueryFilter(c => !c.IsDeleted);
 
             builder.HasData(
-                  new Category { Id = 1, Title = "نظافت و پذیرایی", CreatedAt = new DateTime(2025, 1, 1), IsDeleted = false },
-                  new Category { Id = 2, Title = "تعمیرات و تأسیسات", CreatedAt = new DateTime(2025, 1, 1), IsDeleted = false }
+                  new Category { Id = 1, Title = "نظافت و پذیرایی", ImagePath = "cleaning-category.jpg", CreatedAt = new DateTime(2025, 1, 1), IsDeleted = false },
+                  new Category { Id = 2, Title = "تعمیرات و تأسیسات", ImagePath = "repairs-category.jpg", CreatedAt = new DateTime(2025, 1, 1), IsDeleted = false }
               );
 
 

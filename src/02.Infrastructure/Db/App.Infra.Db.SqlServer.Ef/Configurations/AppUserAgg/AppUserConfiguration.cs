@@ -58,7 +58,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.AppUserAgg
                 LockoutEnabled = false,
                 EmailConfirmed = true
                 ,
-                PasswordHash = "AQAAAAIAAYagAAAAEL4Tp49DzswqZ6q7mepXL9QgUeLu2a79cBvt7ur6nUGpKZ1dFdTkUAAiZR+TtArxfQ==",
+                PasswordHash = "AQAAAAIAAYagAAAAEJobXji39Wkz+o/bhcksSzsk4O9Nl4RMHKifM65yeTNTq37XVBmLrUr1aCItYN5RmA==",
                 SecurityStamp = "B6FE5F0E-18B5-4062-AEF8-11555793E7CB",
                 ConcurrencyStamp = "081004b3-e25c-4414-9694-44e5c2fd863f"
             };
@@ -78,7 +78,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.AppUserAgg
                 ,
                 SecurityStamp = "D4D09FBB-ED60-4E17-B03E-B9B4B6C70E5D",
                 ConcurrencyStamp = "df5dbb19-753c-4cc7-a623-13c8508d00f8",
-                PasswordHash = "AQAAAAIAAYagAAAAEL4Tp49DzswqZ6q7mepXL9QgUeLu2a79cBvt7ur6nUGpKZ1dFdTkUAAiZR+TtArxfQ=="
+                PasswordHash = "AQAAAAIAAYagAAAAEJobXji39Wkz+o/bhcksSzsk4O9Nl4RMHKifM65yeTNTq37XVBmLrUr1aCItYN5RmA=="
             };
            
 
@@ -96,7 +96,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.AppUserAgg
                 EmailConfirmed = true,
                 SecurityStamp = "9489458F-27BA-400D-A45F-AFCE3D9A8D26",
                 ConcurrencyStamp = "58afcc4e-2a82-4ad6-8e12-665778173973",
-                PasswordHash = "AQAAAAIAAYagAAAAEL4Tp49DzswqZ6q7mepXL9QgUeLu2a79cBvt7ur6nUGpKZ1dFdTkUAAiZR+TtArxfQ=="
+                PasswordHash = "AQAAAAIAAYagAAAAEJobXji39Wkz+o/bhcksSzsk4O9Nl4RMHKifM65yeTNTq37XVBmLrUr1aCItYN5RmA=="
 
             };
          

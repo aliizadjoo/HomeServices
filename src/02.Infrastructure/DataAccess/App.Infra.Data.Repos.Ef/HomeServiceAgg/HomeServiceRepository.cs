@@ -89,7 +89,7 @@ namespace App.Infra.Data.Repos.Ef.HomeServiceAgg
                     .ExecuteUpdateAsync(setter=>setter
                         .SetProperty(hs=>hs.Name,homeServiceDto.Name)
                         .SetProperty(hs=>hs.Description,homeServiceDto.Description)
-                        .SetProperty(hs=>hs.ImagePath,hs=>homeServiceDto.ImagePath ?? hs.ImagePath)
+                        .SetProperty(hs=>hs.ImagePath,homeServiceDto.ImagePath )
                         .SetProperty(hs=>hs.BasePrice,homeServiceDto.BasePrice)
                         .SetProperty(hs=>hs.CategoryId,homeServiceDto.CategoryId)
                         ,cancellationToken);

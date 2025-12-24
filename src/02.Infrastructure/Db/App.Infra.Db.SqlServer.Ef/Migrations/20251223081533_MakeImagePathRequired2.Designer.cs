@@ -4,6 +4,7 @@ using App.Infra.Db.SqlServer.Ef.DbContextAgg;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infra.Db.SqlServer.Ef.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251223081533_MakeImagePathRequired2")]
+    partial class MakeImagePathRequired2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,7 +155,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@SITE.COM",
                             NormalizedUserName = "ADMIN@SITE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJobXji39Wkz+o/bhcksSzsk4O9Nl4RMHKifM65yeTNTq37XVBmLrUr1aCItYN5RmA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL4Tp49DzswqZ6q7mepXL9QgUeLu2a79cBvt7ur6nUGpKZ1dFdTkUAAiZR+TtArxfQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "B6FE5F0E-18B5-4062-AEF8-11555793E7CB",
                             TwoFactorEnabled = false,
@@ -170,7 +173,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "CUSTOMER@SITE.COM",
                             NormalizedUserName = "CUSTOMER@SITE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJobXji39Wkz+o/bhcksSzsk4O9Nl4RMHKifM65yeTNTq37XVBmLrUr1aCItYN5RmA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL4Tp49DzswqZ6q7mepXL9QgUeLu2a79cBvt7ur6nUGpKZ1dFdTkUAAiZR+TtArxfQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "D4D09FBB-ED60-4E17-B03E-B9B4B6C70E5D",
                             TwoFactorEnabled = false,
@@ -188,7 +191,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "EXPERT@SITE.COM",
                             NormalizedUserName = "EXPERT@SITE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJobXji39Wkz+o/bhcksSzsk4O9Nl4RMHKifM65yeTNTq37XVBmLrUr1aCItYN5RmA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL4Tp49DzswqZ6q7mepXL9QgUeLu2a79cBvt7ur6nUGpKZ1dFdTkUAAiZR+TtArxfQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "9489458F-27BA-400D-A45F-AFCE3D9A8D26",
                             TwoFactorEnabled = false,
@@ -606,29 +609,6 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ConcurrencyStamp = "78641951-8712-4261-9B5A-431A29D67A41",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ConcurrencyStamp = "45127812-1234-5678-9B5A-431A29D67A42",
-                            Name = "Customer",
-                            NormalizedName = "CUSTOMER"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ConcurrencyStamp = "12345678-8712-4261-9B5A-431A29D67A43",
-                            Name = "Expert",
-                            NormalizedName = "EXPERT"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -713,23 +693,6 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = 1,
-                            RoleId = 1
-                        },
-                        new
-                        {
-                            UserId = 2,
-                            RoleId = 2
-                        },
-                        new
-                        {
-                            UserId = 3,
-                            RoleId = 3
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>

@@ -21,6 +21,9 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.HomeServiceAgg
                 .IsRequired()
                 .HasMaxLength(200);
 
+            builder.Property(h => h.ImagePath)
+               .IsRequired();
+
             builder.Property(h => h.Description)
                 .IsRequired()
                 .HasMaxLength(1000);
@@ -51,6 +54,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.HomeServiceAgg
             Id = 1,
             Name = "نظافت منزل",
             Description = "نظافت کامل فضاهای داخلی ساختمان",
+            ImagePath = "cleaning-service.jpg",
             BasePrice = 500000m,
             CategoryId = 1,
             CreatedAt = new DateTime(2025, 1, 1),
@@ -61,6 +65,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.HomeServiceAgg
             Id = 2,
             Name = "تعمیر کولر آبی",
             Description = "سرویس دوره‌ای و تعمیر موتور کولر",
+            ImagePath = "cooler-repair.jpg",
             BasePrice = 300000m,
             CategoryId = 2,
             CreatedAt = new DateTime(2025, 1, 1),
