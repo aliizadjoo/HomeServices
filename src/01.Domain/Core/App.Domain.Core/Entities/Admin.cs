@@ -10,6 +10,8 @@ namespace App.Domain.Core.Entities
     {
       
         public string StaffCode { get; set; }
+
+        public decimal TotalRevenue { get; set; }
         public int AppUserId { get; set; }
         public AppUser AppUser { get; set; }
     }

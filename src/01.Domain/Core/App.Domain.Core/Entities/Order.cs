@@ -23,7 +23,10 @@ namespace App.Domain.Core.Entities
         public int HomeServiceId { get; set; }
         public HomeService HomeService { get; set; }
 
+        public Review? Review { get; set; }
+
         public List<Proposal> Proposals { get; set; } = [];
-        public Review? Review { get; set; } 
+        public List<OrderImage> Images { get; set; } = [];
+      
     }
 }

@@ -25,10 +25,8 @@ namespace App.Infra.Data.Repos.Ef.HomeServiceAgg
             };
 
             await _context.HomeServices.AddAsync(homeService, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
-
-
-            return homeService.Id;
+            return  await _context.SaveChangesAsync(cancellationToken);
+ 
 
 
         }

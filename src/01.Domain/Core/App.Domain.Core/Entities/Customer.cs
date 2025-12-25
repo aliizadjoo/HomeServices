@@ -9,7 +9,9 @@ namespace App.Domain.Core.Entities
     public class Customer : BaseEntity
     {
         public string Address { get; set; }
-       
+
+        public decimal WalletBalance { get; set; }
+
         public int AppUserId { get; set; }
         public AppUser AppUser { get; set; }
 

@@ -40,6 +40,10 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.CustomerAgg
                 .HasForeignKey(r => r.CustomerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.Property(c => c.WalletBalance)
+                 .HasPrecision(18, 2)
+                 .IsRequired();
+
 
             builder.HasQueryFilter(c => !c.IsDeleted);
 
@@ -47,6 +51,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.CustomerAgg
             {
                 Id = 1,
                 AppUserId = 2,
+                WalletBalance=100000m,
                 Address = "تهران، خیابان آزادی، پلاک ۱",
                 CreatedAt = new DateTime(2025, 1, 1, 10, 0, 0),
                 IsDeleted = false

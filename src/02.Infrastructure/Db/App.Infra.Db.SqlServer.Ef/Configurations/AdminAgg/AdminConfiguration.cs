@@ -25,12 +25,17 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.AdminAgg
                 .HasForeignKey<Admin>(a => a.AppUserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.Property(a => a.TotalRevenue)
+                    .HasPrecision(18, 2)
+                    .IsRequired();
+
             builder.HasQueryFilter(a => !a.IsDeleted);
 
             builder.HasData(new Admin
             {
                 Id = 1,
                 AppUserId = 1,
+                TotalRevenue = 0m,
                 StaffCode = "ADM-1001",
                 CreatedAt = new DateTime(2025, 1, 1, 10, 0, 0),
                 IsDeleted = false

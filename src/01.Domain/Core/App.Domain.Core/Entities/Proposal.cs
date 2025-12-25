@@ -9,7 +9,7 @@ namespace App.Domain.Core.Entities
 {
     public class Proposal : BaseEntity
     {
-        public decimal ProposedPrice { get; set; }
+        public decimal Price { get; set; }
         public string Description { get; set; }
         public ProposalStatus Status { get; set; } = ProposalStatus.Pending;
 

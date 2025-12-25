@@ -37,6 +37,9 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
                        .HasForeignKey(p=>p.ExpertId)
                        .OnDelete(DeleteBehavior.NoAction);
 
+            builder.Property(e => e.WalletBalance)
+                   .HasPrecision(18, 2)
+                   .IsRequired();
 
             builder.HasMany(e => e.Reviews)
                 .WithOne(r=>r.Expert)
@@ -50,6 +53,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
                 Id = 1,
                 AppUserId = 3,
                 Bio = "متخصص در امور فنی با ۱۰ سال سابقه کار",
+                WalletBalance = 200000m,
                 ProfilePicture = "expert-profile.jpg",
                 CreatedAt = new DateTime(2025, 1, 1, 10, 0, 0),
                 IsDeleted = false

@@ -33,21 +33,22 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.HomeServiceAgg
            .IsRequired();
 
 
-            builder.HasOne(h => h.Category)
+            builder.HasOne(hs => hs.Category)
                 .WithMany(c => c.Services)
-                .HasForeignKey(h => h.CategoryId)
+                .HasForeignKey(hs => hs.CategoryId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasMany(h=>h.Orders)
+            builder.HasMany(hs=>hs.Orders)
                 .WithOne(o=>o.HomeService)
                 .HasForeignKey(o=>o.HomeServiceId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasQueryFilter(hc => !hc.IsDeleted);
+            builder.HasQueryFilter(hs => !hs.IsDeleted);
 
+            builder.HasMany(hs => hs.Experts)
+               .WithMany(e => e.Skills);
 
-
-
+            
             builder.HasData(
         new HomeService
         {

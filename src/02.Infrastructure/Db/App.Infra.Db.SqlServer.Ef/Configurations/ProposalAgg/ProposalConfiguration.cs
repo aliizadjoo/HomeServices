@@ -18,7 +18,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ProposalAgg
 
             builder.HasKey(p => p.Id);
 
-            builder.Property(p => p.ProposedPrice)
+            builder.Property(p => p.Price)
             .HasPrecision(18, 2)
             .IsRequired();
 
@@ -50,7 +50,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ProposalAgg
                 Id = 1,
                 OrderId = 1,
                 ExpertId = 1,
-                ProposedPrice = 550000m,
+                Price = 550000m,
                 Description = "با تجهیزات کامل نظافتی در زمان تعیین شده حضور خواهم یافت.",
                 Status = ProposalStatus.Pending,
                 CreatedAt = new DateTime(2025, 1, 11),

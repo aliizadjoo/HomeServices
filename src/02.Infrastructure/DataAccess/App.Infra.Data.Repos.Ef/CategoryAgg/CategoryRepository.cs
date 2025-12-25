@@ -22,8 +22,8 @@ namespace App.Infra.Data.Repos.Ef.CategoryAgg
             };
 
             await _context.Categories.AddAsync(category, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
-            return category.Id;
+            return await _context.SaveChangesAsync(cancellationToken);
+             
 
 
         }
