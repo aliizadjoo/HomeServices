@@ -51,7 +51,8 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.CustomerAgg
             {
                 Id = 1,
                 AppUserId = 2,
-                WalletBalance=100000m,
+                CityId = 1,
+                WalletBalance =100000m,
                 Address = "تهران، خیابان آزادی، پلاک ۱",
                 CreatedAt = new DateTime(2025, 1, 1, 10, 0, 0),
                 IsDeleted = false

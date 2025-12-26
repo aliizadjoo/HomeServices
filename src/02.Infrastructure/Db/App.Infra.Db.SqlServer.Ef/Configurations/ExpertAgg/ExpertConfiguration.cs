@@ -29,7 +29,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
                 .HasForeignKey<Expert>(e => e.AppUserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasMany(e => e.Skills)
+            builder.HasMany(e => e.HomeServices)
                  .WithMany(hs => hs.Experts);
                 
                 builder.HasMany(e => e.Proposals)
@@ -54,6 +54,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
                 AppUserId = 3,
                 Bio = "متخصص در امور فنی با ۱۰ سال سابقه کار",
                 WalletBalance = 200000m,
+                CityId = 1,
                 ProfilePicture = "expert-profile.jpg",
                 CreatedAt = new DateTime(2025, 1, 1, 10, 0, 0),
                 IsDeleted = false

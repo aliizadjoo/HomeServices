@@ -66,6 +66,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.OrderAgg
                 Id = 1,
                 CustomerId = 1,
                 HomeServiceId = 1,
+                CityId = 1,
                 Description = "نظافت آپارتمان ۸۰ متری، دو خوابه",
                 Status = OrderStatus.WaitingForProposals,
                 ExecutionDate = new DateTime(2025, 2, 1),

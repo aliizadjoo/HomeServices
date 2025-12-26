@@ -31,6 +31,7 @@ namespace App.Infra.Db.SqlServer.Ef.DbContextAgg
         public DbSet<Order> Orders { get; set; }
         public DbSet<Proposal> Proposals { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<City> Cities { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
