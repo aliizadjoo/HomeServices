@@ -1,17 +1,31 @@
 using App.Domain.Core.Contract.CategoryAgg.Repository;
 using App.Domain.Core.Contract.HomeServiceAgg.Repository;
 using App.Domain.Core.Entities;
+using App.EndPoints.MVC.HomeService.Middlwares;
 using App.Framework;
 using App.Infra.Data.Repos.Ef.CategoryAgg;
 using App.Infra.Data.Repos.Ef.HomeServiceAgg;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Host.UseSerilog((context, configuration) =>
+{
+
+    configuration.ReadFrom.Configuration(context.Configuration);
+});
+
+
+
+
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer("Server=DESKTOP-M2BLLND\\SQLEXPRESS;Database=HomeService;Integrated Security=True;Encrypt=True;TrustServerCertificate=True;"));
@@ -40,6 +54,8 @@ builder.Services.AddIdentity<AppUser, IdentityRole<int>>(options =>
 .AddErrorDescriber<PersianIdentityErrorDescriber>();
 
 var app = builder.Build();
+
+app.UseMiddleware<LoggingMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

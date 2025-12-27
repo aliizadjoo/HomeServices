@@ -1,4 +1,4 @@
-using App.EndPoints.MVC.HomeService.Models;
+﻿using App.EndPoints.MVC.HomeService.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -12,9 +12,18 @@ namespace App.EndPoints.MVC.HomeService.Controllers
         {
             _logger = logger;
         }
-
+        public IActionResult AccessDenied(string message)
+        {
+          
+            ViewBag.ErrorMessage = message;
+            return View();
+        }
         public IActionResult Index()
         {
+
+
+            _logger.LogInformation("صفحه اصلی توسط کاربر باز شد در ساعت {Time}", DateTime.Now.ToLongTimeString());
+            
             return View();
         }
 
