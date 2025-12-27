@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using App.Domain.Core.Entities
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+       
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-dark" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                سلام @(User.Identity?.Name ?? "کاربر") عزیز!
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="userDropdown">
+                @if (User.IsInRole("Admin"))
+                {
+                    <li><a class="dropdown-item text-primary" asp-area="Admin" asp-controller="Home" asp-action="Index">پنل ادمین</a></li>
+                }
+                else if (User.IsInRole("Expert"))
+                {
+                    <li><a class="dropdown-item text-success" asp-area="Expert" asp-controller="Home" asp-action="Index">پنل مدیریت خدمات (کارشناس)</a></li>
+                }
+                else
+                {
+                    <li><a class="dropdown-item text-info" asp-area="Customer" asp-controller="Home" asp-action="Index">پنل کاربری من</a></li>
+                }
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                  
+                    <form class="form-inline" asp-area="Identity" asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit" class="dropdown-item text-danger">خروج از حساب</button>
+                    </form>
+                </li>
+            </ul>
+        </li>
+    }
+    else
+    {
+       
+        <li class="nav-item">
+            <a class="nav-link text-dark fw-bold" asp-area="Identity" asp-controller="Account" asp-action="Register">ثبت‌نام</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link btn btn-outline-primary ms-lg-2 px-4" asp-area="Identity" asp-controller="Account" asp-action="Login">ورود</a>
+        </li>
+    }
+</ul>

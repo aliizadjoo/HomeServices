@@ -45,18 +45,46 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ReviewAgg
 
 
 
-            builder.HasData(new Review
-            {
-                Id = 1,
-                OrderId = 1,
-                CustomerId = 1,
-                ExpertId = 1,
-                Comment = "بسیار تمیز و با حوصله کار انجام شد. راضی بودم.",
-                Score = 5,
-                CreatedAt = new DateTime(2025, 2, 2),
-                IsDeleted = false
-            });
+            builder.HasData(
+  
+    new Review
+    {
+        Id = 1,
+        OrderId = 3,
+        CustomerId = 3,
+        ExpertId = 2, 
+        Comment = "سرویس کولر خیلی خوب انجام شد، فقط کمی با تاخیر آمدند.",
+        Score = 4,
+        CreatedAt = new DateTime(2025, 1, 22),
+        IsDeleted = false
+    },
 
+    
+    new Review
+    {
+        Id = 2,
+        OrderId = 5,
+        CustomerId = 5,
+        ExpertId = 5, 
+        Comment = "باغبانی عالی و حرفه‌ای! حیاط ما کاملاً متحول شد. ممنونم از خانم جعفری.",
+        Score = 5,
+        CreatedAt = new DateTime(2025, 3, 5),
+        IsDeleted = false
+    },
+
+  
+    new Review
+    {
+        Id = 3,
+        OrderId = 1,
+        CustomerId = 1,
+        ExpertId = 1,
+        Comment = "بسیار تمیز و با حوصله کار انجام شد. راضی بودم.",
+        Score = 5,
+        CreatedAt = new DateTime(2025, 2, 2),
+        IsDeleted = false
+    }
+);
 
 
         }

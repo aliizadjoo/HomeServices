@@ -157,7 +157,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@SITE.COM",
                             NormalizedUserName = "ADMIN@SITE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJobXji39Wkz+o/bhcksSzsk4O9Nl4RMHKifM65yeTNTq37XVBmLrUr1aCItYN5RmA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "B6FE5F0E-18B5-4062-AEF8-11555793E7CB",
                             TwoFactorEnabled = false,
@@ -175,7 +175,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "CUSTOMER@SITE.COM",
                             NormalizedUserName = "CUSTOMER@SITE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJobXji39Wkz+o/bhcksSzsk4O9Nl4RMHKifM65yeTNTq37XVBmLrUr1aCItYN5RmA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "D4D09FBB-ED60-4E17-B03E-B9B4B6C70E5D",
                             TwoFactorEnabled = false,
@@ -193,11 +193,191 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "EXPERT@SITE.COM",
                             NormalizedUserName = "EXPERT@SITE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJobXji39Wkz+o/bhcksSzsk4O9Nl4RMHKifM65yeTNTq37XVBmLrUr1aCItYN5RmA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "9489458F-27BA-400D-A45F-AFCE3D9A8D26",
                             TwoFactorEnabled = false,
                             UserName = "expert@site.com"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "C2-04b3-e25c-4414",
+                            Email = "customer2@site.com",
+                            EmailConfirmed = true,
+                            FirstName = "Zahra",
+                            LastName = "Ahmadi",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "CUSTOMER2@SITE.COM",
+                            NormalizedUserName = "CUSTOMER2@SITE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "S2-68B5-4062-AEF8",
+                            TwoFactorEnabled = false,
+                            UserName = "customer2@site.com"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "C3-04b3-e25c-4414",
+                            Email = "customer3@site.com",
+                            EmailConfirmed = true,
+                            FirstName = "Mohammad",
+                            LastName = "Hosseini",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "CUSTOMER3@SITE.COM",
+                            NormalizedUserName = "CUSTOMER3@SITE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "S3-68B5-4062-AEF8",
+                            TwoFactorEnabled = false,
+                            UserName = "customer3@site.com"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "C4-04b3-e25c-4414",
+                            Email = "customer4@site.com",
+                            EmailConfirmed = true,
+                            FirstName = "Maryam",
+                            LastName = "Moradi",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "CUSTOMER4@SITE.COM",
+                            NormalizedUserName = "CUSTOMER4@SITE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "S4-68B5-4062-AEF8",
+                            TwoFactorEnabled = false,
+                            UserName = "customer4@site.com"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "C5-04b3-e25c-4414",
+                            Email = "customer5@site.com",
+                            EmailConfirmed = true,
+                            FirstName = "Saeed",
+                            LastName = "Karimi",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "CUSTOMER5@SITE.COM",
+                            NormalizedUserName = "CUSTOMER5@SITE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "S5-68B5-4062-AEF8",
+                            TwoFactorEnabled = false,
+                            UserName = "customer5@site.com"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "C6-04b3-e25c-4414",
+                            Email = "customer6@site.com",
+                            EmailConfirmed = true,
+                            FirstName = "Niloufar",
+                            LastName = "Sadeghi",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "CUSTOMER6@SITE.COM",
+                            NormalizedUserName = "CUSTOMER6@SITE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "S6-68B5-4062-AEF8",
+                            TwoFactorEnabled = false,
+                            UserName = "customer6@site.com"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "CE2-04b3-e25c-4414",
+                            Email = "expert2@site.com",
+                            EmailConfirmed = true,
+                            FirstName = "Hassan",
+                            LastName = "Alavi",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "EXPERT2@SITE.COM",
+                            NormalizedUserName = "EXPERT2@SITE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "E2-68B5-4062-AEF8",
+                            TwoFactorEnabled = false,
+                            UserName = "expert2@site.com"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "CE3-04b3-e25c-4414",
+                            Email = "expert3@site.com",
+                            EmailConfirmed = true,
+                            FirstName = "Sara",
+                            LastName = "Mousavi",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "EXPERT3@SITE.COM",
+                            NormalizedUserName = "EXPERT3@SITE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "E3-68B5-4062-AEF8",
+                            TwoFactorEnabled = false,
+                            UserName = "expert3@site.com"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "CE4-04b3-e25c-4414",
+                            Email = "expert4@site.com",
+                            EmailConfirmed = true,
+                            FirstName = "Omid",
+                            LastName = "Rahmani",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "EXPERT4@SITE.COM",
+                            NormalizedUserName = "EXPERT4@SITE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "E4-68B5-4062-AEF8",
+                            TwoFactorEnabled = false,
+                            UserName = "expert4@site.com"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "CE5-04b3-e25c-4414",
+                            Email = "expert5@site.com",
+                            EmailConfirmed = true,
+                            FirstName = "Elham",
+                            LastName = "Jafari",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "EXPERT5@SITE.COM",
+                            NormalizedUserName = "EXPERT5@SITE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "E5-68B5-4062-AEF8",
+                            TwoFactorEnabled = false,
+                            UserName = "expert5@site.com"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "CE6-04b3-e25c-4414",
+                            Email = "expert6@site.com",
+                            EmailConfirmed = true,
+                            FirstName = "Meysam",
+                            LastName = "Ghasemi",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "EXPERT6@SITE.COM",
+                            NormalizedUserName = "EXPERT6@SITE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "E6-68B5-4062-AEF8",
+                            TwoFactorEnabled = false,
+                            UserName = "expert6@site.com"
                         });
                 });
 
@@ -244,6 +424,46 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ImagePath = "repairs-category.jpg",
                             IsDeleted = false,
                             Title = "تعمیرات و تأسیسات"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2025, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "appliances-category.jpg",
+                            IsDeleted = false,
+                            Title = "تعمیرات لوازم خانگی"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "car-services-category.jpg",
+                            IsDeleted = false,
+                            Title = "خدمات خودرو"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "beauty-category.jpg",
+                            IsDeleted = false,
+                            Title = "آرایش و زیبایی"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedAt = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "moving-category.jpg",
+                            IsDeleted = false,
+                            Title = "اسباب‌کشی و حمل و نقل"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedAt = new DateTime(2025, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "gardening-category.jpg",
+                            IsDeleted = false,
+                            Title = "باغبانی و فضای سبز"
                         });
                 });
 
@@ -349,6 +569,56 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             WalletBalance = 100000m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "تهران، سعادت آباد، خیابان سرو",
+                            AppUserId = 4,
+                            CityId = 1,
+                            CreatedAt = new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            WalletBalance = 50000m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Address = "تبریز، ولیعصر، خیابان استانداری",
+                            AppUserId = 5,
+                            CityId = 2,
+                            CreatedAt = new DateTime(2025, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            WalletBalance = 250000m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Address = "مشهد، بلوار سجاد، کوچه بهار",
+                            AppUserId = 6,
+                            CityId = 3,
+                            CreatedAt = new DateTime(2025, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            WalletBalance = 0m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Address = "تهران، فلکه دوم صادقیه",
+                            AppUserId = 7,
+                            CityId = 1,
+                            CreatedAt = new DateTime(2025, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            WalletBalance = 120000m
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Address = "شیراز، خیابان عفیف آباد، مجتمع ستاره",
+                            AppUserId = 8,
+                            CityId = 4,
+                            CreatedAt = new DateTime(2025, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            WalletBalance = 75000m
                         });
                 });
 
@@ -402,8 +672,63 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             CityId = 1,
                             CreatedAt = new DateTime(2025, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
-                            ProfilePicture = "expert-profile.jpg",
+                            ProfilePicture = "expert1.jpg",
                             WalletBalance = 200000m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AppUserId = 9,
+                            Bio = "کارشناس ارشد تاسیسات و سیستم‌های برودتی",
+                            CityId = 1,
+                            CreatedAt = new DateTime(2025, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            ProfilePicture = "expert2.jpg",
+                            WalletBalance = 500000m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AppUserId = 10,
+                            Bio = "متخصص طراحی داخلی و دکوراسیون با مدرک بین‌المللی",
+                            CityId = 2,
+                            CreatedAt = new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            ProfilePicture = "expert3.jpg",
+                            WalletBalance = 1200000m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AppUserId = 11,
+                            Bio = "تکنسین برق قدرت و هوشمندسازی منازل",
+                            CityId = 1,
+                            CreatedAt = new DateTime(2025, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            ProfilePicture = "expert4.jpg",
+                            WalletBalance = 0m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AppUserId = 12,
+                            Bio = "متخصص باغبانی و فضای سبز",
+                            CityId = 3,
+                            CreatedAt = new DateTime(2025, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            ProfilePicture = "expert5.jpg",
+                            WalletBalance = 350000m
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AppUserId = 13,
+                            Bio = "کارشناس تعمیرات لوازم خانگی دیجیتال",
+                            CityId = 2,
+                            CreatedAt = new DateTime(2025, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            ProfilePicture = "expert6.jpg",
+                            WalletBalance = 800000m
                         });
                 });
 
@@ -470,6 +795,61 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ImagePath = "cooler-repair.jpg",
                             IsDeleted = false,
                             Name = "تعمیر کولر آبی"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BasePrice = 800000m,
+                            CategoryId = 3,
+                            CreatedAt = new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "عیب‌یابی و شارژ گاز انواع یخچال‌های ایرانی و خارجی",
+                            ImagePath = "fridge-repair.jpg",
+                            IsDeleted = false,
+                            Name = "تعمیر یخچال و فریزر"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BasePrice = 250000m,
+                            CategoryId = 4,
+                            CreatedAt = new DateTime(2025, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "شستشوی کامل بدنه و داخل خودرو با نانو بدون آب",
+                            ImagePath = "carwash-service.jpg",
+                            IsDeleted = false,
+                            Name = "کارواش در محل"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            BasePrice = 400000m,
+                            CategoryId = 5,
+                            CreatedAt = new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "خدمات آرایشی مردانه و زنانه در منزل شما",
+                            ImagePath = "barber-service.jpg",
+                            IsDeleted = false,
+                            Name = "اصلاح سر و صورت"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            BasePrice = 1500000m,
+                            CategoryId = 6,
+                            CreatedAt = new DateTime(2025, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "جمع‌آوری وسایل و حمل اثاثیه با کادر مجرب",
+                            ImagePath = "moving-service.jpg",
+                            IsDeleted = false,
+                            Name = "بسته‌بندی و اسباب‌کشی"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            BasePrice = 600000m,
+                            CategoryId = 7,
+                            CreatedAt = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "رسیدگی به باغچه و طراحی فضای سبز",
+                            ImagePath = "gardening-service.jpg",
+                            IsDeleted = false,
+                            Name = "هرس درختان و گل‌کاری"
                         });
                 });
 
@@ -534,7 +914,72 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 10, 0, 0, 0),
                             HomeServiceId = 1,
                             IsDeleted = false,
-                            Status = 1
+                            Status = 5
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CityId = 1,
+                            CreatedAt = new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 2,
+                            Description = "یخچال ساید بای ساید صدای ناهنجار می‌دهد",
+                            ExecutionDate = new DateTime(2025, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExecutionTime = new TimeSpan(0, 14, 30, 0, 0),
+                            HomeServiceId = 3,
+                            IsDeleted = false,
+                            Status = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CityId = 2,
+                            CreatedAt = new DateTime(2025, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 3,
+                            Description = "سرویس کامل کولر آبی برای فصل جدید",
+                            ExecutionDate = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExecutionTime = new TimeSpan(0, 9, 0, 0, 0),
+                            HomeServiceId = 2,
+                            IsDeleted = false,
+                            Status = 5
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CityId = 3,
+                            CreatedAt = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 4,
+                            Description = "شستشوی کامل پژو ۲۰۶ در پارکینگ منزل",
+                            ExecutionDate = new DateTime(2025, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExecutionTime = new TimeSpan(0, 16, 0, 0, 0),
+                            HomeServiceId = 4,
+                            IsDeleted = false,
+                            Status = 6
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CityId = 1,
+                            CreatedAt = new DateTime(2025, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 5,
+                            Description = "هرس درختان حیاط و کاشت گل‌های فصلی",
+                            ExecutionDate = new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExecutionTime = new TimeSpan(0, 8, 0, 0, 0),
+                            HomeServiceId = 7,
+                            IsDeleted = false,
+                            Status = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CityId = 4,
+                            CreatedAt = new DateTime(2025, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 6,
+                            Description = "جابجایی اثاثیه به ساختمان مجاور، طبقه سوم با آسانسور",
+                            ExecutionDate = new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExecutionTime = new TimeSpan(0, 11, 0, 0, 0),
+                            HomeServiceId = 6,
+                            IsDeleted = false,
+                            Status = 4
                         });
                 });
 
@@ -582,6 +1027,46 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ImagePath = "apartment-cleaning-2.jpg",
                             IsDeleted = false,
                             OrderId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2025, 1, 15, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "fridge-issue-photo.jpg",
+                            IsDeleted = false,
+                            OrderId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2025, 1, 20, 9, 15, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "cooler-on-roof.jpg",
+                            IsDeleted = false,
+                            OrderId = 3
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2025, 1, 21, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "dirty-car-front.jpg",
+                            IsDeleted = false,
+                            OrderId = 4
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedAt = new DateTime(2025, 2, 10, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "garden-yard-view.jpg",
+                            IsDeleted = false,
+                            OrderId = 5
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedAt = new DateTime(2025, 2, 22, 14, 45, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "moving-boxes.jpg",
+                            IsDeleted = false,
+                            OrderId = 6
                         });
                 });
 
@@ -638,6 +1123,61 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             OrderId = 1,
                             Price = 550000m,
                             Status = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "تضمین نظافت کامل با قیمت مناسب‌تر.",
+                            ExpertId = 4,
+                            IsDeleted = false,
+                            OrderId = 1,
+                            Price = 500000m,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2025, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "قطعات اصلی و ضمانت ۶ ماهه تعمیرات.",
+                            ExpertId = 6,
+                            IsDeleted = false,
+                            OrderId = 2,
+                            Price = 850000m,
+                            Status = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2025, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "سرویس کامل کولر شامل شستشو و روغن‌کاری.",
+                            ExpertId = 2,
+                            IsDeleted = false,
+                            OrderId = 3,
+                            Price = 350000m,
+                            Status = 3
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2025, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "طراحی باغچه و هرس تخصصی درختان میوه.",
+                            ExpertId = 5,
+                            IsDeleted = false,
+                            OrderId = 5,
+                            Price = 650000m,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedAt = new DateTime(2025, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "دارای ماشین مخصوص و کارگران ورزیده.",
+                            ExpertId = 1,
+                            IsDeleted = false,
+                            OrderId = 6,
+                            Price = 1600000m,
+                            Status = 1
                         });
                 });
 
@@ -687,6 +1227,28 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 1,
+                            Comment = "سرویس کولر خیلی خوب انجام شد، فقط کمی با تاخیر آمدند.",
+                            CreatedAt = new DateTime(2025, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 3,
+                            ExpertId = 2,
+                            IsDeleted = false,
+                            OrderId = 3,
+                            Score = 4
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Comment = "باغبانی عالی و حرفه‌ای! حیاط ما کاملاً متحول شد. ممنونم از خانم جعفری.",
+                            CreatedAt = new DateTime(2025, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 5,
+                            ExpertId = 5,
+                            IsDeleted = false,
+                            OrderId = 5,
+                            Score = 5
+                        },
+                        new
+                        {
+                            Id = 3,
                             Comment = "بسیار تمیز و با حوصله کار انجام شد. راضی بودم.",
                             CreatedAt = new DateTime(2025, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CustomerId = 1,

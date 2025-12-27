@@ -1,3 +1,5 @@
+using App.Domain.AppServices.AccountAgg;
+using App.Domain.Core.Contract.AccountAgg.AppServices;
 using App.Domain.Core.Contract.CategoryAgg.Repository;
 using App.Domain.Core.Contract.HomeServiceAgg.Repository;
 using App.Domain.Core.Entities;
@@ -33,6 +35,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IHomeServiceRepository, HomeServiceRepository>();
+builder.Services.AddScoped<IAccountAppService, AccountAppService>();
 
 builder.Services.AddIdentity<AppUser, IdentityRole<int>>(options =>
 {
@@ -72,6 +75,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

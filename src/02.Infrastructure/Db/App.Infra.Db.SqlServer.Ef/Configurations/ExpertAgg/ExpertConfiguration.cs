@@ -47,19 +47,76 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasQueryFilter(e => !e.IsDeleted);
-
-            builder.HasData(new Expert
-            {
-                Id = 1,
-                AppUserId = 3,
-                Bio = "متخصص در امور فنی با ۱۰ سال سابقه کار",
-                WalletBalance = 200000m,
-                CityId = 1,
-                ProfilePicture = "expert-profile.jpg",
-                CreatedAt = new DateTime(2025, 1, 1, 10, 0, 0),
-                IsDeleted = false
-            });
-
+            builder.HasData(
+                
+                new Expert
+                {
+                    Id = 1,
+                    AppUserId = 3,
+                    Bio = "متخصص در امور فنی با ۱۰ سال سابقه کار",
+                    WalletBalance = 200000m,
+                    CityId = 1,
+                    ProfilePicture = "expert1.jpg",
+                    CreatedAt = new DateTime(2025, 1, 1, 10, 0, 0),
+                    IsDeleted = false
+                },
+                
+                new Expert
+                {
+                    Id = 2,
+                    AppUserId = 9,
+                    Bio = "کارشناس ارشد تاسیسات و سیستم‌های برودتی",
+                    WalletBalance = 500000m,
+                    CityId = 1,
+                    ProfilePicture = "expert2.jpg",
+                    CreatedAt = new DateTime(2025, 2, 10),
+                    IsDeleted = false
+                },
+                new Expert
+                {
+                    Id = 3,
+                    AppUserId = 10,
+                    Bio = "متخصص طراحی داخلی و دکوراسیون با مدرک بین‌المللی",
+                    WalletBalance = 1200000m,
+                    CityId = 2,
+                    ProfilePicture = "expert3.jpg",
+                    CreatedAt = new DateTime(2025, 3, 15),
+                    IsDeleted = false
+                },
+                new Expert
+                {
+                    Id = 4,
+                    AppUserId = 11,
+                    Bio = "تکنسین برق قدرت و هوشمندسازی منازل",
+                    WalletBalance = 0m,
+                    CityId = 1,
+                    ProfilePicture = "expert4.jpg",
+                    CreatedAt = new DateTime(2025, 4, 05),
+                    IsDeleted = false
+                },
+                new Expert
+                {
+                    Id = 5,
+                    AppUserId = 12,
+                    Bio = "متخصص باغبانی و فضای سبز",
+                    WalletBalance = 350000m,
+                    CityId = 3,
+                    ProfilePicture = "expert5.jpg",
+                    CreatedAt = new DateTime(2025, 5, 20),
+                    IsDeleted = false
+                },
+                new Expert
+                {
+                    Id = 6,
+                    AppUserId = 13,
+                    Bio = "کارشناس تعمیرات لوازم خانگی دیجیتال",
+                    WalletBalance = 800000m,
+                    CityId = 2,
+                    ProfilePicture = "expert6.jpg",
+                    CreatedAt = new DateTime(2025, 6, 12),
+                    IsDeleted = false
+                }
+            );
 
         }
     }

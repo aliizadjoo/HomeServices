@@ -45,17 +45,80 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ProposalAgg
             builder.HasQueryFilter(p => !p.IsDeleted);
 
 
-            builder.HasData(new Proposal
-            {
-                Id = 1,
-                OrderId = 1,
-                ExpertId = 1,
-                Price = 550000m,
-                Description = "با تجهیزات کامل نظافتی در زمان تعیین شده حضور خواهم یافت.",
-                Status = ProposalStatus.Pending,
-                CreatedAt = new DateTime(2025, 1, 11),
-                IsDeleted = false
-            });
+            builder.HasData(
+      
+      new Proposal
+      {
+          Id = 1,
+          OrderId = 1,
+          ExpertId = 1, 
+          Price = 550000m,
+          Description = "با تجهیزات کامل نظافتی در زمان تعیین شده حضور خواهم یافت.",
+          Status = ProposalStatus.Pending,
+          CreatedAt = new DateTime(2025, 1, 11),
+          IsDeleted = false
+      },
+  
+      new Proposal
+      {
+          Id = 2,
+          OrderId = 1,
+          ExpertId = 4, 
+          Price = 500000m,
+          Description = "تضمین نظافت کامل با قیمت مناسب‌تر.",
+          Status = ProposalStatus.Pending,
+          CreatedAt = new DateTime(2025, 1, 12),
+          IsDeleted = false
+      },
+    
+      new Proposal
+      {
+          Id = 3,
+          OrderId = 2,
+          ExpertId = 6, 
+          Price = 850000m,
+          Description = "قطعات اصلی و ضمانت ۶ ماهه تعمیرات.",
+          Status = ProposalStatus.Accepted, 
+          CreatedAt = new DateTime(2025, 1, 16),
+          IsDeleted = false
+      },
+      
+      new Proposal
+      {
+          Id = 4,
+          OrderId = 3,
+          ExpertId = 2, 
+          Price = 350000m,
+          Description = "سرویس کامل کولر شامل شستشو و روغن‌کاری.",
+          Status = ProposalStatus.Rejected, 
+          CreatedAt = new DateTime(2025, 1, 6),
+          IsDeleted = false
+      },
+     
+      new Proposal
+      {
+          Id = 5,
+          OrderId = 5,
+          ExpertId = 5, 
+          Price = 650000m,
+          Description = "طراحی باغچه و هرس تخصصی درختان میوه.",
+          Status = ProposalStatus.Pending,
+          CreatedAt = new DateTime(2025, 2, 12),
+          IsDeleted = false
+      },
+   
+      new Proposal
+      {
+          Id = 6,
+          OrderId = 6,
+          ExpertId = 1,
+          Price = 1600000m,
+          Description = "دارای ماشین مخصوص و کارگران ورزیده.",
+          Status = ProposalStatus.Pending,
+          CreatedAt = new DateTime(2025, 2, 25),
+          IsDeleted = false
+      }
+  );
 
         }
     }

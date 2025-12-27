@@ -35,7 +35,12 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.CategoryAgg
 
             builder.HasData(
                   new Category { Id = 1, Title = "نظافت و پذیرایی", ImagePath = "cleaning-category.jpg", CreatedAt = new DateTime(2025, 1, 1), IsDeleted = false },
-                  new Category { Id = 2, Title = "تعمیرات و تأسیسات", ImagePath = "repairs-category.jpg", CreatedAt = new DateTime(2025, 1, 1), IsDeleted = false }
+                  new Category { Id = 2, Title = "تعمیرات و تأسیسات", ImagePath = "repairs-category.jpg", CreatedAt = new DateTime(2025, 1, 1), IsDeleted = false },
+                  new Category { Id = 3, Title = "تعمیرات لوازم خانگی", ImagePath = "appliances-category.jpg", CreatedAt = new DateTime(2025, 1, 5), IsDeleted = false },
+                  new Category { Id = 4, Title = "خدمات خودرو", ImagePath = "car-services-category.jpg", CreatedAt = new DateTime(2025, 1, 10), IsDeleted = false },
+                  new Category { Id = 5, Title = "آرایش و زیبایی", ImagePath = "beauty-category.jpg", CreatedAt = new DateTime(2025, 1, 15), IsDeleted = false },
+                  new Category { Id = 6, Title = "اسباب‌کشی و حمل و نقل", ImagePath = "moving-category.jpg", CreatedAt = new DateTime(2025, 1, 20), IsDeleted = false },
+                  new Category { Id = 7, Title = "باغبانی و فضای سبز", ImagePath = "gardening-category.jpg", CreatedAt = new DateTime(2025, 1, 25), IsDeleted = false }
               );
 
 

@@ -12,8 +12,7 @@ namespace App.Domain.Core.Enums.OrderAgg
         WaitingForSelection = 2, 
         ComingToPlace = 3,      
         Started = 4,             
-        Finished = 5,            
-        Paid = 6,               
-        Cancelled = 7           
+        Finished = 5,                       
+        Cancelled = 6        
     }
 }
