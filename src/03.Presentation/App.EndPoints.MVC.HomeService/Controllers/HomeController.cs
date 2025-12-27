@@ -20,9 +20,6 @@ namespace App.EndPoints.MVC.HomeService.Controllers
         }
         public IActionResult Index()
         {
-
-
-            _logger.LogInformation("صفحه اصلی توسط کاربر باز شد در ساعت {Time}", DateTime.Now.ToLongTimeString());
             
             return View();
         }

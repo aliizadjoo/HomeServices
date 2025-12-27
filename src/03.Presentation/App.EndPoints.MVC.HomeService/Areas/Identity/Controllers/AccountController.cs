@@ -71,7 +71,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Identity.Controllers
 
             if (result.Succeeded)
             {
-
+                _logger.LogInformation("User {UserName} Registered in successfully.", registerDto.Email);
                 return RedirectToAction("Login");
             }
 
