@@ -1,0 +1,21 @@
+﻿
+@font-face {
+    font-family: 'Vazir';
+    src: url('/fonts/Vazir.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+body {
+    font-family: 'Vazir', Tahoma, Geneva, Verdana, sans-serif !important;
+    direction: rtl;
+    text-align: right;
+}
+
+
+.profile-card {
+    border-radius: 15px;
+    border: none;
+    transition: 0.3s;
+}

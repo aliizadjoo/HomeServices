@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -75,6 +76,13 @@ namespace App.Domain.AppServices.AccountAgg
 
             _logger.LogInformation("User is logging out.");
             await _signInManager.SignOutAsync();
+        }
+
+        public int GetUserId(ClaimsPrincipal user)
+        {
+            
+            var userId = _userManager.GetUserId(user);
+            return userId != null ? int.Parse(userId) : 0;
         }
     }
 }

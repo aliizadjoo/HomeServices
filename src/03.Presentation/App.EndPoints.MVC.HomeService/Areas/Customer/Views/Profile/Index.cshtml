@@ -1,0 +1,62 @@
+﻿@using App.Domain.Core.Dtos.CustomerAgg
+@model ProfileCustomerDto
+@{
+    ViewData["Title"] = "پروفایل کاربری"; 
+}
+
+<div class="container mt-5">
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+           @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">مشخصات پروفایل مشتری</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 text-center mb-3">
+                    @if (!string.IsNullOrEmpty(Model.ImagePath))
+                    {
+                        <img src="/images/Customers/@Model.ImagePath" alt="Profile" class="img-thumbnail rounded-circle" style="width: 150px; height: 150px;" />
+                    }
+                    else
+                    {
+                        <img src="/images/default-user.png" class="img-thumbnail rounded-circle" style="width: 150px; height: 150px;" />
+                    }
+                </div>
+                <div class="col-md-8">
+                    <table class="table table-hover">
+                        <tr>
+                            <th style="width: 30%">نام:</th>
+                            <td>@Model.FirstName</td>
+                        </tr>
+                        <tr>
+                            <th>نام خانوادگی:</th>
+                            <td>@Model.LastName</td>
+                        </tr>
+                        <tr>
+                            <th>شهر:</th>
+                            <td>@Model.CityName</td>
+                        </tr>
+                        <tr>
+                            <th>آدرس دقیق:</th>
+                            <td>@Model.Address</td>
+                        </tr>
+                    </table>
+
+                    <div class="mt-4">
+                        <a asp-action="Edit" class="btn btn-warning">ویرایش اطلاعات</a>
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-secondary">بازگشت به خانه</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

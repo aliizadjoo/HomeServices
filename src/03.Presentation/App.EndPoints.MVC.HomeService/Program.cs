@@ -1,11 +1,23 @@
 using App.Domain.AppServices.AccountAgg;
+using App.Domain.AppServices.CityAgg;
+using App.Domain.AppServices.CustomerAgg;
 using App.Domain.Core.Contract.AccountAgg.AppServices;
 using App.Domain.Core.Contract.CategoryAgg.Repository;
+using App.Domain.Core.Contract.CityAgg.AppService;
+using App.Domain.Core.Contract.CityAgg.Repository;
+using App.Domain.Core.Contract.CityAgg.Service;
+using App.Domain.Core.Contract.CustomerAgg.AppService;
+using App.Domain.Core.Contract.CustomerAgg.Repository;
+using App.Domain.Core.Contract.CustomerAgg.Service;
 using App.Domain.Core.Contract.HomeServiceAgg.Repository;
 using App.Domain.Core.Entities;
+using App.Domain.Services.CityAgg;
+using App.Domain.Services.CustomerAgg;
 using App.EndPoints.MVC.HomeService.Middlwares;
 using App.Framework;
 using App.Infra.Data.Repos.Ef.CategoryAgg;
+using App.Infra.Data.Repos.Ef.CityAgg;
+using App.Infra.Data.Repos.Ef.CustomerAgg;
 using App.Infra.Data.Repos.Ef.HomeServiceAgg;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
 using Microsoft.AspNetCore.Identity;
@@ -32,9 +44,18 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer("Server=DESKTOP-M2BLLND\\SQLEXPRESS;Database=HomeService;Integrated Security=True;Encrypt=True;TrustServerCertificate=True;"));
 
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<ICustomerAppService, CustomerAppService>();
+
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IHomeServiceRepository, HomeServiceRepository>();
+
+builder.Services.AddScoped<ICityRepository, CityRepository>();
+builder.Services.AddScoped<ICityService, CityService>();
+builder.Services.AddScoped<ICityAppService, CityAppService>();
+
 builder.Services.AddScoped<IAccountAppService, AccountAppService>();
 
 builder.Services.AddIdentity<AppUser, IdentityRole<int>>(options =>

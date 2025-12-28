@@ -1,0 +1,91 @@
+﻿@using App.EndPoints.MVC.HomeService.Areas.Customer.Models
+@model EditProfileCustomerViewModel
+@{
+    ViewData["Title"] = "ویرایش پروفایل مشتری";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm profile-card">
+        <div class="card-header bg-warning text-dark">
+            <h4 class="mb-0">ویرایش اطلاعات کاربری</h4>
+        </div>
+        <div class="card-body">
+       
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+           
+            <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-4 text-center mb-4 border-start">
+                        <label class="d-block mb-3 fw-bold">تصویر فعلی</label>
+                        <div class="mb-3">
+                            @if (!string.IsNullOrEmpty(Model.ImagePath))
+                            {
+                               
+                                <img src="/images/Customers/@Model.ImagePath" alt="Profile" class="img-thumbnail rounded-circle" style="width: 180px; height: 180px;" />
+                            }
+                            else
+                            {
+                                <img src="/images/default-avatar.png" class="img-thumbnail rounded-circle" style="width: 180px; height: 180px;" />
+                            }
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label asp-for="ImageFile" class="form-label">آپلود تصویر جدید</label>
+                            <input asp-for="ImageFile" class="form-control" accept="image/*" />
+                            <span asp-validation-for="ImageFile" class="text-danger"></span>
+                        </div>
+
+                        
+                        <input type="hidden" asp-for="ImagePath" />
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="FirstName" class="form-label font-weight-bold">نام</label>
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="LastName" class="form-label font-weight-bold">نام خانوادگی</label>
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="col-md-12">
+                                <label asp-for="CityId" class="form-label font-weight-bold">شهر (انتخاب الزامی)</label>
+
+                                <select asp-for="CityId" class="form-select"
+                                        asp-items="@(new SelectList(ViewBag.Cities, "Id", "CityName"))">
+                                    <option value="">--- لطفاً شهر خود را انتخاب کنید ---</option>
+                                </select>
+
+                               
+                                <span asp-validation-for="CityId" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label asp-for="Address" class="form-label font-weight-bold">آدرس دقیق</label>
+                                <textarea asp-for="Address" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 d-flex gap-2">
+                            <button type="submit" class="btn btn-success px-5">ذخیره تغییرات</button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">انصراف</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
