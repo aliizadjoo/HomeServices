@@ -34,7 +34,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Identity.Controllers
             if (result)
             {
                 _logger.LogInformation("User {UserName} logged in successfully.", userLoginDto.UserName);
-                return RedirectToAction("Index", "Home", new { area = "" });
+                return RedirectToAction("Index", "Profile", new { area = "" });
             }
 
             _logger.LogWarning("Failed login attempt for user {UserName}.", userLoginDto.UserName);
