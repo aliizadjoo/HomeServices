@@ -1,6 +1,11 @@
 ﻿using App.Domain.Core._common;
 using App.Domain.Core.Contract.AccountAgg.AppServices;
+using App.Domain.Core.Contract.CustomerAgg.AppService;
+using App.Domain.Core.Contract.CustomerAgg.Service;
+using App.Domain.Core.Contract.ExpertAgg.Service;
 using App.Domain.Core.Dtos.AccountAgg;
+using App.Domain.Core.Dtos.CustomerAgg;
+using App.Domain.Core.Dtos.ExpertAgg;
 using App.Domain.Core.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -16,40 +21,53 @@ namespace App.Domain.AppServices.AccountAgg
     public class AccountAppService
         (UserManager<AppUser> _userManager,
           SignInManager<AppUser> _signInManager,
+          ICustomerService _customerService,
+            IExpertService _expertService,
           ILogger<AccountAppService> _logger
         ) : IAccountAppService
     {
-        public async Task<IdentityResult> Register(UserRegisterDto userRegisterDto)
+        public async Task<IdentityResult> Register(UserRegisterDto userRegisterDto  ,CancellationToken cancellationToken)
         {
+         
             var user = new AppUser
             {
                 UserName = userRegisterDto.Email,
                 Email = userRegisterDto.Email,
                 FirstName = userRegisterDto.FirstName,
                 LastName = userRegisterDto.LastName
-
             };
-
 
             var result = await _userManager.CreateAsync(user, userRegisterDto.Password);
 
-
             if (result.Succeeded)
             {
+              
                 var roleResult = await _userManager.AddToRoleAsync(user, userRegisterDto.Role);
 
-                if (!roleResult.Succeeded)
+                if (roleResult.Succeeded)
                 {
-
-                    _logger.LogError("User {Email} created but failed to assign role {Role}. Errors: {Errors}",
-                        user.Email, userRegisterDto.Role, string.Join(", ", roleResult.Errors.Select(e => e.Description)));
+                  
+                   
+                    if (userRegisterDto.Role == "Expert")
+                    {
+                       
+                        await _expertService.Create(user.Id, userRegisterDto.CityId, cancellationToken); 
+                    }
+                    else if (userRegisterDto.Role == "Customer")
+                    {
+                      
+                        await _customerService.Create(user.Id, userRegisterDto.CityId, cancellationToken); 
+                    }
+                }
+                else
+                {
+                    _logger.LogError("نقش اختصاص نیافت: {Errors}", string.Join(", ", roleResult.Errors.Select(e => e.Description)));
                 }
             }
             else
             {
-                _logger.LogWarning("Identity user creation failed for {Email}.", userRegisterDto.Email);
+                _logger.LogWarning("ثبت نام کاربر شکست خورد: {Email}", userRegisterDto.Email);
             }
-
 
             return result;
         }

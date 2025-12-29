@@ -3,5 +3,6 @@
     public static class RoleConstants
     {
         public const string Customer = "Customer";
+        public const string Expert = "Expert";
     }
 }

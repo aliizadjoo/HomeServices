@@ -101,14 +101,14 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
                 CityId = editProfileCustomerViewModel.CityId
             };
 
-            var customerId = _accountAppService.GetUserId(User);
-            var result = await _customerAppService.ChangeProfileCustomer(customerId, profileCustomerDto, cancellation);
+            var appuserId = _accountAppService.GetUserId(User);
+            var result = await _customerAppService.ChangeProfileCustomer(appuserId, profileCustomerDto, cancellation);
 
           
             if (!result.IsSuccess)
             {
                 
-                _logger.LogWarning("ویرایش پروفایل برای مشتری {Id} انجام نشد. علت: {Message}", customerId, result.Message);
+                _logger.LogWarning("ویرایش پروفایل برای مشتری {Id} انجام نشد. علت: {Message}", appuserId, result.Message);
 
                
                 ModelState.AddModelError(string.Empty, result.Message);
@@ -121,7 +121,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
             }
 
           
-             _logger.LogInformation("پروفایل مشتری {Id} با موفقیت آپدیت شد.", customerId);
+             _logger.LogInformation("پروفایل مشتری {Id} با موفقیت آپدیت شد.", appuserId);
              TempData["SuccessMessage"] = result.Message;
              return RedirectToAction("Index");
         }

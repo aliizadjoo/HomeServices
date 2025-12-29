@@ -18,11 +18,10 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.Bio)
-                .IsRequired()
+                .IsRequired(false)
                 .HasMaxLength(2000);
 
-            builder.Property(e => e.ProfilePicture)
-                .IsRequired(false);
+     
 
             builder.HasOne(e => e.AppUser)
                 .WithOne(e=>e.ExpertProfile)
@@ -39,7 +38,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
 
             builder.Property(e => e.WalletBalance)
                    .HasPrecision(18, 2)
-                   .IsRequired();
+                   .IsRequired(false);
 
             builder.HasMany(e => e.Reviews)
                 .WithOne(r=>r.Expert)
@@ -56,7 +55,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
                     Bio = "متخصص در امور فنی با ۱۰ سال سابقه کار",
                     WalletBalance = 200000m,
                     CityId = 1,
-                    ProfilePicture = "expert1.jpg",
+                  
                     CreatedAt = new DateTime(2025, 1, 1, 10, 0, 0),
                     IsDeleted = false
                 },
@@ -68,7 +67,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
                     Bio = "کارشناس ارشد تاسیسات و سیستم‌های برودتی",
                     WalletBalance = 500000m,
                     CityId = 1,
-                    ProfilePicture = "expert2.jpg",
+                  
                     CreatedAt = new DateTime(2025, 2, 10),
                     IsDeleted = false
                 },
@@ -79,7 +78,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
                     Bio = "متخصص طراحی داخلی و دکوراسیون با مدرک بین‌المللی",
                     WalletBalance = 1200000m,
                     CityId = 2,
-                    ProfilePicture = "expert3.jpg",
+                 
                     CreatedAt = new DateTime(2025, 3, 15),
                     IsDeleted = false
                 },
@@ -90,7 +89,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
                     Bio = "تکنسین برق قدرت و هوشمندسازی منازل",
                     WalletBalance = 0m,
                     CityId = 1,
-                    ProfilePicture = "expert4.jpg",
+                   
                     CreatedAt = new DateTime(2025, 4, 05),
                     IsDeleted = false
                 },
@@ -101,7 +100,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
                     Bio = "متخصص باغبانی و فضای سبز",
                     WalletBalance = 350000m,
                     CityId = 3,
-                    ProfilePicture = "expert5.jpg",
+            
                     CreatedAt = new DateTime(2025, 5, 20),
                     IsDeleted = false
                 },
@@ -112,7 +111,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
                     Bio = "کارشناس تعمیرات لوازم خانگی دیجیتال",
                     WalletBalance = 800000m,
                     CityId = 2,
-                    ProfilePicture = "expert6.jpg",
+                 
                     CreatedAt = new DateTime(2025, 6, 12),
                     IsDeleted = false
                 }

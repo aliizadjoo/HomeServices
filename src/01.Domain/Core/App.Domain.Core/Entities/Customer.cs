@@ -8,7 +8,7 @@ namespace App.Domain.Core.Entities
 {
     public class Customer : BaseEntity
     {
-        public string Address { get; set; }
+        public string? Address { get; set; }
 
         public decimal WalletBalance { get; set; }
 

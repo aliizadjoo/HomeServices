@@ -20,7 +20,20 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.UserRoleAgg
                 
                  new IdentityUserRole<int> { UserId = 2, RoleId = 2 },
 
-                 new IdentityUserRole<int> { UserId = 3, RoleId = 3 }
+                 new IdentityUserRole<int> { UserId = 3, RoleId = 3 },
+
+                 new IdentityUserRole<int> { UserId = 4, RoleId = 2 },
+                 new IdentityUserRole<int> { UserId = 5, RoleId = 2 },
+                 new IdentityUserRole<int> { UserId = 6, RoleId = 2 },
+                 new IdentityUserRole<int> { UserId = 7, RoleId = 2 },
+                 new IdentityUserRole<int> { UserId = 8, RoleId = 2 },
+
+                 new IdentityUserRole<int> { UserId = 9, RoleId = 3 },
+                 new IdentityUserRole<int> { UserId = 10, RoleId = 3 },
+                 new IdentityUserRole<int> { UserId = 11, RoleId = 3 },
+                 new IdentityUserRole<int> { UserId = 12, RoleId = 3 },
+                 new IdentityUserRole<int> { UserId = 13, RoleId = 3 }
+
              );
         }
     }

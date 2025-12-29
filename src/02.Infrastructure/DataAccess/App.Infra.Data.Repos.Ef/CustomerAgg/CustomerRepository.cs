@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.Contract.CustomerAgg.Repository;
 using App.Domain.Core.Dtos.CustomerAgg;
+using App.Domain.Core.Entities;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -15,11 +16,11 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
         (AppDbContext _context ,ILogger<CustomerRepository> _logger) 
         : ICustomerRepository
     {
-        public async Task<bool> ChangeProfileCustomer(int customerId, ProfileCustomerDto profileCustomerDto, CancellationToken cancellationToken)
+        public async Task<bool> ChangeProfileCustomer(int appuserId, ProfileCustomerDto profileCustomerDto, CancellationToken cancellationToken)
         {
           
             var customerRows = await _context.Customers
-                .Where(c => c.Id == customerId)
+                .Where(c => c.AppUserId == appuserId)
                 .ExecuteUpdateAsync(setters => setters
                     .SetProperty(c => c.Address, profileCustomerDto.Address)
                     .SetProperty(c => c.CityId, profileCustomerDto.CityId),
@@ -27,7 +28,7 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
 
        
             var userRows = await _context.Users
-                .Where(u => u.CustomerProfile!.Id == customerId)
+                .Where(u => u.CustomerProfile!.AppUserId == appuserId)
                 .ExecuteUpdateAsync(setters => setters
                     .SetProperty(u => u.FirstName, profileCustomerDto.FirstName)
                     .SetProperty(u => u.LastName, profileCustomerDto.LastName)
@@ -37,12 +38,12 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
             return customerRows > 0 || userRows > 0;
         }
 
-        public async Task<ProfileCustomerDto?> GetProfileCustomer(int customerId, CancellationToken cancellationToken)
+        public async Task<ProfileCustomerDto?> GetProfileCustomer(int appuserId, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("تلاش برای دریافت پروفایل مشتری با شناسه: {CustomerId}", customerId);
+            _logger.LogInformation("تلاش برای دریافت پروفایل مشتری با شناسه: {CustomerId}", appuserId);
 
 
-            return await _context.Customers.Where(c => c.Id == customerId)
+            return await _context.Customers.Where(c => c.AppUserId == appuserId)
                 .Select(c => new ProfileCustomerDto
                 {
                     FirstName = c.AppUser.FirstName,
@@ -52,6 +53,18 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
                     CityName = c.City.Name
 
                 }).FirstOrDefaultAsync(cancellationToken);
+        }
+
+        public async Task<int> Create(CreateCustomerDto custmoerDto, CancellationToken cancellationToken)
+        {
+            var customer = new Customer()
+            {
+                CityId = custmoerDto.CityId,
+                AppUserId = custmoerDto.AppUserId,
+            };
+
+            await _context.Customers.AddAsync(customer, cancellationToken);
+            return await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

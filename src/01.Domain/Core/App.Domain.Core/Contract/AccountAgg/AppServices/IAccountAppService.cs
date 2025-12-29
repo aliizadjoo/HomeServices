@@ -13,7 +13,8 @@ namespace App.Domain.Core.Contract.AccountAgg.AppServices
 {
     public interface IAccountAppService
     {
-        public Task<IdentityResult> Register(UserRegisterDto command);
+        public Task<IdentityResult> Register(UserRegisterDto userRegisterDto, CancellationToken cancellationToken);
+        
 
 
         public Task<bool> Login(UserLoginDto command);

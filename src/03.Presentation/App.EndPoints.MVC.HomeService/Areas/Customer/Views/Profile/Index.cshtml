@@ -47,7 +47,16 @@
                         </tr>
                         <tr>
                             <th>آدرس دقیق:</th>
-                            <td>@Model.Address</td>
+                            <td>
+                                @if (string.IsNullOrWhiteSpace(Model.Address))
+                                {
+                                    <span class="text-muted">آدرسی ثبت نکرده‌اید</span>
+                                }
+                                else
+                                {
+                                    @Model.Address
+                                }
+                            </td>
                         </tr>
                     </table>
 

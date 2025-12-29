@@ -19,7 +19,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.CustomerAgg
             builder.HasKey(c => c.Id);
 
             builder.Property(c => c.Address)
-                .IsRequired()
+                .IsRequired(false)
                 .HasMaxLength(500);
 
             builder.HasOne(c => c.AppUser)

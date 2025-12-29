@@ -9,9 +9,8 @@ namespace App.Domain.Core.Entities
     public class Expert : BaseEntity
     {
         public string Bio { get; set; }
-        public string? ProfilePicture { get; set; }
 
-        public decimal WalletBalance { get; set; }
+        public decimal? WalletBalance { get; set; }
         public int AppUserId { get; set; }
         public AppUser AppUser { get; set; }
 

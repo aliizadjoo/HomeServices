@@ -2,6 +2,7 @@
 using App.Domain.Core.Contract.CityAgg.Repository;
 using App.Domain.Core.Contract.CustomerAgg.Repository;
 using App.Domain.Core.Contract.CustomerAgg.Service;
+using App.Domain.Core.Dtos.AccountAgg;
 using App.Domain.Core.Dtos.CustomerAgg;
 using Microsoft.Extensions.Logging;
 using System;
@@ -18,9 +19,9 @@ namespace App.Domain.Services.CustomerAgg
         ILogger<CustomerService> _logger) : ICustomerService
 
     {
-        public async Task<Result<bool>> ChangeProfileCustomer(int customerId, ProfileCustomerDto profileCustomerDto, CancellationToken cancellationToken)
+        public async Task<Result<bool>> ChangeProfileCustomer(int appuserId, ProfileCustomerDto profileCustomerDto, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("شروع فرآیند ویرایش پروفایل برای مشتری {Id}", customerId);
+            _logger.LogInformation("شروع فرآیند ویرایش پروفایل برای مشتری {Id}", appuserId);
 
            
             var isCityValid = await _cityRepository.IsExist(profileCustomerDto.CityId, cancellationToken);
@@ -32,31 +33,46 @@ namespace App.Domain.Services.CustomerAgg
             }
 
             
-            var isUpdated = await _customerRepository.ChangeProfileCustomer(customerId, profileCustomerDto, cancellationToken);
+            var isUpdated = await _customerRepository.ChangeProfileCustomer(appuserId, profileCustomerDto, cancellationToken);
 
             if (!isUpdated)
             {
-                _logger.LogError("عملیات ویرایش در دیتابیس با شکست مواجه شد. مشتری: {Id}", customerId);
+                _logger.LogError("عملیات ویرایش در دیتابیس با شکست مواجه شد. مشتری: {Id}", appuserId);
                 return Result<bool>.Failure("ویرایش پروفایل انجام نشد.خطایی رخ داده است..");
             }
 
           
-            _logger.LogInformation("پروفایل مشتری {Id} با موفقیت ویرایش شد.", customerId);
+            _logger.LogInformation("پروفایل مشتری {Id} با موفقیت ویرایش شد.", appuserId);
             return Result<bool>.Success(true, "اطلاعات پروفایل شما با موفقیت بروزرسانی شد.");
         }
 
-        public async Task<Result<ProfileCustomerDto>> GetProfileCustomer(int customerId, CancellationToken cancellationToken)
+        public async Task<Result<ProfileCustomerDto>> GetProfileCustomer(int appuserId, CancellationToken cancellationToken)
         {
-            var ProfileCustomerDto = await _customerRepository.GetProfileCustomer(customerId, cancellationToken);
+            var ProfileCustomerDto = await _customerRepository.GetProfileCustomer(appuserId, cancellationToken);
             if (ProfileCustomerDto==null)
             {
-                _logger.LogWarning("مشتری با کد شناسایی {CustomerId} در سیستم یافت نشد.", customerId);
+                _logger.LogWarning("مشتری با کد شناسایی {CustomerId} در سیستم یافت نشد.", appuserId);
                 return Result<ProfileCustomerDto>.Failure("مشتری ای با این کد شناسایی یافت نشد.");
             }
 
             return Result<ProfileCustomerDto>.Success(ProfileCustomerDto);
         }
 
-       
+        
+        public async Task<Result<bool>> Create(int userId, int cityId, CancellationToken cancellationToken)
+        {
+            CreateCustomerDto createCustmoerDto = new CreateCustomerDto()
+            {
+                AppUserId = userId,
+                CityId = cityId
+            };
+
+            var result = await _customerRepository.Create(createCustmoerDto, cancellationToken);
+
+            if (result<=0)
+                return Result<bool>.Failure("خطا در ایجاد پروفایل مشتری");
+
+            return Result<bool>.Success(true);
+        }
     }
 }

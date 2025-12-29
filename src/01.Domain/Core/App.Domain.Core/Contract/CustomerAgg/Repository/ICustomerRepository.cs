@@ -11,5 +11,6 @@ namespace App.Domain.Core.Contract.CustomerAgg.Repository
     {
         public Task<ProfileCustomerDto?> GetProfileCustomer(int customerId , CancellationToken cancellationToken);
         public Task<bool> ChangeProfileCustomer(int customerId , ProfileCustomerDto profileCustomerDto, CancellationToken cancellationToken);
+        public Task<int> Create(CreateCustomerDto custmoerDto, CancellationToken cancellationToken);
     }
 }

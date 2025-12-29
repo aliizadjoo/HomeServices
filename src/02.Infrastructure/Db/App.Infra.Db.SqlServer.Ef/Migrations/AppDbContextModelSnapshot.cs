@@ -546,7 +546,6 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
@@ -650,7 +649,6 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Bio")
-                        .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
@@ -663,10 +661,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ProfilePicture")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("WalletBalance")
+                    b.Property<decimal?>("WalletBalance")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
@@ -688,7 +683,6 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             CityId = 1,
                             CreatedAt = new DateTime(2025, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
-                            ProfilePicture = "expert1.jpg",
                             WalletBalance = 200000m
                         },
                         new
@@ -699,7 +693,6 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             CityId = 1,
                             CreatedAt = new DateTime(2025, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
-                            ProfilePicture = "expert2.jpg",
                             WalletBalance = 500000m
                         },
                         new
@@ -710,7 +703,6 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             CityId = 2,
                             CreatedAt = new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
-                            ProfilePicture = "expert3.jpg",
                             WalletBalance = 1200000m
                         },
                         new
@@ -721,7 +713,6 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             CityId = 1,
                             CreatedAt = new DateTime(2025, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
-                            ProfilePicture = "expert4.jpg",
                             WalletBalance = 0m
                         },
                         new
@@ -732,7 +723,6 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             CityId = 3,
                             CreatedAt = new DateTime(2025, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
-                            ProfilePicture = "expert5.jpg",
                             WalletBalance = 350000m
                         },
                         new
@@ -743,7 +733,6 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             CityId = 2,
                             CreatedAt = new DateTime(2025, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
-                            ProfilePicture = "expert6.jpg",
                             WalletBalance = 800000m
                         });
                 });
@@ -1440,6 +1429,56 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         new
                         {
                             UserId = 3,
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            UserId = 4,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 5,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 6,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 7,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 8,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 9,
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            UserId = 10,
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            UserId = 11,
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            UserId = 12,
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            UserId = 13,
                             RoleId = 3
                         });
                 });

@@ -30,6 +30,12 @@ namespace App.EndPoints.MVC.HomeService.Areas.Identity.Models
 
         [Required(ErrorMessage = "انتخاب نقش الزامی است")]
         [Display(Name = "نوع کاربری")]
-        public string Role { get; set; } 
+        public string Role { get; set; }
+
+        [Required(ErrorMessage = "انتخاب شهر الزامی است")]
+        [Display(Name = "شهر")]
+        public int CityId { get; set; }
+
+
     }
 }
