@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Dtos.AccountAgg;
+﻿using App.Domain.Core._common;
+using App.Domain.Core.Dtos.AccountAgg;
 using App.Domain.Core.Entities;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -21,5 +22,7 @@ namespace App.Domain.Core.Contract.AccountAgg.AppServices
         public Task Logout();
 
         public int GetUserId(ClaimsPrincipal user);
+
+        public Task<Result<bool>> ChangePassword(ClaimsPrincipal userPrincipal, ChangePasswordDto changePasswordDto);
     }
 }

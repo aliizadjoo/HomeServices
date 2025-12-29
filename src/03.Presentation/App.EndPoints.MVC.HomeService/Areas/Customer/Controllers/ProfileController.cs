@@ -2,6 +2,7 @@
 using App.Domain.Core.Contract.AccountAgg.AppServices;
 using App.Domain.Core.Contract.CityAgg.AppService;
 using App.Domain.Core.Contract.CustomerAgg.AppService;
+using App.Domain.Core.Dtos.AccountAgg;
 using App.Domain.Core.Dtos.CustomerAgg;
 using App.EndPoints.MVC.HomeService.Areas.Constants;
 using App.EndPoints.MVC.HomeService.Areas.Customer.Models;
@@ -123,6 +124,41 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
              _logger.LogInformation("پروفایل مشتری {Id} با موفقیت آپدیت شد.", customerId);
              TempData["SuccessMessage"] = result.Message;
              return RedirectToAction("Index");
+        }
+
+
+        public  IActionResult ChangePassword() 
+        {
+             
+           return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+         
+            var dto = new ChangePasswordDto
+            {
+                OldPassword = model.OldPassword,
+                NewPassword = model.NewPassword
+            };
+
+            var result = await _accountAppService.ChangePassword(User, dto);
+
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = result.Message;
+                return RedirectToAction("Index"); 
+            }
+
+           
+            ModelState.AddModelError(string.Empty, result.Message);
+            return View(model);
         }
 
     }

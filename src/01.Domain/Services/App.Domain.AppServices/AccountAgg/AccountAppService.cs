@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Contract.AccountAgg.AppServices;
+﻿using App.Domain.Core._common;
+using App.Domain.Core.Contract.AccountAgg.AppServices;
 using App.Domain.Core.Dtos.AccountAgg;
 using App.Domain.Core.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -53,7 +54,6 @@ namespace App.Domain.AppServices.AccountAgg
             return result;
         }
 
-
         public async Task<bool> Login(UserLoginDto userLoginDto)
         {
 
@@ -70,7 +70,6 @@ namespace App.Domain.AppServices.AccountAgg
             return false;
         }
 
-
         public async Task Logout()
         {
 
@@ -83,6 +82,30 @@ namespace App.Domain.AppServices.AccountAgg
             
             var userId = _userManager.GetUserId(user);
             return userId != null ? int.Parse(userId) : 0;
+        }
+
+
+        public async Task<Result<bool>> ChangePassword(ClaimsPrincipal userPrincipal, ChangePasswordDto changePasswordDto)
+        {
+           
+            var user = await _userManager.GetUserAsync(userPrincipal);
+            if (user == null)
+            {
+                return Result<bool>.Failure("کاربر یافت نشد.");
+            }
+
+            
+            var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.OldPassword, changePasswordDto.NewPassword);
+
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("کاربر {Email} رمز عبور خود را تغییر داد.", user.Email);
+                return Result<bool>.Success(true, "رمز عبور با موفقیت تغییر یافت.");
+            }
+
+          
+            var errorMessages = string.Join(", ", result.Errors.Select(e => e.Description));
+            return Result<bool>.Failure(errorMessages);
         }
     }
 }
