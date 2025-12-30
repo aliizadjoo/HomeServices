@@ -15,26 +15,30 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
 {
     public class ExpertRepositoy(AppDbContext _context) : IExpertRepositoy
     {
-     
+
 
         public async Task<ProfileExpertDto?> GetProfile(int appuserId, CancellationToken cancellationToken)
         {
-
-
             return await _context.Experts
+                .AsNoTracking() 
                 .Where(e => e.AppUserId == appuserId)
                 .Select(e => new ProfileExpertDto
                 {
-                    Bio = e.Bio,
-                    WalletBalance = e.WalletBalance,
                     FirstName = e.AppUser.FirstName,
                     LastName = e.AppUser.LastName,
+                    Bio = e.Bio,
                     ImagePath = e.AppUser.ImagePath,
+                    WalletBalance = e.WalletBalance,
+                    CityId = e.CityId,
                     CityName = e.City.Name,
-                    HomeServices = e.HomeServices.Select(hs => hs.Name).ToList()
-
-                }).FirstOrDefaultAsync(cancellationToken);
-                
+                    HomeServicesId = e.ExpertHomeServices
+                        .Select(ehs => ehs.HomeServiceId)
+                        .ToList(),
+                    HomeServices = e.ExpertHomeServices
+                        .Select(ehs => ehs.HomeService.Name)
+                        .ToList()
+                })
+                .FirstOrDefaultAsync(cancellationToken);
         }
 
         public async Task<int> Create(CreateExpertDto expertDto, CancellationToken cancellationToken)
@@ -48,5 +52,41 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
             await _context.Experts.AddAsync(expert, cancellationToken);
             return await _context.SaveChangesAsync(cancellationToken);
         }
+
+
+        public async Task<bool> ChangeProfile(int appuserId, ProfileExpertDto profileExpertDto, CancellationToken cancellationToken)
+        {
+           
+            var expert = await _context.Experts
+                .Include(e => e.AppUser)
+                .Include(e => e.ExpertHomeServices) 
+                .FirstOrDefaultAsync(e => e.AppUserId == appuserId, cancellationToken);
+
+            if (expert == null) return false;
+
+       
+            expert.AppUser.FirstName = profileExpertDto.FirstName;
+            expert.AppUser.LastName = profileExpertDto.LastName;
+            expert.AppUser.ImagePath = profileExpertDto.ImagePath;
+
+            expert.Bio = profileExpertDto.Bio;
+            expert.CityId = profileExpertDto.CityId;
+
+            _context.ExpertHomeServices.RemoveRange(expert.ExpertHomeServices);
+
+          
+            var newExpertServices = profileExpertDto.HomeServicesId.Select(serviceId => new ExpertHomeService
+            {
+                ExpertId = expert.Id,
+                HomeServiceId = serviceId
+            }).ToList();
+
+          
+            await _context.ExpertHomeServices.AddRangeAsync(newExpertServices, cancellationToken);
+
+         
+            return await _context.SaveChangesAsync(cancellationToken) > 0;
+        }
+
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Dtos.HomeServiceAgg
 {
-    public class HomeServiceDto
+    public class HomeserviceDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -11,5 +11,6 @@ namespace App.Domain.Core.Contract.ExpertAgg.AppService
     public interface IExpertAppService
     {
         public Task<Result<ProfileExpertDto>> GetProfile(int expertId, CancellationToken cancellationToken);
+        public  Task<Result<bool>> ChangeProfile(int appuserId, ProfileExpertDto profileExpertDto, CancellationToken cancellationToken);
     }
 }

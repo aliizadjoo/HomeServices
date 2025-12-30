@@ -8,7 +8,7 @@ namespace App.Domain.Core.Entities
 {
     public class Expert : BaseEntity
     {
-        public string Bio { get; set; }
+        public string? Bio { get; set; }
 
         public decimal? WalletBalance { get; set; }
         public int AppUserId { get; set; }
@@ -16,7 +16,7 @@ namespace App.Domain.Core.Entities
 
         public int CityId { get; set; }
         public City City { get; set; }
-        public List<HomeService> HomeServices { get; set; } = [];
+        public List<ExpertHomeService> ExpertHomeServices { get; set; } = [];
         public List<Proposal> Proposals { get; set; } = [];
         public List<Review> Reviews { get; set; } = [];
     }

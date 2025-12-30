@@ -19,7 +19,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Models
 
         [Display(Name = "آدرس")]
         [Required(ErrorMessage = "{0} الزامی است")]
-        public string Address { get; set; }
+        public string? Address { get; set; }
 
        
         public string? CityName { get; set; }

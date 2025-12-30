@@ -1,0 +1,123 @@
+﻿@using App.EndPoints.MVC.HomeService.Areas.Expert.Models
+@model EditProfileExpertViewModel
+
+@{
+    ViewData["Title"] = "ویرایش پروفایل کارشناس";
+}
+
+@section Styles {
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/expert-profile.css" asp-append-version="true" />
+}
+
+<div class="container mt-5">
+    <div class="card shadow profile-card">
+        <div class="card-header bg-success text-white py-3">
+            <h4 class="mb-0 fw-bold">مدیریت پروفایل و تخصص‌ها</h4>
+        </div>
+
+        <div class="card-body p-4">
+            <form asp-action="Edit" method="post" enctype="multipart/form-data">
+
+                <input type="hidden" asp-for="ImagePath" />
+
+                <div class="row">
+                   
+                    <div class="col-md-4 text-center border-start mb-4">
+                        <label class="fw-bold d-block mb-3">تصویر پروفایل</label>
+
+                        <div class="mb-4">
+                            @if (!string.IsNullOrEmpty(Model.ImagePath))
+                            {
+                                <img src="/images/Experts/@Model.ImagePath"
+                                     class="img-thumbnail rounded-circle"
+                                     style="width:200px;height:200px;object-fit:cover;" />
+                            }
+                            else
+                            {
+                                <img src="/images/default-expert.png"
+                                     class="img-thumbnail rounded-circle"
+                                     style="width:200px;height:200px;" />
+                            }
+                        </div>
+
+                        <div class="text-start">
+                            <label asp-for="ImageFile" class="form-label fw-bold">تغییر تصویر</label>
+                            <input asp-for="ImageFile" class="form-control" accept="image/*" />
+                            <span asp-validation-for="ImageFile" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                   
+                    <div class="col-md-8">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="FirstName" class="form-label fw-bold"></label>
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="LastName" class="form-label fw-bold"></label>
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label asp-for="CityId" class="form-label fw-bold">شهر فعالیت</label>
+                                <select asp-for="CityId"
+                                        class="form-select"
+                                        asp-items="@(new SelectList(Model.AvailableCities, "Id", "CityName"))">
+                                    <option value="">-- انتخاب شهر --</option>
+                                </select>
+                                <span asp-validation-for="CityId" class="text-danger"></span>
+                            </div>
+
+                            
+                            <div class="col-md-12">
+                                <label asp-for="HomeServicesId" class="form-label fw-bold">تخصص‌ها</label>
+
+                                <select asp-for="HomeServicesId"
+                                        class="form-control select2-multiple"
+                                        asp-items="@(new SelectList(Model.AvailableServices, "HomeservicesId", "Name"))"
+                                        multiple="multiple">
+                                </select>
+
+                                <span asp-validation-for="HomeServicesId" class="text-danger"></span>
+
+                                <small class="text-muted d-block mt-1">
+                                    می‌توانید چند تخصص را انتخاب یا حذف کنید.
+                                </small>
+                            </div>
+
+
+                            <div class="col-md-12">
+                                <label asp-for="Bio" class="form-label fw-bold"></label>
+                                <textarea asp-for="Bio" class="form-control" rows="4"></textarea>
+                                <span asp-validation-for="Bio" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 d-flex gap-2">
+                            <button type="submit" class="btn btn-success btn-lg px-5">
+                                ذخیره تغییرات
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary btn-lg px-4">
+                                بازگشت
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="~/js/expert-profile.js" asp-append-version="true"></script>
+}

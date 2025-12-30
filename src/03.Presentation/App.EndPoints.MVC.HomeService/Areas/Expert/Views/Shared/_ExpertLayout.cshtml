@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="~/css/customer-style.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body class="bg-light">
     <header>

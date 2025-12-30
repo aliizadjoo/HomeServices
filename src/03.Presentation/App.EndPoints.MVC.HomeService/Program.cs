@@ -2,6 +2,7 @@ using App.Domain.AppServices.AccountAgg;
 using App.Domain.AppServices.CityAgg;
 using App.Domain.AppServices.CustomerAgg;
 using App.Domain.AppServices.ExpertAgg;
+using App.Domain.AppServices.HomeserviceAgg;
 using App.Domain.Core.Contract.AccountAgg.AppServices;
 using App.Domain.Core.Contract.CategoryAgg.Repository;
 using App.Domain.Core.Contract.CityAgg.AppService;
@@ -14,10 +15,12 @@ using App.Domain.Core.Contract.ExpertAgg.AppService;
 using App.Domain.Core.Contract.ExpertAgg.Repositorty;
 using App.Domain.Core.Contract.ExpertAgg.Service;
 using App.Domain.Core.Contract.HomeServiceAgg.Repository;
+using App.Domain.Core.Contract.HomeServiceAgg.Service;
 using App.Domain.Core.Entities;
 using App.Domain.Services.CityAgg;
 using App.Domain.Services.CustomerAgg;
 using App.Domain.Services.ExpertAgg;
+using App.Domain.Services.HomeserviceServiceAgg;
 using App.EndPoints.MVC.HomeService.Middlwares;
 using App.Framework;
 using App.Infra.Data.Repos.Ef.CategoryAgg;
@@ -56,7 +59,10 @@ builder.Services.AddScoped<ICustomerAppService, CustomerAppService>();
 
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<IHomeServiceRepository, HomeServiceRepository>();
+
+builder.Services.AddScoped<IHomeserviceRepository, HomeServiceRepository>();
+builder.Services.AddScoped<IHomeserviceService, HomeserviceService>();
+builder.Services.AddScoped<IHomeserviceAppService, HomeserviceAppService>();
 
 builder.Services.AddScoped<ICityRepository, CityRepository>();
 builder.Services.AddScoped<ICityService, CityService>();

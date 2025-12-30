@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core._common;
+using App.Domain.Core.Contract.CityAgg.Repository;
 using App.Domain.Core.Contract.ExpertAgg.Repositorty;
 using App.Domain.Core.Contract.ExpertAgg.Service;
 using App.Domain.Core.Dtos.CustomerAgg;
@@ -14,6 +15,7 @@ namespace App.Domain.Services.ExpertAgg
 {
     public class ExpertService
         (IExpertRepositoy _expertRepositoy 
+        , ICityRepository _cityRepository   
         , ILogger<ExpertService> _logger) : IExpertService
     {
         public async Task<Result<bool>> Create(int userId, int cityId, CancellationToken cancellationToken)
@@ -44,6 +46,34 @@ namespace App.Domain.Services.ExpertAgg
             return Result<ProfileExpertDto>.Success(profile);
         }
 
-        
+        public async Task<Result<bool>> ChangeProfile(int appuserId, ProfileExpertDto profileExpertDto, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("شروع فرآیند ویرایش پروفایل برای کارشناس {Id}", appuserId);
+
+
+            var isCityValid = await _cityRepository.IsExist(profileExpertDto.CityId, cancellationToken);
+
+            if (!isCityValid)
+            {
+                _logger.LogWarning("شهر با کد {CityId} در سیستم یافت نشد.", profileExpertDto.CityId);
+                return Result<bool>.Failure("شهر انتخاب شده معتبر نیست.");
+            }
+
+
+            var isUpdated = await _expertRepositoy.ChangeProfile(appuserId, profileExpertDto, cancellationToken);
+
+            if (!isUpdated)
+            {
+                _logger.LogError("عملیات ویرایش در دیتابیس با شکست مواجه شد. کارشناس: {Id}", appuserId);
+                return Result<bool>.Failure("ویرایش پروفایل انجام نشد.خطایی رخ داده است..");
+            }
+
+
+            _logger.LogInformation("پروفایل کارشناس {Id} با موفقیت ویرایش شد.", appuserId);
+            return Result<bool>.Success(true, "اطلاعات پروفایل شما با موفقیت بروزرسانی شد.");
+        }
+
+
+
     }
 }

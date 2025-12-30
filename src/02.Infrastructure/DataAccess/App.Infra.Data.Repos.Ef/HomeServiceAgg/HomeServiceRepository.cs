@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace App.Infra.Data.Repos.Ef.HomeServiceAgg
 {
-    public class HomeServiceRepository(AppDbContext _context) : IHomeServiceRepository
+    public class HomeServiceRepository(AppDbContext _context) : IHomeserviceRepository
     {
         public async Task<int> Create(CreateHomeServiceDto homeServiceDto, CancellationToken cancellationToken)
         {
@@ -31,7 +31,18 @@ namespace App.Infra.Data.Repos.Ef.HomeServiceAgg
 
         }
 
-        public async Task<List<HomeServiceDto>> GetAll(int pageSize, int pageNumber, SearchHomeServiceDto search, CancellationToken cancellationToken)
+        public async Task<List<HomeserviceSummaryDto>> GetAll(CancellationToken cancellationToken)
+        {
+           return await _context.HomeServices
+                 .AsNoTracking()
+                 .Select(hs => new HomeserviceSummaryDto
+                 {
+                     HomeservicesId = hs.Id,
+                     Name = hs.Name,
+                 }).ToListAsync(cancellationToken);
+        }
+
+        public async Task<List<HomeserviceDto>> GetAllPagination(int pageSize, int pageNumber, SearchHomeServiceDto search, CancellationToken cancellationToken)
         {
             var query = _context.HomeServices
                         .AsNoTracking();
@@ -48,7 +59,7 @@ namespace App.Infra.Data.Repos.Ef.HomeServiceAgg
             return await query.OrderBy(hs => hs.Id)
                  .Skip((pageNumber - 1) * pageSize)
                  .Take(pageSize)
-                 .Select(hs => new HomeServiceDto()
+                 .Select(hs => new HomeserviceDto()
                  {
                      Id = hs.Id,
                      Name = hs.Name,
@@ -62,12 +73,12 @@ namespace App.Infra.Data.Repos.Ef.HomeServiceAgg
 
         }
 
-        public async Task<HomeServiceDto?> GetById(int homeServiceId, CancellationToken cancellationToken)
+        public async Task<HomeserviceDto?> GetById(int homeServiceId, CancellationToken cancellationToken)
         {
             return await _context.HomeServices
                .AsNoTracking()
                .Where(hs => hs.Id == homeServiceId )
-               .Select(hs => new HomeServiceDto
+               .Select(hs => new HomeserviceDto
                {
                    Id = hs.Id,
                    Name = hs.Name,
@@ -80,7 +91,7 @@ namespace App.Infra.Data.Repos.Ef.HomeServiceAgg
                .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<int> Update(HomeServiceDto homeServiceDto, CancellationToken cancellationToken)
+        public async Task<int> Update(HomeserviceDto homeServiceDto, CancellationToken cancellationToken)
         {
           return await  _context.HomeServices
                     .Where(hs=>hs.Id==homeServiceDto.Id)

@@ -22,6 +22,7 @@ namespace App.Infra.Db.SqlServer.Ef.DbContextAgg
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Expert> Experts { get; set; }
+        public DbSet<ExpertHomeService> ExpertHomeServices { get; set; }
 
        
         public DbSet<Category> Categories { get; set; }

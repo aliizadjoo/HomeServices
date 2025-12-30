@@ -28,8 +28,8 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
                 .HasForeignKey<Expert>(e => e.AppUserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasMany(e => e.HomeServices)
-                 .WithMany(hs => hs.Experts);
+            builder.HasMany(e => e.ExpertHomeServices)
+                 .WithOne(hs => hs.Expert);
                 
                 builder.HasMany(e => e.Proposals)
                        .WithOne(p => p.Expert)

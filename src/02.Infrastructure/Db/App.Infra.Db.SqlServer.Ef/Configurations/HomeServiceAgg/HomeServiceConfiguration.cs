@@ -45,8 +45,8 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.HomeServiceAgg
 
             builder.HasQueryFilter(hs => !hs.IsDeleted);
 
-            builder.HasMany(hs => hs.Experts)
-               .WithMany(e => e.HomeServices);
+            builder.HasMany(hs => hs.ExpertHomeServices)
+               .WithOne(e => e.HomeService);
 
 
             builder.HasData(
