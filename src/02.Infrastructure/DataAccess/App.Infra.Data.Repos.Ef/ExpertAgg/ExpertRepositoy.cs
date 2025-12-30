@@ -54,39 +54,59 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
         }
 
 
-        public async Task<bool> ChangeProfile(int appuserId, ProfileExpertDto profileExpertDto, CancellationToken cancellationToken)
+        public async Task<bool> ChangeProfile(int appuserId, ProfileExpertDto profileExpertDto, CancellationToken ct)
         {
-           
             var expert = await _context.Experts
                 .Include(e => e.AppUser)
-                .Include(e => e.ExpertHomeServices) 
-                .FirstOrDefaultAsync(e => e.AppUserId == appuserId, cancellationToken);
+                .Include(e => e.ExpertHomeServices).IgnoreQueryFilters()
+                .FirstOrDefaultAsync(e => e.AppUserId == appuserId, ct);
 
             if (expert == null) return false;
 
-       
+           
             expert.AppUser.FirstName = profileExpertDto.FirstName;
             expert.AppUser.LastName = profileExpertDto.LastName;
             expert.AppUser.ImagePath = profileExpertDto.ImagePath;
-
             expert.Bio = profileExpertDto.Bio;
             expert.CityId = profileExpertDto.CityId;
 
-            _context.ExpertHomeServices.RemoveRange(expert.ExpertHomeServices);
-
-          
-            var newExpertServices = profileExpertDto.HomeServicesId.Select(serviceId => new ExpertHomeService
-            {
-                ExpertId = expert.Id,
-                HomeServiceId = serviceId
-            }).ToList();
-
-          
-            await _context.ExpertHomeServices.AddRangeAsync(newExpertServices, cancellationToken);
-
          
-            return await _context.SaveChangesAsync(cancellationToken) > 0;
-        }
+            var toDelete = expert.ExpertHomeServices
+                .Where(ehs => !ehs.IsDeleted && !profileExpertDto.HomeServicesId.Contains(ehs.HomeServiceId));
 
+            foreach (var item in toDelete)
+            {
+                item.IsDeleted = true;
+            }
+
+            foreach (var serviceId in profileExpertDto.HomeServicesId)
+            {
+                var existing = expert.ExpertHomeServices
+                    .FirstOrDefault(ehs => ehs.HomeServiceId == serviceId);
+
+                if (existing != null)
+                {
+                   
+                    if (existing.IsDeleted)
+                    {
+                        existing.IsDeleted = false;
+                    }
+                  
+                }
+                else
+                {
+               
+                    expert.ExpertHomeServices.Add(new ExpertHomeService
+                    {
+                        ExpertId = expert.Id,
+                        HomeServiceId = serviceId,
+                        IsDeleted = false
+                    });
+                }
+            }
+
+           
+            return await _context.SaveChangesAsync(ct) > 0;
+        }
     }
 }

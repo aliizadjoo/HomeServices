@@ -13,7 +13,8 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertHomeServiceAgg
     {
         public void Configure(EntityTypeBuilder<ExpertHomeService> builder)
         {
-            builder.HasKey(ehs => new { ehs.ExpertId, ehs.HomeServiceId });
+            builder.HasKey(ehs => ehs.Id);
+            builder.HasQueryFilter(ehs => !ehs.IsDeleted);
         }
     }
 }

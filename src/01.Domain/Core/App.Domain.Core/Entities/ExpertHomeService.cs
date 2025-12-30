@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Entities
 {
-    public class ExpertHomeService
+    public class ExpertHomeService :BaseEntity
     {
         public int ExpertId { get; set; }
         public Expert Expert { get; set; }

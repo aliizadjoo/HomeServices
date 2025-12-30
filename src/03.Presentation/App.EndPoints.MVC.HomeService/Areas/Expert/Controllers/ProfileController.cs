@@ -74,6 +74,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Expert.Controllers
                 CityId = result.Data.CityId,
                 CityName = result.Data.CityName,
                 HomeServices = result.Data.HomeServices,
+                HomeServicesId = result.Data.HomeServicesId,
                 AvailableCities = citiesResult  ,
                 AvailableServices = servicesResult.Data 
 
@@ -90,6 +91,12 @@ namespace App.EndPoints.MVC.HomeService.Areas.Expert.Controllers
             if (!ModelState.IsValid)
             {
                 _logger.LogWarning("تلاش برای ثبت فرم با داده‌های نامعتبر توسط کاربر.");
+                var cities = await _cityAppService.GetAll(cancellation);
+                var servicesResult = await _homeserviceAppService.GetAll(cancellation);
+
+                editProfileExpertViewModel.AvailableCities = cities;
+                editProfileExpertViewModel.AvailableServices = servicesResult.Data;
+
                 return View(editProfileExpertViewModel);
             }
 
