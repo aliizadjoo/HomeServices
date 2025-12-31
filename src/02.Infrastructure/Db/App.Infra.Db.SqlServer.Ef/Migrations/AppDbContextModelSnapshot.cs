@@ -648,6 +648,9 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                     b.Property<int>("AppUserId")
                         .HasColumnType("int");
 
+                    b.Property<double?>("AverageScore")
+                        .HasColumnType("float");
+
                     b.Property<string>("Bio")
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
@@ -679,6 +682,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         {
                             Id = 1,
                             AppUserId = 3,
+                            AverageScore = 5.0,
                             Bio = "متخصص در امور فنی با ۱۰ سال سابقه کار",
                             CityId = 1,
                             CreatedAt = new DateTime(2025, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
@@ -689,6 +693,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         {
                             Id = 2,
                             AppUserId = 9,
+                            AverageScore = 4.0,
                             Bio = "کارشناس ارشد تاسیسات و سیستم‌های برودتی",
                             CityId = 1,
                             CreatedAt = new DateTime(2025, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -719,6 +724,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         {
                             Id = 5,
                             AppUserId = 12,
+                            AverageScore = 5.0,
                             Bio = "متخصص باغبانی و فضای سبز",
                             CityId = 3,
                             CreatedAt = new DateTime(2025, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),

@@ -1,0 +1,49 @@
+﻿/* تعریف فونت وزیر */
+@font-face {
+    font-family: 'Vazir';
+    src: url('../fonts/Vazir.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --admin-green-primary: #1b5e20; /* سبز تیره برای سایدبار */
+    --admin-green-secondary: #2e7d32; /* سبز متوسط */
+    --admin-green-light: #e8f5e9; /* سبز بسیار روشن برای پس‌زمینه */
+}
+
+body {
+    font-family: 'Vazir', sans-serif;
+    background-color: #f8f9fa;
+    direction: rtl;
+    text-align: right;
+}
+
+/* استایل سایدبار */
+.admin-sidebar {
+    background-color: var(--admin-green-primary);
+    min-height: 100vh;
+    color: white;
+}
+
+    .admin-sidebar .nav-link {
+        color: rgba(255,255,255,0.8);
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+        .admin-sidebar .nav-link:hover {
+            background-color: var(--admin-green-secondary);
+            color: white;
+        }
+
+/* استایل هدر و کارت‌ها */
+.admin-header {
+    background-color: white;
+    border-bottom: 2px solid var(--admin-green-primary);
+    padding: 15px;
+}
+
+.btn-success {
+    background-color: var(--admin-green-secondary);
+    border-color: var(--admin-green-secondary);
+}

@@ -27,5 +27,9 @@ namespace App.Domain.AppServices.ExpertAgg
             return await _expertService.ChangeProfile(appuserId, profileExpertDto, cancellationToken);
         }
 
+        public async Task<Result<ExpertPagedResultDto>> GetAll( int pageNumber, int pageSize, CancellationToken cancellationToken)
+        {
+           return await _expertService.GetAll( pageNumber, pageSize, cancellationToken);
+        }
     }
 }

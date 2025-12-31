@@ -74,5 +74,23 @@ namespace App.Domain.Services.CustomerAgg
 
             return Result<bool>.Success(true);
         }
+
+
+        public async Task<Result<CustomerPagedResultDto>> GetAll(
+            int pageNumber,
+            int pageSize,
+            CancellationToken cancellationToken)
+        {
+          
+            var customers = await _customerRepository.GetAll( pageNumber, pageSize, cancellationToken);
+
+         
+            if (customers == null || !customers.Customers.Any())
+            {
+                return Result<CustomerPagedResultDto>.Failure("هیچ مشتری با مشخصات وارد شده یافت نشد.");
+            }
+
+            return Result<CustomerPagedResultDto>.Success(customers);
+        }
     }
 }

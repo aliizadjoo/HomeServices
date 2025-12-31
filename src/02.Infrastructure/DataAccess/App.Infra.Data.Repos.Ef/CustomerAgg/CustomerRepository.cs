@@ -66,5 +66,42 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
             await _context.Customers.AddAsync(customer, cancellationToken);
             return await _context.SaveChangesAsync(cancellationToken);
         }
+
+        public async Task<CustomerPagedResultDto> GetAll( int pageNumber, int pageSize, CancellationToken cancellationToken)
+        {
+            var query = _context.Customers
+                           .AsNoTracking()
+                           .Where(c => !c.IsDeleted) 
+                           .AsQueryable();
+                          
+            
+            var totalCount = await query.CountAsync(cancellationToken);
+
+           
+            var data = await query
+                .Select(c => new CustomerListDto
+                {
+                    CustomerId = c.Id,
+                    AppUserId = c.AppUserId,
+                    FirstName = c.AppUser.FirstName,
+                    LastName = c.AppUser.LastName,
+                    Email = c.AppUser.Email,
+                    CityName = c.City.Name,
+                    WalletBalance = c.WalletBalance,
+                    CreatedAt = c.CreatedAt
+                })
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(cancellationToken);
+
+            
+            return new CustomerPagedResultDto
+            {
+                Customers = data,
+                TotalCount = totalCount
+            };
+
+
+        }
     }
 }

@@ -1,0 +1,97 @@
+﻿@using App.EndPoints.MVC.HomeService.Areas.Admin.Models
+@using App.Domain.Core.Dtos.CityAgg
+@using App.Domain.Core.Dtos.UserAgg
+@model CreateUserBaseViewModel
+
+@{
+    ViewData["Title"] = "ایجاد کاربر جدید";
+    var cities = ViewBag.CityDtos as List<CityDto> ?? new List<CityDto>();
+    var roles = ViewBag.RoleDtos as List<RoleDto> ?? new List<RoleDto>();
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm border-success">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="bi bi-person-plus-fill"></i> فرم ثبت‌نام کاربر جدید (ادمین، مشتری، کارشناس)</h5>
+            <a asp-action="Index" class="btn btn-sm btn-light text-success fw-bold">بازگشت به لیست</a>
+        </div>
+
+        <div class="card-body">
+            <form asp-area="Admin" asp-controller="User" asp-action="Create" method="post" enctype="multipart/form-data">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <div class="alert alert-info border-0 shadow-sm py-2">
+                            <label asp-for="RoleId" class="form-label fw-bold"></label>
+                            <select asp-for="RoleId" class="form-select border-info"
+                                    asp-items="@(new SelectList(roles, "Id", "Name"))">
+                                <option value="">-- نوع کاربر را انتخاب کنید --</option>
+                            </select>
+                            <span asp-validation-for="RoleId" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="FirstName" class="form-label fw-bold text-success"></label>
+                        <input asp-for="FirstName" class="form-control border-success" placeholder="نام" />
+                        <span asp-validation-for="FirstName" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="LastName" class="form-label fw-bold text-success"></label>
+                        <input asp-for="LastName" class="form-control border-success" placeholder="نام خانوادگی" />
+                        <span asp-validation-for="LastName" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Email" class="form-label fw-bold text-success"></label>
+                        <input asp-for="Email" class="form-control border-success" placeholder="example@mail.com" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="CityId" class="form-label fw-bold text-success"></label>
+                        <select asp-for="CityId" class="form-select border-success"
+                                asp-items="@(new SelectList(cities, "Id", "CityName"))">
+                            <option value="">-- انتخاب شهر --</option>
+                        </select>
+                        <span asp-validation-for="CityId" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Password" class="form-label fw-bold text-success"></label>
+                        <input asp-for="Password" class="form-control border-success" />
+                        <span asp-validation-for="Password" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="ConfirmPassword" class="form-label fw-bold text-success"></label>
+                        <input asp-for="ConfirmPassword" class="form-control border-success" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label asp-for="ProfileImage" class="form-label fw-bold text-success"></label>
+                        <input asp-for="ProfileImage" type="file" class="form-control border-success" accept="image/*" />
+                        <span asp-validation-for="ProfileImage" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <hr class="mt-4 border-success opacity-25" />
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="reset" class="btn btn-outline-secondary me-md-2">پاک کردن فرم</button>
+                    <button type="submit" class="btn btn-success px-5">
+                        <i class="bi bi-check-circle"></i> ثبت نهایی در سیستم
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

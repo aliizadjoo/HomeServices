@@ -1,13 +1,16 @@
 ﻿using App.Domain.Core._common;
 using App.Domain.Core.Contract.AccountAgg.AppServices;
+using App.Domain.Core.Contract.AdminAgg.Service;
 using App.Domain.Core.Contract.CustomerAgg.AppService;
 using App.Domain.Core.Contract.CustomerAgg.Service;
 using App.Domain.Core.Contract.ExpertAgg.Service;
 using App.Domain.Core.Dtos.AccountAgg;
 using App.Domain.Core.Dtos.CustomerAgg;
 using App.Domain.Core.Dtos.ExpertAgg;
+using App.Domain.Core.Dtos.UserAgg;
 using App.Domain.Core.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -23,9 +26,25 @@ namespace App.Domain.AppServices.AccountAgg
           SignInManager<AppUser> _signInManager,
           ICustomerService _customerService,
             IExpertService _expertService,
-          ILogger<AccountAppService> _logger
+            IAdminService _adminService,
+          ILogger<AccountAppService> _logger,
+          RoleManager<IdentityRole<int>> _roleManager
         ) : IAccountAppService
     {
+
+
+
+        public async Task<List<RoleDto>> GetRoles(CancellationToken cancellationToken)
+        {
+           
+            return await _roleManager.Roles
+                .Select(r => new RoleDto
+                {
+                    Id = r.Id,
+                    Name = r.Name!
+                }).ToListAsync(cancellationToken);
+        }
+
         public async Task<IdentityResult> Register(UserRegisterDto userRegisterDto  ,CancellationToken cancellationToken)
         {
          
@@ -34,7 +53,9 @@ namespace App.Domain.AppServices.AccountAgg
                 UserName = userRegisterDto.Email,
                 Email = userRegisterDto.Email,
                 FirstName = userRegisterDto.FirstName,
-                LastName = userRegisterDto.LastName
+                LastName = userRegisterDto.LastName,
+                ImagePath = userRegisterDto.ImagePath,
+                
             };
 
             var result = await _userManager.CreateAsync(user, userRegisterDto.Password);
@@ -57,6 +78,12 @@ namespace App.Domain.AppServices.AccountAgg
                     {
                       
                         await _customerService.Create(user.Id, userRegisterDto.CityId, cancellationToken); 
+                    }
+
+                    else if (userRegisterDto.Role == "Admin") 
+                    {
+                       
+                        await _adminService.Create(user.Id, cancellationToken);
                     }
                 }
                 else

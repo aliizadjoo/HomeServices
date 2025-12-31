@@ -14,7 +14,7 @@ namespace App.Domain.Core.Contract.ExpertAgg.Repositorty
         public Task<ProfileExpertDto?> GetProfile(int expertId, CancellationToken cancellationToken);
         public  Task<int> Create(CreateExpertDto expertDto, CancellationToken cancellationToken);
         public Task<bool> ChangeProfile(int appuserId, ProfileExpertDto profileExpertDto, CancellationToken cancellationToken);
-
+        public Task<ExpertPagedResultDto> GetAll( int pageNumber, int pageSize, CancellationToken cancellationToken);
 
 
     }

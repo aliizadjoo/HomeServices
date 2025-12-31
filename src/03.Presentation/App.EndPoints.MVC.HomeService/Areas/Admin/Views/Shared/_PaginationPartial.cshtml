@@ -1,0 +1,32 @@
+﻿@{
+    int totalPages = (int)ViewData["TotalPages"];
+    int currentPage = (int)ViewData["CurrentPage"];
+    string paramName = ViewData["ParamName"]?.ToString() ?? "pageNumber";
+    string others = ViewData["Others"]?.ToString() ?? "";
+}
+
+@if (totalPages > 1)
+{
+    <nav class="mt-4">
+        <ul class="pagination pagination-sm justify-content-center">
+
+            <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
+                <a class="page-link border-success text-success" href="?@paramName=@(currentPage - 1)@others">قبلی</a>
+            </li>
+
+          
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(currentPage == i ? "active" : "")">
+                    <a class="page-link border-success @(currentPage == i ? "bg-success text-white border-success" : "text-success")"
+                       href="?@paramName=@i@others">@i</a>
+                </li>
+            }
+
+           
+            <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
+                <a class="page-link border-success text-success" href="?@paramName=@(currentPage + 1)@others">بعدی</a>
+            </li>
+        </ul>
+    </nav>
+}

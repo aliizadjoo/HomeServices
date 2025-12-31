@@ -19,13 +19,13 @@ namespace App.Domain.Core.Dtos.AccountAgg
 
         public string Password { get; set; }
 
-     
-
-        
+    
+        public int RoleId { get; set; }
         public string Role { get; set; }
 
-   
         public int CityId { get; set; }
+
+        public string? ImagePath { get; set; }
 
     }
 }

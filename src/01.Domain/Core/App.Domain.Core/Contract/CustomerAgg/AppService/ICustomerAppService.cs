@@ -12,5 +12,6 @@ namespace App.Domain.Core.Contract.CustomerAgg.AppService
     {
         public Task<Result<ProfileCustomerDto>> GetProfileCustomer(int customerId, CancellationToken cancellationToken);
         public Task<Result<bool>> ChangeProfileCustomer(int customerId, ProfileCustomerDto profileCustomerDto, CancellationToken cancellationToken);
+        public Task<Result<CustomerPagedResultDto>> GetAll( int pageNumber, int pageSize, CancellationToken cancellationToken);
     }
 }

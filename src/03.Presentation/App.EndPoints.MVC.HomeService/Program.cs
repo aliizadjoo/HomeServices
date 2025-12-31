@@ -1,9 +1,13 @@
 using App.Domain.AppServices.AccountAgg;
+using App.Domain.AppServices.AdminAgg;
 using App.Domain.AppServices.CityAgg;
 using App.Domain.AppServices.CustomerAgg;
 using App.Domain.AppServices.ExpertAgg;
 using App.Domain.AppServices.HomeserviceAgg;
 using App.Domain.Core.Contract.AccountAgg.AppServices;
+using App.Domain.Core.Contract.AdminAgg.AppService;
+using App.Domain.Core.Contract.AdminAgg.Repository;
+using App.Domain.Core.Contract.AdminAgg.Service;
 using App.Domain.Core.Contract.CategoryAgg.Repository;
 using App.Domain.Core.Contract.CityAgg.AppService;
 using App.Domain.Core.Contract.CityAgg.Repository;
@@ -17,12 +21,14 @@ using App.Domain.Core.Contract.ExpertAgg.Service;
 using App.Domain.Core.Contract.HomeServiceAgg.Repository;
 using App.Domain.Core.Contract.HomeServiceAgg.Service;
 using App.Domain.Core.Entities;
+using App.Domain.Services.AdminAgg;
 using App.Domain.Services.CityAgg;
 using App.Domain.Services.CustomerAgg;
 using App.Domain.Services.ExpertAgg;
 using App.Domain.Services.HomeserviceServiceAgg;
 using App.EndPoints.MVC.HomeService.Middlwares;
 using App.Framework;
+using App.Infra.Data.Repos.Ef.AdminAgg;
 using App.Infra.Data.Repos.Ef.CategoryAgg;
 using App.Infra.Data.Repos.Ef.CityAgg;
 using App.Infra.Data.Repos.Ef.CustomerAgg;
@@ -57,6 +63,13 @@ builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ICustomerAppService, CustomerAppService>();
 
+builder.Services.AddScoped<IExpertRepositoy, ExpertRepositoy>();
+builder.Services.AddScoped<IExpertService, ExpertService>();
+builder.Services.AddScoped<IExpertAppService, ExpertAppService>();
+
+builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IAdminAppService, AdminAppService>();
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
@@ -68,9 +81,9 @@ builder.Services.AddScoped<ICityRepository, CityRepository>();
 builder.Services.AddScoped<ICityService, CityService>();
 builder.Services.AddScoped<ICityAppService, CityAppService>();
 
-builder.Services.AddScoped<IExpertRepositoy, ExpertRepositoy>();
-builder.Services.AddScoped<IExpertService, ExpertService>();
-builder.Services.AddScoped<IExpertAppService, ExpertAppService>();
+
+
+
 
 
 builder.Services.AddScoped<IAccountAppService, AccountAppService>();

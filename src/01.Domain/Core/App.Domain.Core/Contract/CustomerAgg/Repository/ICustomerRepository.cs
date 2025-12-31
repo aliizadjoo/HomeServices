@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Dtos.CustomerAgg;
+using App.Domain.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,12 @@ namespace App.Domain.Core.Contract.CustomerAgg.Repository
 {
     public interface ICustomerRepository
     {
-        public Task<ProfileCustomerDto?> GetProfileCustomer(int customerId , CancellationToken cancellationToken);
-        public Task<bool> ChangeProfileCustomer(int customerId , ProfileCustomerDto profileCustomerDto, CancellationToken cancellationToken);
+        public Task<ProfileCustomerDto?> GetProfileCustomer(int customerId, CancellationToken cancellationToken);
+        public Task<bool> ChangeProfileCustomer(int customerId, ProfileCustomerDto profileCustomerDto, CancellationToken cancellationToken);
         public Task<int> Create(CreateCustomerDto custmoerDto, CancellationToken cancellationToken);
+
+        public Task<CustomerPagedResultDto> GetAll( int pageNumber, int pageSize, CancellationToken cancellationToken);
+
+
     }
 }

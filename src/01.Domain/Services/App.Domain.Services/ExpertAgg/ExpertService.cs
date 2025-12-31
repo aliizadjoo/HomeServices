@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace App.Domain.Services.ExpertAgg
 {
     public class ExpertService
-        (IExpertRepositoy _expertRepositoy 
+        (IExpertRepositoy _expertRepository
         , ICityRepository _cityRepository   
         , ILogger<ExpertService> _logger) : IExpertService
     {
@@ -26,7 +26,7 @@ namespace App.Domain.Services.ExpertAgg
                 CityId = cityId
             };
 
-            var result = await _expertRepositoy.Create(createExperterDto, cancellationToken);
+            var result = await _expertRepository.Create(createExperterDto, cancellationToken);
 
             if (result <= 0)
                 return Result<bool>.Failure("خطا در ایجاد پروفایل مشتری");
@@ -36,7 +36,7 @@ namespace App.Domain.Services.ExpertAgg
 
         public async Task<Result<ProfileExpertDto>> GetProfile(int appuserId, CancellationToken cancellationToken)
         {
-           var profile=await _expertRepositoy.GetProfile(appuserId, cancellationToken);
+           var profile=await _expertRepository.GetProfile(appuserId, cancellationToken);
             if (profile == null)
             {
                 _logger.LogWarning("کارشناس با کد {ExpertId} در سیستم یافت نشد.", appuserId);
@@ -60,7 +60,7 @@ namespace App.Domain.Services.ExpertAgg
             }
 
 
-            var isUpdated = await _expertRepositoy.ChangeProfile(appuserId, profileExpertDto, cancellationToken);
+            var isUpdated = await _expertRepository.ChangeProfile(appuserId, profileExpertDto, cancellationToken);
 
             if (!isUpdated)
             {
@@ -73,7 +73,17 @@ namespace App.Domain.Services.ExpertAgg
             return Result<bool>.Success(true, "اطلاعات پروفایل شما با موفقیت بروزرسانی شد.");
         }
 
+        public async Task<Result<ExpertPagedResultDto>> GetAll( int pageNumber, int pageSize, CancellationToken cancellationToken)
+        {
+            var experts = await _expertRepository.GetAll( pageNumber, pageSize, cancellationToken);
 
 
+            if (experts == null || !experts.Experts.Any())
+            {
+                return Result<ExpertPagedResultDto>.Failure("هیچ کارشناسی با مشخصات وارد شده یافت نشد.");
+            }
+
+            return Result<ExpertPagedResultDto>.Success(experts);
+        }
     }
 }

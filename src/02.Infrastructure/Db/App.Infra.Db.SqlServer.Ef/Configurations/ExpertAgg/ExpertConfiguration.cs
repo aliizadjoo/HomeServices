@@ -55,7 +55,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
                     Bio = "متخصص در امور فنی با ۱۰ سال سابقه کار",
                     WalletBalance = 200000m,
                     CityId = 1,
-                  
+                    AverageScore =5,
                     CreatedAt = new DateTime(2025, 1, 1, 10, 0, 0),
                     IsDeleted = false
                 },
@@ -67,7 +67,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
                     Bio = "کارشناس ارشد تاسیسات و سیستم‌های برودتی",
                     WalletBalance = 500000m,
                     CityId = 1,
-                  
+                    AverageScore= 4,
                     CreatedAt = new DateTime(2025, 2, 10),
                     IsDeleted = false
                 },
@@ -89,7 +89,6 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
                     Bio = "تکنسین برق قدرت و هوشمندسازی منازل",
                     WalletBalance = 0m,
                     CityId = 1,
-                   
                     CreatedAt = new DateTime(2025, 4, 05),
                     IsDeleted = false
                 },
@@ -100,7 +99,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
                     Bio = "متخصص باغبانی و فضای سبز",
                     WalletBalance = 350000m,
                     CityId = 3,
-            
+                    AverageScore = 5,
                     CreatedAt = new DateTime(2025, 5, 20),
                     IsDeleted = false
                 },
@@ -111,7 +110,6 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ExpertAgg
                     Bio = "کارشناس تعمیرات لوازم خانگی دیجیتال",
                     WalletBalance = 800000m,
                     CityId = 2,
-                 
                     CreatedAt = new DateTime(2025, 6, 12),
                     IsDeleted = false
                 }

@@ -108,5 +108,42 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
            
             return await _context.SaveChangesAsync(ct) > 0;
         }
+
+        public async Task<ExpertPagedResultDto> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
+        {
+            
+            var query = _context.Experts
+                .AsNoTracking()
+                .AsQueryable();
+
+            var totalCount = await query.CountAsync(cancellationToken);
+
+            var experts = await query
+                .Select(e => new ExpertListDto
+                {
+                    ExpertId = e.Id,
+                    AppUserId = e.AppUserId,
+                    FirstName = e.AppUser.FirstName,
+                    LastName = e.AppUser.LastName,
+                    Email = e.AppUser.Email,
+                    CityName = e.City.Name,
+                    ServiceNames = e.ExpertHomeServices
+                          .Select(ehs => ehs.HomeService.Name)
+                          .ToList(),
+                    WalletBalance = e.WalletBalance,
+                    AverageScore = e.AverageScore,
+                    CreatedAt = e.CreatedAt
+                })
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(cancellationToken);
+
+
+            return new ExpertPagedResultDto
+            {
+                Experts = experts,
+                TotalCount = totalCount
+            };
+        }
     }
 }

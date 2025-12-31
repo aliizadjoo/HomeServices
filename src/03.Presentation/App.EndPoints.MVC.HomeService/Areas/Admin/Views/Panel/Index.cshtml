@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "داشبورد مدیریت";
+}
+
+<div class="container-fluid mt-4">
+    <div class="row g-4">
+        <div class="col-md-6 col-xl-4">
+            <div class="card h-100 shadow-sm border-success">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-people-fill text-success fs-1"></i>
+                    </div>
+                    <h5 class="card-title text-success">مدیریت کاربران</h5>
+                    <p class="card-text text-muted small">مشاهده، ایجاد و ویرایش اطلاعات مشتریان و کارشناسان</p>
+                    <a asp-area="Admin" asp-controller="User" asp-action="Index" class="btn btn-success w-100">ورود به بخش کاربران</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <div class="card h-100 shadow-sm border-success">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-gear-fill text-success fs-1"></i>
+                    </div>
+                    <h5 class="card-title text-success">مدیریت سرویس‌ها</h5>
+                    <p class="card-text text-muted small">مدیریت لیست خدمات قابل ارائه و جزئیات آن‌ها</p>
+                    <a asp-area="Admin" asp-controller="Service" asp-action="Index" class="btn btn-success w-100">مدیریت خدمات</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <div class="card h-100 shadow-sm border-success">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-grid-3x3-gap-fill text-success fs-1"></i>
+                    </div>
+                    <h5 class="card-title text-success">مدیریت دسته‌بندی‌ها</h5>
+                    <p class="card-text text-muted small">ایجاد و سازماندهی دسته‌بندی‌های اصلی خدمات</p>
+                    <a asp-area="Admin" asp-controller="Category" asp-action="Index" class="btn btn-success w-100">مدیریت دسته‌ها</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <div class="card h-100 shadow-sm border-success">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-file-earmark-post text-success fs-1"></i>
+                    </div>
+                    <h5 class="card-title text-success">پیشنهادات سفارشات</h5>
+                    <p class="card-text text-muted small">نمایش و بررسی پیشنهادهای ارائه شده برای هر سفارش</p>
+                    <a asp-area="Admin" asp-controller="Offer" asp-action="Index" class="btn btn-success w-100">مشاهده پیشنهادات</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <div class="card h-100 shadow-sm border-success">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-chat-left-quote-fill text-success fs-1"></i>
+                    </div>
+                    <h5 class="card-title text-success">نظرات و امتیازات</h5>
+                    <p class="card-text text-muted small">تأیید یا رد کامنت‌های مشتریان و مدیریت امتیازدهی</p>
+                    <a asp-area="Admin" asp-controller="Comment" asp-action="Index" class="btn btn-success w-100">مدیریت نظرات</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
