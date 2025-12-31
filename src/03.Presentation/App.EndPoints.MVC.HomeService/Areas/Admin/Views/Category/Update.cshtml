@@ -1,0 +1,61 @@
+﻿@using App.EndPoints.MVC.HomeService.Areas.Admin.Models
+@model UpdateCategoryViewModel
+
+@{
+    ViewData["Title"] = "ویرایش دسته‌بندی";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-octagon-fill me-2"></i> @TempData["ErrorMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="mb-0"><i class="bi bi-pencil-square me-2"></i>ویرایش دسته‌بندی: @Model.Title</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Update" method="post" enctype="multipart/form-data">
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="ExistingImagePath" />
+
+                        <div class="mb-4">
+                            <label asp-for="Title" class="form-label fw-bold"></label>
+                            <input asp-for="Title" class="form-control border-primary" />
+                            <span asp-validation-for="Title" class="text-danger small"></span>
+                        </div>
+
+                        <div class="row align-items-center mb-4">
+                            <div class="col-md-4 text-center">
+                                <label class="d-block mb-2 fw-bold small">تصویر فعلی</label>
+                                <img src="/images/categories/@Model.ExistingImagePath"
+                                     class="rounded shadow-sm img-thumbnail"
+                                     style="width: 120px; height: 120px; object-fit: cover;" />
+                            </div>
+                            <div class="col-md-8">
+                                <label asp-for="NewImage" class="form-label fw-bold"></label>
+                                <input asp-for="NewImage" type="file" class="form-control" accept="image/*" />
+                                <div class="form-text small text-muted">اگر مایل به تغییر تصویر نیستید، این فیلد را خالی بگذارید.</div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 border-top pt-3">
+                            <a asp-action="Index" class="btn btn-outline-secondary px-4">انصراف</a>
+                            <button type="submit" class="btn btn-primary px-5 fw-bold">ذخیره تغییرات</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
