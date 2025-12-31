@@ -16,19 +16,35 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
         (AppDbContext _context ,ILogger<CustomerRepository> _logger) 
         : ICustomerRepository
     {
-        public async Task<bool> ChangeProfileCustomer(int appuserId, ProfileCustomerDto profileCustomerDto, CancellationToken cancellationToken)
+        public async Task<bool> ChangeProfileCustomer(int appuserId, ProfileCustomerDto profileCustomerDto, bool isAdmin, CancellationToken cancellationToken)
         {
-          
-            var customerRows = await _context.Customers
-                .Where(c => c.AppUserId == appuserId)
-                .ExecuteUpdateAsync(setters => setters
-                    .SetProperty(c => c.Address, profileCustomerDto.Address)
-                    .SetProperty(c => c.CityId, profileCustomerDto.CityId),
-                    cancellationToken);
+            int customerRows;
 
-       
+            if (isAdmin)
+            {
+              
+                customerRows = await _context.Customers
+                   .Where(c => c.AppUserId == appuserId ) 
+                    .ExecuteUpdateAsync(setters => setters
+                        .SetProperty(c => c.Address, profileCustomerDto.Address)
+                        .SetProperty(c => c.CityId, profileCustomerDto.CityId)
+                        .SetProperty(c => c.WalletBalance, profileCustomerDto.WalletBalance),
+                        cancellationToken);
+            }
+            else
+            {
+           
+                customerRows = await _context.Customers
+                  .Where(c => c.AppUserId == appuserId ) 
+                    .ExecuteUpdateAsync(setters => setters
+                        .SetProperty(c => c.Address, profileCustomerDto.Address)
+                        .SetProperty(c => c.CityId, profileCustomerDto.CityId),
+                        cancellationToken);
+            }
+
+         
             var userRows = await _context.Users
-                .Where(u => u.CustomerProfile!.AppUserId == appuserId)
+                .Where(u => u.Id == appuserId)
                 .ExecuteUpdateAsync(setters => setters
                     .SetProperty(u => u.FirstName, profileCustomerDto.FirstName)
                     .SetProperty(u => u.LastName, profileCustomerDto.LastName)
@@ -46,8 +62,11 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
             return await _context.Customers.Where(c => c.AppUserId == appuserId)
                 .Select(c => new ProfileCustomerDto
                 {
+                    AppUserId = appuserId,
+                    WalletBalance = c.WalletBalance,
                     FirstName = c.AppUser.FirstName,
                     LastName = c.AppUser.LastName,
+                    Email = c.AppUser.Email,
                     ImagePath = c.AppUser.ImagePath,
                     Address = c.Address,
                     CityName = c.City.Name
@@ -102,6 +121,26 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
             };
 
 
+        }
+
+
+
+        public async Task<bool> DeleteUser(int appUserId, CancellationToken cancellationToken)
+        {
+            var rowsAffectedUser = await _context.Users
+                .Where(u => u.Id == appUserId)
+                .ExecuteUpdateAsync(setters => setters
+                    .SetProperty(u => u.IsDeleted, true),
+                    cancellationToken);
+
+
+             var rowsAffectedCustomer = await _context.Customers.Where(c => c.AppUserId == appUserId)
+                .ExecuteUpdateAsync(setter=>setter
+                .SetProperty(c=>c.IsDeleted, true), cancellationToken); 
+
+
+
+            return rowsAffectedUser > 0 && rowsAffectedCustomer>0;
         }
     }
 }

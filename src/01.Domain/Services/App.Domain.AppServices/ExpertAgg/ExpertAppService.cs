@@ -22,14 +22,19 @@ namespace App.Domain.AppServices.ExpertAgg
              _logger.LogInformation("[AppService] شروع فرآیند دریافت پروفایل برای کارشناس {ExpertId}", appuserId);
              return await _expertService.GetProfile(appuserId, cancellationToken);
         }
-        public async Task<Result<bool>> ChangeProfile(int appuserId, ProfileExpertDto profileExpertDto, CancellationToken cancellationToken)
+        public async Task<Result<bool>> ChangeProfile(int appuserId, ProfileExpertDto profileExpertDto,bool isAdmin ,CancellationToken cancellationToken)
         {
-            return await _expertService.ChangeProfile(appuserId, profileExpertDto, cancellationToken);
+            return await _expertService.ChangeProfile(appuserId, profileExpertDto,  isAdmin, cancellationToken);
         }
 
         public async Task<Result<ExpertPagedResultDto>> GetAll( int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
            return await _expertService.GetAll( pageNumber, pageSize, cancellationToken);
+        }
+
+        public async Task<Result<bool>> Delete(int appUserId, CancellationToken cancellationToken)
+        {
+            return await _expertService.Delete(appUserId, cancellationToken);
         }
     }
 }

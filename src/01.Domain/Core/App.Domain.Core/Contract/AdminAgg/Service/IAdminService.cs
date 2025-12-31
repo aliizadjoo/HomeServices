@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core._common;
+using App.Domain.Core.Contract.AdminAgg.Repository;
 using App.Domain.Core.Dtos.AdminAgg;
 using App.Domain.Core.Dtos.ExpertAgg;
 using System;
@@ -14,5 +15,12 @@ namespace App.Domain.Core.Contract.AdminAgg.Service
         public Task<Result<AdminPagedResultDto>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken);
 
         public  Task<Result<bool>> Create(int userId, CancellationToken cancellationToken);
+
+        public Task<Result<AdminProfileDto>> GetProfileByAppUserId(int appUserId, CancellationToken cancellationToken);
+
+        public Task<Result<bool>> UpdateProfile(AdminProfileDto adminProfileDto, CancellationToken cancellationToken);
+
+        public Task<Result<bool>> Delete(int appUserId, CancellationToken cancellationToken);
+       
     }
 }

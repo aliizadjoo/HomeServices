@@ -31,7 +31,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
                 return RedirectToAction("Login", "Account", new { area = "Identity" });
             }
 
-            var result=await _customerAppService.GetProfileCustomer(userId, cancellation);
+            var result=await _customerAppService.GetProfileCustomerByAppUserId(userId, cancellation);
             if (!result.IsSuccess)
             {
                 return RedirectToAction("Login", "Account", new { area = "Identity" });
@@ -50,7 +50,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
                 return RedirectToAction("Login", "Account", new { area = "Identity" });
             }
 
-            var result = await _customerAppService.GetProfileCustomer(userId, cancellation);
+            var result = await _customerAppService.GetProfileCustomerByAppUserId(userId, cancellation);
             if (!result.IsSuccess)
             {
                 return RedirectToAction("Login", "Account", new { area = "Identity" });
@@ -85,7 +85,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
             if (editProfileCustomerViewModel.ImageFile != null && editProfileCustomerViewModel.ImageFile.Length > 0)
             {
                
-                var fileName = editProfileCustomerViewModel.ImageFile.UploadFile("Customers");
+                var fileName = editProfileCustomerViewModel.ImageFile.UploadFile("profiles");
                 if (fileName != null)
                 {
                     editProfileCustomerViewModel.ImagePath = fileName; 
@@ -102,7 +102,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
             };
 
             var appuserId = _accountAppService.GetUserId(User);
-            var result = await _customerAppService.ChangeProfileCustomer(appuserId, profileCustomerDto, cancellation);
+            var result = await _customerAppService.ChangeProfileCustomer(appuserId, profileCustomerDto, false,cancellation);
 
           
             if (!result.IsSuccess)

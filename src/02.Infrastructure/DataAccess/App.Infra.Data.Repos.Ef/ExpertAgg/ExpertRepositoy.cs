@@ -24,8 +24,11 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
                 .Where(e => e.AppUserId == appuserId)
                 .Select(e => new ProfileExpertDto
                 {
+                    AppUserId = appuserId,
+                    Email= e.AppUser.Email,
                     FirstName = e.AppUser.FirstName,
                     LastName = e.AppUser.LastName,
+                    AverageScore = e.AverageScore,
                     Bio = e.Bio,
                     ImagePath = e.AppUser.ImagePath,
                     WalletBalance = e.WalletBalance,
@@ -53,32 +56,41 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
-
-        public async Task<bool> ChangeProfile(int appuserId, ProfileExpertDto profileExpertDto, CancellationToken ct)
+        public async Task<bool> ChangeProfile(int appuserId, ProfileExpertDto profileExpertDto, bool isAdmin, CancellationToken ct)
         {
+           
             var expert = await _context.Experts
                 .Include(e => e.AppUser)
-                .Include(e => e.ExpertHomeServices).IgnoreQueryFilters()
+                .Include(e => e.ExpertHomeServices)
+                .IgnoreQueryFilters()
                 .FirstOrDefaultAsync(e => e.AppUserId == appuserId, ct);
 
             if (expert == null) return false;
 
-           
+          
             expert.AppUser.FirstName = profileExpertDto.FirstName;
             expert.AppUser.LastName = profileExpertDto.LastName;
             expert.AppUser.ImagePath = profileExpertDto.ImagePath;
+
+        
             expert.Bio = profileExpertDto.Bio;
             expert.CityId = profileExpertDto.CityId;
 
          
+            if (isAdmin && profileExpertDto.WalletBalance.HasValue)
+            {
+                expert.WalletBalance = profileExpertDto.WalletBalance.Value;
+            }
+
             var toDelete = expert.ExpertHomeServices
                 .Where(ehs => !ehs.IsDeleted && !profileExpertDto.HomeServicesId.Contains(ehs.HomeServiceId));
 
             foreach (var item in toDelete)
             {
-                item.IsDeleted = true;
+                item.IsDeleted = true; 
             }
 
+           
             foreach (var serviceId in profileExpertDto.HomeServicesId)
             {
                 var existing = expert.ExpertHomeServices
@@ -86,16 +98,14 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
 
                 if (existing != null)
                 {
-                   
                     if (existing.IsDeleted)
                     {
-                        existing.IsDeleted = false;
+                        existing.IsDeleted = false; 
                     }
-                  
                 }
                 else
                 {
-               
+                   
                     expert.ExpertHomeServices.Add(new ExpertHomeService
                     {
                         ExpertId = expert.Id,
@@ -105,7 +115,6 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
                 }
             }
 
-           
             return await _context.SaveChangesAsync(ct) > 0;
         }
 
@@ -144,6 +153,24 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
                 Experts = experts,
                 TotalCount = totalCount
             };
+        }
+
+        public async Task<bool> Delete(int appUserId, CancellationToken cancellationToken)
+        {
+            var rowsAffectedUser = await _context.Users
+                .Where(u => u.Id == appUserId)
+                .ExecuteUpdateAsync(setters => setters
+                    .SetProperty(u => u.IsDeleted, true),
+                    cancellationToken);
+
+
+            var rowsAffectedCustomer = await _context.Experts.Where(c => c.AppUserId == appUserId)
+               .ExecuteUpdateAsync(setter => setter
+               .SetProperty(c => c.IsDeleted, true), cancellationToken);
+
+
+
+            return rowsAffectedUser > 0 && rowsAffectedCustomer > 0;
         }
     }
 }

@@ -1,0 +1,108 @@
+﻿@model App.EndPoints.MVC.HomeService.Areas.Admin.Models.UpdateAdminByAdminViewModel
+
+@{
+    ViewData["Title"] = "ویرایش اطلاعات مدیر";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0 fw-bold">
+                        <i class="bi bi-person-vcard-fill me-2"></i>ویرایش پروفایل مدیر: @Model.FirstName @Model.LastName
+                    </h5>
+                    <a asp-action="Index" asp-controller="User" class="btn btn-sm btn-light text-primary fw-bold">
+                        <i class="bi bi-arrow-right"></i> بازگشت به لیست
+                    </a>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-area="Admin" asp-controller="User" asp-action="UpdateAdmin" method="post" enctype="multipart/form-data">
+
+                        <input type="hidden" asp-for="AppUserId" />
+                        <input type="hidden" asp-for="ExistingImagePath" />
+
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4" role="alert"></div>
+
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label asp-for="FirstName" class="form-label fw-bold text-muted small">نام</label>
+                                <input asp-for="FirstName" class="form-control" placeholder="نام مدیر را وارد کنید" />
+                                <span asp-validation-for="FirstName" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="LastName" class="form-label fw-bold text-muted small">نام خانوادگی</label>
+                                <input asp-for="LastName" class="form-control" placeholder="نام خانوادگی مدیر را وارد کنید" />
+                                <span asp-validation-for="LastName" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="Email" class="form-label fw-bold text-muted small">ایمیل (نام کاربری)</label>
+                                <input asp-for="Email" class="form-control bg-light"  />
+                                <span asp-validation-for="Email" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="StaffCode" class="form-label fw-bold text-muted small">کد پرسنلی</label>
+                                <input asp-for="StaffCode" class="form-control font-monospace" placeholder="مثال: ADM-12345" />
+                                <span asp-validation-for="StaffCode" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label asp-for="TotalRevenue" class="form-label fw-bold text-muted small">کل درآمد مدیریت شده</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control bg-light font-monospace fw-bold text-success" value="@Model.TotalRevenue.ToString("N0")" readonly />
+                                    <span class="input-group-text bg-light text-success">ریال</span>
+                                </div>
+                                <div class="form-text text-muted small">این مبلغ به صورت سیستمی محاسبه می‌شود.</div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="card bg-light border-0 p-3 mt-3">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-3 text-center mb-3 mb-md-0">
+                                            <label class="d-block mb-2 fw-bold text-muted small">تصویر فعلی</label>
+                                            @if (!string.IsNullOrEmpty(Model.ExistingImagePath))
+                                            {
+                                                <img src="/images/profiles/@Model.ExistingImagePath"
+                                                     class="img-thumbnail rounded-circle shadow-sm"
+                                                     style="width: 120px; height: 120px; object-fit: cover;"
+                                                     alt="پروفایل مدیر" />
+                                            }
+                                            else
+                                            {
+                                                <img src="/images/default-avatar.png"
+                                                     class="img-thumbnail rounded-circle shadow-sm opacity-50"
+                                                     style="width: 120px; height: 120px; object-fit: cover;"
+                                                     alt="تصویر پیش‌فرض" />
+                                            }
+                                        </div>
+                                        <div class="col-md-9">
+                                            <label asp-for="NewProfileImage" class="form-label fw-bold text-muted small">تغییر تصویر پروفایل (اختیاری)</label>
+                                            <input asp-for="NewProfileImage" type="file" class="form-control" accept="image/png, image/jpeg, image/jpg" />
+                                            <div class="form-text small">اگر نمی‌خواهید تصویر تغییر کند، این فیلد را خالی بگذارید.</div>
+                                            <span asp-validation-for="NewProfileImage" class="text-danger small"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5 pt-3 border-top">
+                            <a asp-action="Index" asp-controller="User" class="btn btn-outline-secondary px-4">انصراف</a>
+                            <button type="submit" class="btn btn-primary px-5 fw-bold">
+                                <i class="bi bi-save me-2"></i>ذخیره تغییرات
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+   
+}

@@ -6,6 +6,23 @@
 @{
     ViewData["Title"] = "مدیریت کاربران";
 }
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 
 <div class="container-fluid mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -69,9 +86,9 @@
                                 <td>@c.WalletBalance.ToString("N0") ریال</td>
                                 <td>@c.CreatedAt.ToPersianDate()</td> 
                                 <td class="text-center">
-                                    <a asp-action="Edit" asp-route-id="@c.CustomerId" class="btn btn-sm btn-outline-primary">ویرایش</a>
-                                    <form asp-action="Delete" asp-route-id="@c.CustomerId" method="post" class="d-inline" onsubmit="return confirm('حذف نرم انجام شود؟');">
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">حذف</button> @*  *@
+                                    <a asp-action="UpdateCustomer" asp-route-id="@c.CustomerId" asp-route-appUserId="@c.AppUserId" class="btn btn-sm btn-outline-primary">ویرایش</a>
+                                    <form asp-action="Delete" asp-route-id="@c.CustomerId" asp-route-appUserId="@c.AppUserId" method="post" class="d-inline" onsubmit="return confirm('حذف  انجام شود؟');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">حذف</button> 
                                     </form>
                                 </td>
                             </tr>
@@ -109,8 +126,10 @@
                                 <td><small>@string.Join(" | ", e.ServiceNames)</small></td>
                                 <td>@e.CreatedAt.ToPersianDate()</td>
                                 <td class="text-center">
-                                    <a asp-action="Edit" asp-route-id="@e.ExpertId" class="btn btn-sm btn-outline-primary">ویرایش</a>
-                                    <button class="btn btn-sm btn-outline-danger">حذف</button>
+                                    <a asp-action="UpdateExpert" asp-route-id="@e.ExpertId" asp-route-appUserId="@e.AppUserId" class="btn btn-sm btn-outline-primary">ویرایش</a>
+                                    <form asp-action="DeleteExpert" asp-route-id="@e.ExpertId" asp-route-appUserId="@e.AppUserId" method="post" class="d-inline" onsubmit="return confirm('حذف  انجام شود؟');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">حذف</button>
+                                    </form>
                                 </td>
                             </tr>
                         }
@@ -145,8 +164,12 @@
                                 <td class="fw-bold text-success">@a.StaffCode</td>
                                 <td>@a.TotalRevenue.ToString("N0")</td>
                                 <td class="text-center">
-                                    <a asp-action="Edit" asp-route-id="@a.AdminId" class="btn btn-sm btn-outline-primary">ویرایش</a>
+                                    <a asp-action="UpdateAdmin"  asp-route-appUserId="@a.AppUserId" class="btn btn-sm btn-outline-primary">ویرایش</a>
+                                    <form asp-action="DeleteAdmin"  asp-route-appUserId="@a.AppUserId" method="post" class="d-inline" onsubmit="return confirm('حذف  انجام شود؟');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">حذف</button>
+                                    </form>
                                 </td>
+
                             </tr>
                         }
                     </tbody>

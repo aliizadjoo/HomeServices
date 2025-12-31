@@ -24,11 +24,11 @@
                 <div class="col-md-4 text-center mb-3">
                     @if (!string.IsNullOrEmpty(Model.ImagePath))
                     {
-                        <img src="/images/profiles/@Model.ImagePath" alt="Profile" class="img-thumbnail rounded-circle" style="width: 150px; height: 150px;" />
+                        <img src="~/Images/profiles/@Model.ImagePath" alt="Profile" class="img-thumbnail rounded-circle" style="width: 150px; height: 150px;" />
                     }
                     else
                     {
-                        <img src="/images/default-user.png" class="img-thumbnail rounded-circle" style="width: 150px; height: 150px;" />
+                        <img src="~/images/default-user.png" class="img-thumbnail rounded-circle" style="width: 150px; height: 150px;" />
                     }
                 </div>
                 <div class="col-md-8">
@@ -44,6 +44,17 @@
                         <tr>
                             <th>شهر:</th>
                             <td>@Model.CityName</td>
+                        </tr>
+                        <tr>
+                            <th>ایمیل:</th>
+                            <td>@Model.Email</td>
+                        </tr>
+                        <tr>
+                            <th>کیف پول:</th>
+                            <td>
+                                @Model.WalletBalance.ToString("N0")
+                                <span style="font-size: 0.8em; color: #666;">ریال</span>
+                            </td>
                         </tr>
                         <tr>
                             <th>آدرس دقیق:</th>

@@ -11,5 +11,14 @@ namespace App.Domain.Core.Contract.AdminAgg.AppService
     public interface IAdminAppService
     {
         public Task<Result<AdminPagedResultDto>> GetAll( int pageNumber, int pageSize, CancellationToken cancellationToken);
+
+        public Task<Result<AdminProfileDto>> GetProfileByAppUserId(int appUserId, CancellationToken cancellationToken);
+
+        public Task<Result<bool>> UpdateProfile(AdminProfileDto adminProfileDto, CancellationToken cancellationToken);
+
+        public Task<Result<bool>> Delete(int appUserId, CancellationToken cancellationToken);
+
+
+
     }
 }

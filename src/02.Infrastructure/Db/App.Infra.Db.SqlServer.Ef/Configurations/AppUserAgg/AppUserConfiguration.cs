@@ -43,7 +43,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.AppUserAgg
                  .IsRequired(false)
                  .OnDelete(DeleteBehavior.NoAction);
 
-
+            builder.HasQueryFilter(u => !u.IsDeleted);
 
 
             var allUsers = new List<AppUser>

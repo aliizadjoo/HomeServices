@@ -103,7 +103,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Expert.Controllers
             if (editProfileExpertViewModel.ImageFile != null && editProfileExpertViewModel.ImageFile.Length > 0)
             {
 
-                var fileName = editProfileExpertViewModel.ImageFile.UploadFile("Experts");
+                var fileName = editProfileExpertViewModel.ImageFile.UploadFile("profiles");
                 if (fileName != null)
                 {
                     editProfileExpertViewModel.ImagePath = fileName;
@@ -121,7 +121,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Expert.Controllers
                 HomeServicesId = editProfileExpertViewModel.HomeServicesId
             };
             var appuserId = _accountAppService.GetUserId(User);
-            var result = await _expertAppService.ChangeProfile(appuserId, profileExpertDto, cancellation);
+            var result = await _expertAppService.ChangeProfile(appuserId, profileExpertDto,false, cancellation);
 
             if (!result.IsSuccess)
             {

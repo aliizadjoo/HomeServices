@@ -1,0 +1,134 @@
+﻿@using App.EndPoints.MVC.HomeService.Areas.Admin.Models
+@model UpdateExpertByAdminViewModel
+
+@{
+    ViewData["Title"] = "ویرایش کارشناس";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm border-success">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="bi bi-person-gear"></i> ویرایش پروفایل کارشناس: @Model.FirstName @Model.LastName</h5>
+            <a asp-action="Index" class="btn btn-sm btn-light text-success fw-bold">
+                <i class="bi bi-arrow-right"></i> بازگشت به لیست
+            </a>
+        </div>
+        <div class="card-body">
+            <form asp-area="Admin" asp-controller="User" asp-action="UpdateExpert" method="post" enctype="multipart/form-data">
+
+                
+                <input type="hidden" asp-for="AppUserId" />
+                <input type="hidden" asp-for="ExistingImagePath" />
+
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label asp-for="FirstName" class="form-label fw-bold text-success"></label>
+                        <input asp-for="FirstName" class="form-control border-success" />
+                        <span asp-validation-for="FirstName" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label asp-for="LastName" class="form-label fw-bold text-success"></label>
+                        <input asp-for="LastName" class="form-control border-success" />
+                        <span asp-validation-for="LastName" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label asp-for="Email" class="form-label fw-bold text-success"></label>
+                        <input asp-for="Email" class="form-control border-success" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="CityId" class="form-label fw-bold text-success"></label>
+                        <select asp-for="CityId" class="form-select border-success"
+                                asp-items="@(new SelectList(Model.AvailableCities, "Id", "CityName"))">
+                            <option value="">-- انتخاب شهر --</option>
+                        </select>
+                        <span asp-validation-for="CityId" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="WalletBalance" class="form-label fw-bold text-success"></label>
+                        <div class="input-group">
+                            <input asp-for="WalletBalance" class="form-control border-success" type="number" />
+                            <span class="input-group-text bg-success text-white">ریال</span>
+                        </div>
+                        <span asp-validation-for="WalletBalance" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-12">
+                        <label asp-for="Bio" class="form-label fw-bold text-success"></label>
+                        <textarea asp-for="Bio" class="form-control border-success" rows="2" placeholder="توضیحات درباره کارشناس..."></textarea>
+                        <span asp-validation-for="Bio" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-12 mt-4">
+                        <label class="form-label fw-bold text-success">
+                            <i class="bi bi-tags"></i> @Html.DisplayNameFor(m => m.SelectedHomeServicesId)
+                        </label>
+                        <div class="card border-success bg-light shadow-sm">
+                            <div class="card-body" style="max-height: 250px; overflow-y: auto;">
+                                <div class="row">
+                                    @foreach (var service in Model.AvailableServices)
+                                    {
+                                        <div class="col-md-4 mb-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input border-success" type="checkbox"
+                                                       name="SelectedHomeServicesId"
+                                                       value="@service.HomeservicesId"
+                                                       id="service_@service.HomeservicesId"
+                                                       @(Model.SelectedHomeServicesId.Contains(service.HomeservicesId) ? "checked" : "")>
+                                                <label class="form-check-label" for="service_@service.HomeservicesId">
+                                                    @service.Name
+                                                </label>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-text mt-1 text-muted">مهارت‌هایی که از قبل تیک دارند، تخصص‌های فعلی کارشناس هستند.</div>
+                    </div>
+
+                    <div class="col-12 mt-4">
+                        <div class="card bg-light border-0 p-3 shadow-sm">
+                            <div class="row align-items-center">
+                                <div class="col-md-2 text-center border-start border-success border-2">
+                                    <label class="d-block mb-2 text-success fw-bold">تصویر فعلی</label>
+                                    @if (!string.IsNullOrEmpty(Model.ExistingImagePath))
+                                    {
+                                        <img src="~/images/profiles/@Model.ExistingImagePath" class="img-thumbnail rounded-circle shadow" style="width: 100px; height: 100px; object-fit: cover;" alt="پروفایل" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/images/default-expert.png" class="img-thumbnail rounded-circle shadow" style="width: 100px;" alt="پیش‌فرض" />
+                                    }
+                                </div>
+                                <div class="col-md-10 ps-4">
+                                    <label asp-for="NewProfileImage" class="form-label fw-bold text-success">آپلود تصویر جدید (در صورت نیاز)</label>
+                                    <input asp-for="NewProfileImage" type="file" class="form-control border-success" accept="image/*" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="mt-4 border-success opacity-25" />
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
+                    <button type="submit" class="btn btn-success px-5 shadow-sm">
+                        <i class="bi bi-save"></i> ذخیره نهایی اطلاعات
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">انصراف</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

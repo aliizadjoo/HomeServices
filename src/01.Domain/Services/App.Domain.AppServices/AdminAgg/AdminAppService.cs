@@ -12,9 +12,26 @@ namespace App.Domain.AppServices.AdminAgg
 {
     public class AdminAppService(IAdminService _adminService) : IAdminAppService
     {
-        public async Task<Result<AdminPagedResultDto>> GetAll( int pageNumber, int pageSize, CancellationToken cancellationToken)
+        public async Task<Result<bool>> Delete(int appUserId, CancellationToken cancellationToken)
         {
-            return await _adminService.GetAll( pageNumber, pageSize, cancellationToken);
+           return await _adminService.Delete(appUserId, cancellationToken);
+        }
+
+        public async Task<Result<AdminPagedResultDto>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
+        {
+            return await _adminService.GetAll(pageNumber, pageSize, cancellationToken);
+        }
+
+        public async Task<Result<AdminProfileDto>> GetProfileByAppUserId(int appUserId, CancellationToken cancellationToken)
+        {
+            return await _adminService.GetProfileByAppUserId(appUserId, cancellationToken);
+        }
+
+        public async Task<Result<bool>> UpdateProfile(AdminProfileDto adminProfileDto, CancellationToken cancellationToken)
+        {
+            return await _adminService.UpdateProfile(adminProfileDto, cancellationToken);
         }
     }
+
+
 }

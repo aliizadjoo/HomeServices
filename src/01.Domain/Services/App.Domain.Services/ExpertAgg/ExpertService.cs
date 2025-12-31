@@ -4,6 +4,8 @@ using App.Domain.Core.Contract.ExpertAgg.Repositorty;
 using App.Domain.Core.Contract.ExpertAgg.Service;
 using App.Domain.Core.Dtos.CustomerAgg;
 using App.Domain.Core.Dtos.ExpertAgg;
+using App.Domain.Core.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -15,7 +17,8 @@ namespace App.Domain.Services.ExpertAgg
 {
     public class ExpertService
         (IExpertRepositoy _expertRepository
-        , ICityRepository _cityRepository   
+        , ICityRepository _cityRepository ,
+         UserManager<AppUser> _userManager
         , ILogger<ExpertService> _logger) : IExpertService
     {
         public async Task<Result<bool>> Create(int userId, int cityId, CancellationToken cancellationToken)
@@ -46,31 +49,53 @@ namespace App.Domain.Services.ExpertAgg
             return Result<ProfileExpertDto>.Success(profile);
         }
 
-        public async Task<Result<bool>> ChangeProfile(int appuserId, ProfileExpertDto profileExpertDto, CancellationToken cancellationToken)
+        public async Task<Result<bool>> ChangeProfile(int appuserId, ProfileExpertDto profileExpertDto, bool isAdmin, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("شروع فرآیند ویرایش پروفایل برای کارشناس {Id}", appuserId);
+           
+            _logger.LogInformation("شروع فرآیند ویرایش پروفایل کارشناس با کد کاربری {Id}. توسط: {Role}", appuserId, isAdmin ? "Admin" : "Expert");
 
-
-            var isCityValid = await _cityRepository.IsExist(profileExpertDto.CityId, cancellationToken);
-
+   
+           var isCityValid = await _cityRepository.IsExist(profileExpertDto.CityId, cancellationToken);
             if (!isCityValid)
             {
-                _logger.LogWarning("شهر با کد {CityId} در سیستم یافت نشد.", profileExpertDto.CityId);
-                return Result<bool>.Failure("شهر انتخاب شده معتبر نیست.");
+                _logger.LogWarning("شهر با کد {CityId} معتبر نیست.", profileExpertDto.CityId);
+                return Result<bool>.Failure("شهر انتخاب شده در سیستم یافت نشد.");
             }
 
+            
+           if (isAdmin && !string.IsNullOrEmpty(profileExpertDto.Email)) 
+           {
+                var user = await _userManager.FindByIdAsync(appuserId.ToString());
+                if (user != null && user.Email != profileExpertDto.Email)
+                {
+                    
+                    user.Email = profileExpertDto.Email;
+                    user.NormalizedEmail = profileExpertDto.Email.ToUpper();
+                    user.UserName = profileExpertDto.Email;
+                    user.NormalizedUserName = profileExpertDto.Email.ToUpper();
+                    user.EmailConfirmed = true;
 
-            var isUpdated = await _expertRepository.ChangeProfile(appuserId, profileExpertDto, cancellationToken);
+                    var identityResult = await _userManager.UpdateAsync(user);
+                    if (!identityResult.Succeeded)
+                    {
+                         _logger.LogError("خطا در بروزرسانی ایمیل کارشناس در Identity."); 
+                         return Result<bool>.Failure("بروزرسانی ایمیل توسط سیستم Identity با شکست مواجه شد.");
+                    }
+                }
+           }
+
+       
+            var isUpdated = await _expertRepository.ChangeProfile(appuserId, profileExpertDto, isAdmin, cancellationToken);
 
             if (!isUpdated)
             {
-                _logger.LogError("عملیات ویرایش در دیتابیس با شکست مواجه شد. کارشناس: {Id}", appuserId);
-                return Result<bool>.Failure("ویرایش پروفایل انجام نشد.خطایی رخ داده است..");
+                 _logger.LogError("بروزرسانی اطلاعات کارشناس {Id} در دیتابیس انجام نشد.", appuserId); 
+                  return Result<bool>.Failure("ذخیره تغییرات در پایگاه داده با خطا مواجه شد.");
             }
 
-
-            _logger.LogInformation("پروفایل کارشناس {Id} با موفقیت ویرایش شد.", appuserId);
-            return Result<bool>.Success(true, "اطلاعات پروفایل شما با موفقیت بروزرسانی شد.");
+           
+             _logger.LogInformation("پروفایل کارشناس {Id} با موفقیت ویرایش گردید.", appuserId); 
+              return Result<bool>.Success(true, "اطلاعات کارشناس با موفقیت بروزرسانی شد.");
         }
 
         public async Task<Result<ExpertPagedResultDto>> GetAll( int pageNumber, int pageSize, CancellationToken cancellationToken)
@@ -84,6 +109,17 @@ namespace App.Domain.Services.ExpertAgg
             }
 
             return Result<ExpertPagedResultDto>.Success(experts);
+        }
+
+        public async Task<Result<bool>> Delete(int appUserId, CancellationToken cancellationToken)
+        {
+            var result = await _expertRepository.Delete(appUserId, cancellationToken);
+            if (!result)
+            {
+                return Result<bool>.Failure("خطا در حذف کارشناس");
+            }
+
+            return Result<bool>.Success(true);
         }
     }
 }
