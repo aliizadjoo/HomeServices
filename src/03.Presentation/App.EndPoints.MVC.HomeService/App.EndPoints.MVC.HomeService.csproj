@@ -25,4 +25,8 @@
     <ProjectReference Include="..\..\02.Infrastructure\Db\App.Infra.Db.SqlServer.Ef\App.Infra.Db.SqlServer.Ef.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\services\" />
+  </ItemGroup>
+
 </Project>

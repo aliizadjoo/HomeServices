@@ -16,6 +16,8 @@ namespace App.Domain.Core.Contract.CategoryAgg.Repository
 
         public Task<CategoryDto?> GetById(int categoryId , CancellationToken cancellationToken);
 
+        public  Task<List<CategoryDto>> GetAll(CancellationToken cancellationToken);
+
         public Task<List<CategoryDto>> GetAll(int pageSize , int pageNumber , string? search, CancellationToken cancellationToken);
     }
 }

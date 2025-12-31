@@ -25,5 +25,73 @@ namespace App.Domain.Services.HomeserviceServiceAgg
             }
             return Result<List<HomeserviceSummaryDto>>.Success(homeServiceSummaryDto);
         }
+
+
+        public async Task<Result<List<HomeserviceDto>>> GetAll(int pageSize, int pageNumber, SearchHomeServiceDto search, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("دریافت لیست سرویس‌ها - صفحه {Page}", pageNumber);
+
+            var services = await _homeserviceRepository.GetAll(pageSize, pageNumber, search, cancellationToken);
+
+            return Result<List<HomeserviceDto>>.Success(services);
+        }
+
+        public async Task<int> GetCount(CancellationToken cancellationToken)
+        {
+            return await _homeserviceRepository.GetCount(cancellationToken);
+        }
+
+        public async Task<Result<int>> Create(CreateHomeServiceDto homeServiceDto, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("درخواست ایجاد سرویس جدید با نام: {Name}", homeServiceDto.Name);
+
+            
+            var result = await _homeserviceRepository.Create(homeServiceDto, cancellationToken);
+
+            if (result > 0)
+            {
+                return Result<int>.Success(result, "سرویس جدید با موفقیت ثبت شد.");
+            }
+
+            return Result<int>.Failure("خطایی در هنگام ذخیره سرویس رخ داد.");
+        }
+
+        public async Task<Result<bool>> Update(HomeserviceDto dto, CancellationToken cancellationToken)
+        {
+            var isUpdated = await _homeserviceRepository.Update(dto, cancellationToken);
+
+            if (isUpdated)
+            {
+                return Result<bool>.Success(true, "سرویس با موفقیت بروزرسانی شد.");
+            }
+
+            return Result<bool>.Failure("عملیات بروزرسانی با شکست مواجه شد. سرویس مورد نظر یافت نشد.");
+        }
+
+
+        public async Task<Result<HomeserviceDto>> GetById(int id, CancellationToken cancellationToken)
+        {
+            var homeService = await _homeserviceRepository.GetById(id, cancellationToken);
+
+            if (homeService == null)
+            {
+                return Result<HomeserviceDto>.Failure("سرویس مورد نظر یافت نشد.");
+            }
+
+            return Result<HomeserviceDto>.Success(homeService);
+        }
+
+
+        public async Task<Result<bool>> Delete(int id, CancellationToken cancellationToken)
+        {
+            var isDeleted = await _homeserviceRepository.Delete(id, cancellationToken);
+
+            if (isDeleted)
+            {
+                return Result<bool>.Success(true, "سرویس مورد نظر با موفقیت حذف  شد.");
+            }
+
+            return Result<bool>.Failure("عملیات حذف شکست خورد. .");
+        }
     }
 }

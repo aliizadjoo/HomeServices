@@ -66,6 +66,17 @@ namespace App.Infra.Data.Repos.Ef.CategoryAgg
 
         }
 
+        public async Task<List<CategoryDto>> GetAll(CancellationToken cancellationToken)
+        {
+            return await _context.Categories
+                .AsNoTracking()
+                .Select(c => new CategoryDto
+                {
+                    Id = c.Id,
+                    Title = c.Title,
+                    ImagePath = c.ImagePath,
+                }).ToListAsync(cancellationToken);
+        }
         public async Task<int> Update(CategoryDto categoryDto, CancellationToken cancellationToken)
         {
 

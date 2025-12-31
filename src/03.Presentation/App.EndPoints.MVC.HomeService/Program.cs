@@ -1,5 +1,6 @@
 using App.Domain.AppServices.AccountAgg;
 using App.Domain.AppServices.AdminAgg;
+using App.Domain.AppServices.CategoryAgg;
 using App.Domain.AppServices.CityAgg;
 using App.Domain.AppServices.CustomerAgg;
 using App.Domain.AppServices.ExpertAgg;
@@ -8,7 +9,9 @@ using App.Domain.Core.Contract.AccountAgg.AppServices;
 using App.Domain.Core.Contract.AdminAgg.AppService;
 using App.Domain.Core.Contract.AdminAgg.Repository;
 using App.Domain.Core.Contract.AdminAgg.Service;
+using App.Domain.Core.Contract.CategoryAgg.AppService;
 using App.Domain.Core.Contract.CategoryAgg.Repository;
+using App.Domain.Core.Contract.CategoryAgg.Service;
 using App.Domain.Core.Contract.CityAgg.AppService;
 using App.Domain.Core.Contract.CityAgg.Repository;
 using App.Domain.Core.Contract.CityAgg.Service;
@@ -55,7 +58,7 @@ builder.Host.UseSerilog((context, configuration) =>
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 
-
+#region DI Container
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer("Server=DESKTOP-M2BLLND\\SQLEXPRESS;Database=HomeService;Integrated Security=True;Encrypt=True;TrustServerCertificate=True;"));
 
@@ -82,7 +85,9 @@ builder.Services.AddScoped<ICityService, CityService>();
 builder.Services.AddScoped<ICityAppService, CityAppService>();
 
 
-
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICategoryAppService, CategoryAppService>();
 
 
 
@@ -106,6 +111,10 @@ builder.Services.AddIdentity<AppUser, IdentityRole<int>>(options =>
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders()
 .AddErrorDescriber<PersianIdentityErrorDescriber>();
+
+
+#endregion
+
 
 var app = builder.Build();
 

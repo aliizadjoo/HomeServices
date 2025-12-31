@@ -42,7 +42,7 @@ namespace App.Infra.Data.Repos.Ef.HomeServiceAgg
                  }).ToListAsync(cancellationToken);
         }
 
-        public async Task<List<HomeserviceDto>> GetAllPagination(int pageSize, int pageNumber, SearchHomeServiceDto search, CancellationToken cancellationToken)
+        public async Task<List<HomeserviceDto>> GetAll(int pageSize, int pageNumber, SearchHomeServiceDto search, CancellationToken cancellationToken)
         {
             var query = _context.HomeServices
                         .AsNoTracking();
@@ -90,18 +90,37 @@ namespace App.Infra.Data.Repos.Ef.HomeServiceAgg
                })
                .FirstOrDefaultAsync(cancellationToken);
         }
-
-        public async Task<int> Update(HomeserviceDto homeServiceDto, CancellationToken cancellationToken)
+        public async Task<bool> Update(HomeserviceDto dto, CancellationToken cancellationToken)
         {
-          return await  _context.HomeServices
-                    .Where(hs=>hs.Id==homeServiceDto.Id)
-                    .ExecuteUpdateAsync(setter=>setter
-                        .SetProperty(hs=>hs.Name,homeServiceDto.Name)
-                        .SetProperty(hs=>hs.Description,homeServiceDto.Description)
-                        .SetProperty(hs=>hs.ImagePath,homeServiceDto.ImagePath )
-                        .SetProperty(hs=>hs.BasePrice,homeServiceDto.BasePrice)
-                        .SetProperty(hs=>hs.CategoryId,homeServiceDto.CategoryId)
-                        ,cancellationToken);
+            var rowsAffected = await _context.HomeServices
+                .Where(hs => hs.Id == dto.Id)
+                .ExecuteUpdateAsync(setters => setters
+                    .SetProperty(p => p.Name, dto.Name)
+                    .SetProperty(p => p.Description, dto.Description)
+                    .SetProperty(p => p.BasePrice, dto.BasePrice)
+                    .SetProperty(p => p.ImagePath, dto.ImagePath)
+                    .SetProperty(p => p.CategoryId, dto.CategoryId),
+                    cancellationToken);
+
+            return rowsAffected > 0;
+        }
+
+        public async Task<int> GetCount(CancellationToken cancellationToken)
+        {
+           
+            return await _context.HomeServices.CountAsync(cancellationToken);
+        }
+
+
+        public async Task<bool> Delete(int id, CancellationToken cancellationToken)
+        {
+            var rowsAffected = await _context.HomeServices
+                .Where(h => h.Id == id)
+                .ExecuteUpdateAsync(setters => setters
+                    .SetProperty(h => h.IsDeleted, true),
+                    cancellationToken);
+
+            return rowsAffected > 0;
         }
 
 
