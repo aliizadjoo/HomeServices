@@ -13,21 +13,31 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
     [Authorize(Roles = RoleConstants.Admin)]
     public class CategoryController(ICategoryAppService _categoryAppService) : Controller
     {
-        public async Task<IActionResult> Index(CancellationToken cancellationToken)
+        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 5, CancellationToken cancellationToken = default)
         {
-            var result = await _categoryAppService.GetAll(cancellationToken);
+            
+            var result = await _categoryAppService.GetAll(pageSize, pageNumber, null, cancellationToken);
 
-           
             if (!result.IsSuccess)
             {
                 TempData["ErrorMessage"] = result.Message;
-
-                return RedirectToAction("index" , "panel");
+                return RedirectToAction("Index", "Panel");
             }
 
-            return View(result.Data);
-        }
+           
+            var totalCount = await _categoryAppService.GetCount(cancellationToken);
 
+            var viewModel = new CategoryListViewModel
+            {
+                Categories = result.Data,
+                CurrentPage = pageNumber,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
+            };
+
+            return View(viewModel);
+        }
 
 
         [HttpGet]
@@ -87,11 +97,6 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
 
 
 
-
-
-
-
-     
         public IActionResult Create()
         {
             return View();

@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core._common;
 using App.Domain.Core.Contract.CategoryAgg.Repository;
 using App.Domain.Core.Dtos.CategoryAgg;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -12,15 +13,15 @@ namespace App.Domain.Core.Contract.CategoryAgg.Service
 {
     public class CategoryService(ICategoryRepository _categoryRepository) : ICategoryService
     {
-    
 
-        public async Task<Result<List<CategoryDto>>> GetAll(CancellationToken cancellationToken)
+
+        public async Task<Result<List<CategoryDto>>> GetAll(int pageSize, int pageNumber, string? search, CancellationToken cancellationToken)
         {
-            var categories = await _categoryRepository.GetAll(cancellationToken);
+            var categories = await _categoryRepository.GetAll(pageSize , pageNumber , search, cancellationToken);
 
             if (categories == null || !categories.Any())
             {
-                return Result<List<CategoryDto>>.Failure("هیچ دسته‌بندی در سیستم یافت نشد.");
+                return  Result<List<CategoryDto>>.Failure("هیچ دسته‌بندی در سیستم یافت نشد.");
             }
 
             return Result<List<CategoryDto>>.Success(categories);
@@ -80,5 +81,24 @@ namespace App.Domain.Core.Contract.CategoryAgg.Service
 
             return Result<int>.Failure("خطایی در ذخیره‌سازی دسته‌بندی رخ داد.");
         }
+
+        public async Task<int> GetCount(CancellationToken cancellationToken)
+        {
+
+            return await  _categoryRepository.GetCount(cancellationToken);
+        }
+
+        public async Task<Result<List<CategoryDto>>> GetAll(CancellationToken cancellationToken)
+        {
+            var categoryDtos = await _categoryRepository.GetAll(cancellationToken);
+
+            if (categoryDtos == null || categoryDtos.Count == 0)
+            {
+                return Result<List<CategoryDto>>.Failure("دسته‌بندی‌ای یافت نشد");
+            }
+
+            return Result<List<CategoryDto>>.Success(categoryDtos);
+        }
+
     }
 }

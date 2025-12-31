@@ -12,11 +12,7 @@ namespace App.Domain.AppServices.CategoryAgg
 {
     public class CategoryAppService(ICategoryService _categoryService) : ICategoryAppService
     {
-        public async Task<Result<List<CategoryDto>>> GetAll(CancellationToken cancellationToken)
-        {
-            
-            return await _categoryService.GetAll(cancellationToken);
-        }
+        
 
         public async Task<Result<bool>> Update(CategoryDto categoryDto, CancellationToken cancellationToken)
         {
@@ -38,6 +34,22 @@ namespace App.Domain.AppServices.CategoryAgg
         public async Task<Result<int>> Create(string title, string imagePath, CancellationToken cancellationToken)
         {
             return await _categoryService.Create(title, imagePath, cancellationToken);
+        }
+
+        public async Task<Result<List<CategoryDto>>> GetAll(int pageSize, int pageNumber, string? search, CancellationToken cancellationToken)
+        {
+           return await _categoryService.GetAll(pageSize, pageNumber, search, cancellationToken);
+        }
+
+        public async Task<int> GetCount(CancellationToken cancellationToken)
+        {
+
+            return await _categoryService.GetCount(cancellationToken);
+        }
+
+        public async Task<Result<List<CategoryDto>>> GetAll(CancellationToken cancellationToken)
+        {
+           return await _categoryService.GetAll(cancellationToken);
         }
     }
 }

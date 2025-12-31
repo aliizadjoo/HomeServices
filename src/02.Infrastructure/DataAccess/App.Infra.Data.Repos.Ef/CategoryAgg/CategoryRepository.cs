@@ -102,6 +102,12 @@ namespace App.Infra.Data.Repos.Ef.CategoryAgg
             return affectedRows > 0;
         }
 
+        public async Task<int> GetCount(CancellationToken cancellationToken)
+        {
+
+            return await _context.Categories.CountAsync(cancellationToken);
+        }
+
 
 
     }

@@ -12,7 +12,8 @@ namespace App.Domain.Core.Contract.CategoryAgg.AppService
 {
     public interface ICategoryAppService
     {
-        public Task<Result<List<CategoryDto>>> GetAll(CancellationToken cancellationToken);
+        public Task<Result<List<CategoryDto>>> GetAll(int pageSize, int pageNumber, string? search, CancellationToken cancellationToken);
+        public Task<Result<List<CategoryDto>>> GetAll( CancellationToken cancellationToken);
         public Task<Result<bool>> Update(CategoryDto categoryDto, CancellationToken cancellationToken);
 
         public Task<Result<CategoryDto>> GetById(int id, CancellationToken cancellationToken);
@@ -21,7 +22,10 @@ namespace App.Domain.Core.Contract.CategoryAgg.AppService
         public Task<Result<bool>> Delete(int id, CancellationToken cancellationToken);
 
         public Task<Result<int>> Create(string title, string imagePath, CancellationToken cancellationToken);
-       
+
+        public  Task<int> GetCount(CancellationToken cancellationToken);
+
+
 
 
     }
