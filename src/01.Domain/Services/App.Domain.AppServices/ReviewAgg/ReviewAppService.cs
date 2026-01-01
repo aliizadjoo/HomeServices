@@ -18,14 +18,11 @@ namespace App.Domain.AppServices.ReviewAgg
           return await _reviewService.ChangeStatus(id, status, cancellationToken);
         }
 
-        public async Task<Result<List<ReviewDto>>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
+        public async Task<Result<ReviewPagedDto>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             return await _reviewService.GetAll(pageNumber, pageSize, cancellationToken);
         }
 
-        public async Task<int> GetCount(CancellationToken cancellationToken)
-        {
-            return await _reviewService.GetCount(cancellationToken);
-        }
+       
     }
 }

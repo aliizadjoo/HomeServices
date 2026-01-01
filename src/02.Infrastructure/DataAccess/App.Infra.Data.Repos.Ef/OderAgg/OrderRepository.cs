@@ -14,11 +14,12 @@ namespace App.Infra.Data.Repos.Ef.OderAgg
     public class OrderRepository(AppDbContext _context) : IOrderRepository
     {
 
-        public async Task<List<OrderDto>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
+        public async Task<OrderPagedDtos> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             var query = _context.Orders.AsQueryable();
+            var totalCount = await query.CountAsync();
 
-            return await query.AsNoTracking()
+            var data = await query.AsNoTracking()
                 .OrderBy(o => o.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
@@ -49,12 +50,12 @@ namespace App.Infra.Data.Repos.Ef.OderAgg
                     }).ToList()
                 })
                 .ToListAsync(cancellationToken);
-        }
 
-
-        public async Task<int> GetCount(CancellationToken cancellationToken) 
-        {
-           return await _context.Orders.CountAsync(cancellationToken);
+            return new OrderPagedDtos
+            {
+                orderDtos = data,
+                TotalCount = totalCount,
+            };
         }
 
 

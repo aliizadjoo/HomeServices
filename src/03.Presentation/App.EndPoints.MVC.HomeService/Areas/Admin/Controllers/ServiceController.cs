@@ -22,15 +22,15 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
             var search = new SearchHomeServiceDto(); 
 
             var result = await _homeServiceAppService.GetAll(pageSize, pageNumber, search, cancellationToken);
-            var totalCount = await _homeServiceAppService.GetCount(cancellationToken);
+        
 
             var viewModel = new HomeServiceListViewModel
             {
-                Services = result.Data,
+                Services = result.Data.HomeserviceDtos,
                 CurrentPage = pageNumber,
                 PageSize = pageSize,
-                TotalCount = totalCount,
-                TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
+                TotalCount = result.Data.TotalCount,
+                TotalPages = (int)Math.Ceiling(result.Data.TotalCount / (double)pageSize)
             };
 
             return View(viewModel);

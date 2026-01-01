@@ -11,8 +11,8 @@ namespace App.Domain.Core.Contract.OrderAgg.AppService
 {
     public interface IOrderAppService
     {
-        public Task<Result<List<OrderDto>>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken);
-        public Task<int> GetCount(CancellationToken cancellationToken);
+        public Task<Result<OrderPagedDtos>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken);
+     
         
     }
 }

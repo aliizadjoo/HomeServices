@@ -13,22 +13,19 @@ namespace App.Domain.Services.ReviewAgg
 {
     public class ReviewService(IReviewRepository _reviewRepository) : IReviewService
     {
-        public async Task<Result<List<ReviewDto>>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
+        public async Task<Result<ReviewPagedDto>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             var reviews = await _reviewRepository.GetAll(pageNumber, pageSize, cancellationToken);
 
-            if (reviews == null || !reviews.Any())
+            if (reviews == null || !reviews.ReviewDtos.Any())
             {
-                return Result<List<ReviewDto>>.Failure("هیچ نظری در سیستم ثبت نشده است.");
+                return Result<ReviewPagedDto>.Failure("هیچ نظری در سیستم ثبت نشده است.");
             }
 
-            return Result<List<ReviewDto>>.Success(reviews);
+            return Result<ReviewPagedDto>.Success(reviews);
         }
 
-        public async Task<int> GetCount(CancellationToken cancellationToken)
-        {
-            return await _reviewRepository.GetCount(cancellationToken);
-        }
+       
 
        
         public async Task<Result<bool>> ChangeStatus(int id, ReviewStatus status, CancellationToken cancellationToken)

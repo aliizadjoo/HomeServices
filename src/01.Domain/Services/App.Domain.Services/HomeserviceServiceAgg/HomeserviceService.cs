@@ -27,19 +27,20 @@ namespace App.Domain.Services.HomeserviceServiceAgg
         }
 
 
-        public async Task<Result<List<HomeserviceDto>>> GetAll(int pageSize, int pageNumber, SearchHomeServiceDto search, CancellationToken cancellationToken)
+        public async Task<Result<HomeservicePagedDto>> GetAll(int pageSize, int pageNumber, SearchHomeServiceDto search, CancellationToken cancellationToken)
         {
             _logger.LogInformation("دریافت لیست سرویس‌ها - صفحه {Page}", pageNumber);
 
             var services = await _homeserviceRepository.GetAll(pageSize, pageNumber, search, cancellationToken);
 
-            return Result<List<HomeserviceDto>>.Success(services);
+            if (services.HomeserviceDtos==null || !services.HomeserviceDtos.Any())
+            {
+                return Result<HomeservicePagedDto>.Failure("خدمتی یافت نشد.");
+            }
+            return Result<HomeservicePagedDto>.Success(services);
         }
 
-        public async Task<int> GetCount(CancellationToken cancellationToken)
-        {
-            return await _homeserviceRepository.GetCount(cancellationToken);
-        }
+       
 
         public async Task<Result<int>> Create(CreateHomeServiceDto homeServiceDto, CancellationToken cancellationToken)
         {

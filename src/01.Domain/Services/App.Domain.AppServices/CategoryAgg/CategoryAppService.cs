@@ -36,16 +36,12 @@ namespace App.Domain.AppServices.CategoryAgg
             return await _categoryService.Create(title, imagePath, cancellationToken);
         }
 
-        public async Task<Result<List<CategoryDto>>> GetAll(int pageSize, int pageNumber, string? search, CancellationToken cancellationToken)
+        public async Task<Result<CategoryPagedDto>> GetAll(int pageSize, int pageNumber, string? search, CancellationToken cancellationToken)
         {
            return await _categoryService.GetAll(pageSize, pageNumber, search, cancellationToken);
         }
 
-        public async Task<int> GetCount(CancellationToken cancellationToken)
-        {
-
-            return await _categoryService.GetCount(cancellationToken);
-        }
+       
 
         public async Task<Result<List<CategoryDto>>> GetAll(CancellationToken cancellationToken)
         {

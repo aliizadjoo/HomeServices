@@ -42,11 +42,11 @@ namespace App.Infra.Data.Repos.Ef.HomeServiceAgg
                  }).ToListAsync(cancellationToken);
         }
 
-        public async Task<List<HomeserviceDto>> GetAll(int pageSize, int pageNumber, SearchHomeServiceDto search, CancellationToken cancellationToken)
+        public async Task<HomeservicePagedDto> GetAll(int pageSize, int pageNumber, SearchHomeServiceDto search, CancellationToken cancellationToken)
         {
             var query = _context.HomeServices
                         .AsNoTracking();
-
+            var totalCount = await query.CountAsync();
             if (!string.IsNullOrWhiteSpace(search.Name))
             {
                 query = query.Where(hs => hs.Name.Contains(search.Name) );
@@ -56,7 +56,9 @@ namespace App.Infra.Data.Repos.Ef.HomeServiceAgg
             {
                 query = query.Where(hs => hs.CategoryId == search.CategoryId);
             }
-            return await query.OrderBy(hs => hs.Id)
+
+
+           var date= await query.OrderBy(hs => hs.Id)
                  .Skip((pageNumber - 1) * pageSize)
                  .Take(pageSize)
                  .Select(hs => new HomeserviceDto()
@@ -70,7 +72,11 @@ namespace App.Infra.Data.Repos.Ef.HomeServiceAgg
                      CategoryName = hs.Category.Title
 
                  }).ToListAsync(cancellationToken);
-
+            return new HomeservicePagedDto
+            {
+                TotalCount = totalCount,
+                HomeserviceDtos=date,
+            };
         }
 
         public async Task<HomeserviceDto?> GetById(int homeServiceId, CancellationToken cancellationToken)
@@ -105,12 +111,7 @@ namespace App.Infra.Data.Repos.Ef.HomeServiceAgg
             return rowsAffected > 0;
         }
 
-        public async Task<int> GetCount(CancellationToken cancellationToken)
-        {
-           
-            return await _context.HomeServices.CountAsync(cancellationToken);
-        }
-
+ 
 
         public async Task<bool> Delete(int id, CancellationToken cancellationToken)
         {

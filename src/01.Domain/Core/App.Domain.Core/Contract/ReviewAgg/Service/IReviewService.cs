@@ -12,9 +12,8 @@ namespace App.Domain.Core.Contract.ReviewAgg.Service
 {
     public interface IReviewService
     {
-        public Task<Result<List<ReviewDto>>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken);
-        public Task<int> GetCount(CancellationToken cancellationToken);
-
+        public Task<Result<ReviewPagedDto>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken);
+      
         public Task<Result<bool>> ChangeStatus(int id, ReviewStatus status, CancellationToken cancellationToken);
        
     }

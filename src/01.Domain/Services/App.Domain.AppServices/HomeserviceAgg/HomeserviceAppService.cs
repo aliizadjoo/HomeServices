@@ -22,15 +22,12 @@ namespace App.Domain.AppServices.HomeserviceAgg
             return await _homeserviceService.GetAll(cancellationToken);
         }
 
-        public async Task<Result<List<HomeserviceDto>>> GetAll(int pageSize, int pageNumber, SearchHomeServiceDto search, CancellationToken cancellationToken)
+        public async Task<Result<HomeservicePagedDto>> GetAll(int pageSize, int pageNumber, SearchHomeServiceDto search, CancellationToken cancellationToken)
         {
             return await _homeserviceService.GetAll(pageSize, pageNumber, search, cancellationToken);
         }
 
-        public async Task<int> GetCount(CancellationToken cancellationToken)
-        {
-            return await _homeserviceService.GetCount(cancellationToken);
-        }
+      
 
         public async Task<Result<bool>> Update(HomeserviceDto dto, CancellationToken cancellationToken)
         {

@@ -11,9 +11,9 @@ namespace App.Domain.Core.Contract.ReviewAgg.Repository
 {
     public interface IReviewRepository
     {
-        public Task<List<ReviewDto>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken);
+        public Task<ReviewPagedDto> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken);
 
-        public Task<int> GetCount(CancellationToken cancellation);
+      
 
         public  Task<bool> ChangeStatus(int id, ReviewStatus status, CancellationToken cancellationToken);
 

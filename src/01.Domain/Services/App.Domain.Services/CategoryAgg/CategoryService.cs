@@ -15,16 +15,16 @@ namespace App.Domain.Core.Contract.CategoryAgg.Service
     {
 
 
-        public async Task<Result<List<CategoryDto>>> GetAll(int pageSize, int pageNumber, string? search, CancellationToken cancellationToken)
+        public async Task<Result<CategoryPagedDto>> GetAll(int pageSize, int pageNumber, string? search, CancellationToken cancellationToken)
         {
             var categories = await _categoryRepository.GetAll(pageSize , pageNumber , search, cancellationToken);
 
-            if (categories == null || !categories.Any())
+            if (categories == null || !categories.CategoryDtos.Any())
             {
-                return  Result<List<CategoryDto>>.Failure("هیچ دسته‌بندی در سیستم یافت نشد.");
+                return Result<CategoryPagedDto>.Failure("هیچ دسته‌بندی در سیستم یافت نشد.");
             }
 
-            return Result<List<CategoryDto>>.Success(categories);
+            return Result<CategoryPagedDto>.Success(categories, "عملیات با موفقیت انجام شد");
         }
 
         public async Task<Result<bool>> Update(CategoryDto categoryDto, CancellationToken cancellationToken)
@@ -82,11 +82,7 @@ namespace App.Domain.Core.Contract.CategoryAgg.Service
             return Result<int>.Failure("خطایی در ذخیره‌سازی دسته‌بندی رخ داد.");
         }
 
-        public async Task<int> GetCount(CancellationToken cancellationToken)
-        {
-
-            return await  _categoryRepository.GetCount(cancellationToken);
-        }
+      
 
         public async Task<Result<List<CategoryDto>>> GetAll(CancellationToken cancellationToken)
         {

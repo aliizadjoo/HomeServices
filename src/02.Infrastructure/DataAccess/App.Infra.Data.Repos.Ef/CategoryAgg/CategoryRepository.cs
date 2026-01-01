@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Contract.CategoryAgg.Repository;
+using App.Domain.Core.Dtos.AdminAgg;
 using App.Domain.Core.Dtos.CategoryAgg;
 using App.Domain.Core.Entities;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
@@ -42,18 +43,18 @@ namespace App.Infra.Data.Repos.Ef.CategoryAgg
                        }).FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<List<CategoryDto>> GetAll(int pageSize, int pageNumber, string? search, CancellationToken cancellationToken)
+        public async Task<CategoryPagedDto> GetAll(int pageSize, int pageNumber, string? search, CancellationToken cancellationToken)
         {
             var query = _context.Categories
                         .AsNoTracking();
-
+            var totalCount = await query.CountAsync(cancellationToken);
             if (!string.IsNullOrWhiteSpace(search))
             {
                 query = query.Where(c => c.Title.Contains(search));
-
             }
+            
 
-            return await query.OrderBy(c => c.Id)
+            var data = await query.OrderBy(c => c.Id)
                  .Skip((pageNumber - 1) * pageSize)
                  .Take(pageSize)
                  .Select(c => new CategoryDto()
@@ -62,6 +63,13 @@ namespace App.Infra.Data.Repos.Ef.CategoryAgg
                      Title = c.Title,
                      ImagePath = c.ImagePath,
                  }).ToListAsync(cancellationToken);
+
+
+            return new CategoryPagedDto
+            {
+                CategoryDtos = data,
+                TotalCount = totalCount
+            };
 
 
         }
@@ -102,11 +110,7 @@ namespace App.Infra.Data.Repos.Ef.CategoryAgg
             return affectedRows > 0;
         }
 
-        public async Task<int> GetCount(CancellationToken cancellationToken)
-        {
-
-            return await _context.Categories.CountAsync(cancellationToken);
-        }
+      
 
 
 

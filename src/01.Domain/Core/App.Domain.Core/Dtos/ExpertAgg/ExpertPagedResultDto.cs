@@ -9,7 +9,7 @@ namespace App.Domain.Core.Dtos.ExpertAgg
 {
     public class ExpertPagedResultDto
     {
-        public List<ExpertListDto> Experts { get; set; }
+        public List<ExpertListDto> Experts { get; set; } = [];
         public int TotalCount { get; set; }
     }
 }

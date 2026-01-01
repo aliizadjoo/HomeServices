@@ -13,11 +13,13 @@ namespace App.Infra.Data.Repos.Ef.ReviewAgg
 {
     public class ReviewRepository(AppDbContext _context) : IReviewRepository
     {
-        public async Task<List<ReviewDto>> GetAll(int pageNumber , int pageSize , CancellationToken cancellationToken) 
+        public async Task<ReviewPagedDto> GetAll(int pageNumber , int pageSize , CancellationToken cancellationToken) 
         {
            var query= _context.Reviews.AsQueryable();
 
-          return await query.AsNoTracking()
+           var totaCount = await query.CountAsync();
+
+          var data= await query.AsNoTracking()
                 .OrderBy(r => r.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
@@ -38,13 +40,15 @@ namespace App.Infra.Data.Repos.Ef.ReviewAgg
                     ReviewStatus = o.ReviewStatus,
                     CreatedAt =o.CreatedAt,
                 }).ToListAsync(cancellationToken);
+            return new ReviewPagedDto
+            {
+                ReviewDtos = data,
+                TotalCount = totaCount
+            };
+
         }
 
-        public async Task<int> GetCount(CancellationToken cancellation) 
-        {
-
-           return await _context.Reviews.CountAsync(cancellation);
-        }
+    
 
 
         public async Task<bool> ChangeStatus(int id, ReviewStatus status, CancellationToken cancellationToken)

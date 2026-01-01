@@ -9,8 +9,8 @@ namespace App.Domain.Core.Contract.OrderAgg.Repository
 {
     public interface IOrderRepository
     {
-        public Task<List<OrderDto>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken);
+        public Task<OrderPagedDtos> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken);
 
-        public  Task<int> GetCount(CancellationToken cancellationToken);
+     
     }
 }

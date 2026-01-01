@@ -25,15 +25,15 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
             }
 
            
-            var totalCount = await _categoryAppService.GetCount(cancellationToken);
+           
 
             var viewModel = new CategoryListViewModel
             {
-                Categories = result.Data,
+                Categories = result.Data.CategoryDtos,
                 CurrentPage = pageNumber,
                 PageSize = pageSize,
-                TotalCount = totalCount,
-                TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
+                TotalCount = result.Data.TotalCount,
+                TotalPages = (int)Math.Ceiling(result.Data.TotalCount / (double)pageSize)
             };
 
             return View(viewModel);

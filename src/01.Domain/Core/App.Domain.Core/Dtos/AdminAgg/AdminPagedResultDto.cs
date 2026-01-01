@@ -9,7 +9,7 @@ namespace App.Domain.Core.Dtos.AdminAgg
 {
     public class AdminPagedResultDto
     {
-        public List<AdminListDto> Admins { get; set; }
+        public List<AdminListDto> Admins { get; set; } = [];
         public int TotalCount { get; set; }
     }
 }

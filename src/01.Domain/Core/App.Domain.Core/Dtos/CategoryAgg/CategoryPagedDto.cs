@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.Dtos.CustomerAgg
+namespace App.Domain.Core.Dtos.CategoryAgg
 {
-    public class CustomerPagedResultDto
+    public class CategoryPagedDto
     {
-        public List<CustomerListDto> Customers { get; set; } = [];
+        public List<CategoryDto> CategoryDtos { get; set; } = [];
         public int TotalCount { get; set; }
     }
 }

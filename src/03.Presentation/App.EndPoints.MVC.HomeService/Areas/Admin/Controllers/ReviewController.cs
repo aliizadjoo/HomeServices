@@ -16,7 +16,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
         public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 4, CancellationToken cancellationToken = default)
         {
             var result = await _reviewAppService.GetAll(pageNumber, pageSize, cancellationToken);
-            var totalCount = await _reviewAppService.GetCount(cancellationToken);
+            
 
             if (!result.IsSuccess)
             {
@@ -26,10 +26,10 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
 
             var viewModel = new ReviewListViewModel 
             {
-                Reviews = result.Data ,
+                Reviews = result.Data.ReviewDtos ,
                 CurrentPage = pageNumber,
-                TotalCount = totalCount,
-                TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
+                TotalCount = result.Data.TotalCount,
+                TotalPages = (int)Math.Ceiling(result.Data.TotalCount / (double)pageSize)
             };
 
             return View(viewModel);

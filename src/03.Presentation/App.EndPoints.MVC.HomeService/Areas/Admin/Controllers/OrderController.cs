@@ -14,14 +14,14 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
         public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 5, CancellationToken cancellationToken = default)
         {
             var result = await _orderAppService.GetAll(pageNumber, pageSize, cancellationToken);
-            var totalCount = await _orderAppService.GetCount(cancellationToken);
+           
 
             var viewModel = new OrderListViewModel
             {
-                Orders = result.Data ,
+                Orders = result.Data.orderDtos ,
                 CurrentPage = pageNumber,
-                TotalCount = totalCount,
-                TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
+                TotalCount = result.Data.TotalCount,
+                TotalPages = (int)Math.Ceiling(result.Data.TotalCount / (double)pageSize)
             };
 
             return View(viewModel);
