@@ -12,6 +12,7 @@ namespace App.Domain.Core.Dtos.ExpertAgg
         public int AppUserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+      
         public string? Bio { get; set; }
         public string? ImagePath { get; set; }
         public int CityId { get; set; }

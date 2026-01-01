@@ -133,19 +133,120 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.OrderAgg
            IsDeleted = false
        },
 
-       new Order
-       {
-           Id = 6,
-           CustomerId = 6,
-           HomeServiceId = 6,
-           CityId = 4,
-           Description = "جابجایی اثاثیه به ساختمان مجاور، طبقه سوم با آسانسور",
-           Status = OrderStatus.Started,
-           ExecutionDate = new DateTime(2025, 3, 15),
-           ExecutionTime = new TimeSpan(11, 0, 0),
-           CreatedAt = new DateTime(2025, 2, 20),
-           IsDeleted = false
-       }
+            new Order
+            {
+                Id = 6,
+                CustomerId = 6,
+                HomeServiceId = 6,
+                CityId = 4,
+                Description = "جابجایی اثاثیه به ساختمان مجاور، طبقه سوم با آسانسور",
+                Status = OrderStatus.Started,
+                ExecutionDate = new DateTime(2025, 3, 15),
+                ExecutionTime = new TimeSpan(11, 0, 0),
+                CreatedAt = new DateTime(2025, 2, 20),
+                IsDeleted = false
+            },
+            new Order
+            {
+                Id = 7,
+                CustomerId = 2,
+                HomeServiceId = 1,
+                CityId = 1,
+                Description = "نظافت کامل واحد ۱۲۰ متری",
+                Status = OrderStatus.Finished,
+                ExecutionDate = new DateTime(2025, 3, 8),
+                ExecutionTime = new TimeSpan(9, 0, 0),
+                CreatedAt = new DateTime(2025, 3, 1),
+                IsDeleted = false
+            },
+
+    new Order
+    {
+        Id = 8,
+        CustomerId = 4,
+        HomeServiceId = 4,
+        CityId = 3,
+        Description = "کارواش کامل خودرو در محل",
+        Status = OrderStatus.Finished,
+        ExecutionDate = new DateTime(2025, 3, 12),
+        ExecutionTime = new TimeSpan(16, 0, 0),
+        CreatedAt = new DateTime(2025, 3, 5),
+        IsDeleted = false
+    },
+
+    new Order
+    {
+        Id = 9,
+        CustomerId = 6,
+        HomeServiceId = 6,
+        CityId = 4,
+        Description = "تعمیر ماشین لباسشویی دیجیتال",
+        Status = OrderStatus.Finished,
+        ExecutionDate = new DateTime(2025, 3, 18),
+        ExecutionTime = new TimeSpan(11, 0, 0),
+        CreatedAt = new DateTime(2025, 3, 10),
+        IsDeleted = false
+    },
+
+    new Order
+    {
+        Id = 10,
+        CustomerId = 1,
+        HomeServiceId = 2,
+        CityId = 1,
+        Description = "سرویس دوره‌ای کولر آبی",
+        Status = OrderStatus.Finished,
+        ExecutionDate = new DateTime(2025, 3, 20),
+        ExecutionTime = new TimeSpan(10, 30, 0),
+        CreatedAt = new DateTime(2025, 3, 12),
+        IsDeleted = false
+    },
+
+    new Order
+    {
+        Id = 11,
+        CustomerId = 3,
+        HomeServiceId = 7,
+        CityId = 2,
+        Description = "طراحی فضای سبز حیاط ویلا",
+        Status = OrderStatus.Finished,
+        ExecutionDate = new DateTime(2025, 3, 22),
+        ExecutionTime = new TimeSpan(8, 0, 0),
+        CreatedAt = new DateTime(2025, 3, 15),
+        IsDeleted = false
+    },
+
+    new Order
+    {
+        Id = 12,
+        CustomerId = 5,
+        HomeServiceId = 3,
+        CityId = 1,
+        Description = "تعمیر یخچال ساید بای ساید",
+        Status = OrderStatus.Finished,
+        ExecutionDate = new DateTime(2025, 3, 25),
+        ExecutionTime = new TimeSpan(14, 0, 0),
+        CreatedAt = new DateTime(2025, 3, 18),
+        IsDeleted = false
+    },
+
+    new Order
+    {
+        Id = 13,
+        CustomerId = 2,
+        HomeServiceId = 1,
+        CityId = 1,
+        Description = "نظافت فوری واحد اداری",
+        Status = OrderStatus.Finished,
+        ExecutionDate = new DateTime(2025, 3, 28),
+        ExecutionTime = new TimeSpan(9, 30, 0),
+        CreatedAt = new DateTime(2025, 3, 20),
+        IsDeleted = false
+    }
+
+
+
+
    );
 
         }

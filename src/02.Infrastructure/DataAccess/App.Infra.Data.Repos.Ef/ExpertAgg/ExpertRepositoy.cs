@@ -40,6 +40,8 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
                     HomeServices = e.ExpertHomeServices
                         .Select(ehs => ehs.HomeService.Name)
                         .ToList()
+                        
+                   
                 })
                 .FirstOrDefaultAsync(cancellationToken);
         }
@@ -127,7 +129,7 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
 
             var totalCount = await query.CountAsync(cancellationToken);
 
-            var experts = await query
+            var experts = await query.OrderBy(e=>e.Id)
                 .Select(e => new ExpertListDto
                 {
                     ExpertId = e.Id,

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infra.Db.SqlServer.Ef.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251231154943_col ImagePath is not nullable ")]
-    partial class colImagePathisnotnullable
+    [Migration("20260101083603_add col StatusReview")]
+    partial class addcolStatusReview
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1039,6 +1039,97 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             HomeServiceId = 6,
                             IsDeleted = false,
                             Status = 4
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CityId = 1,
+                            CreatedAt = new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 2,
+                            Description = "نظافت کامل واحد ۱۲۰ متری",
+                            ExecutionDate = new DateTime(2025, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExecutionTime = new TimeSpan(0, 9, 0, 0, 0),
+                            HomeServiceId = 1,
+                            IsDeleted = false,
+                            Status = 5
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CityId = 3,
+                            CreatedAt = new DateTime(2025, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 4,
+                            Description = "کارواش کامل خودرو در محل",
+                            ExecutionDate = new DateTime(2025, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExecutionTime = new TimeSpan(0, 16, 0, 0, 0),
+                            HomeServiceId = 4,
+                            IsDeleted = false,
+                            Status = 5
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CityId = 4,
+                            CreatedAt = new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 6,
+                            Description = "تعمیر ماشین لباسشویی دیجیتال",
+                            ExecutionDate = new DateTime(2025, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExecutionTime = new TimeSpan(0, 11, 0, 0, 0),
+                            HomeServiceId = 6,
+                            IsDeleted = false,
+                            Status = 5
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CityId = 1,
+                            CreatedAt = new DateTime(2025, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 1,
+                            Description = "سرویس دوره‌ای کولر آبی",
+                            ExecutionDate = new DateTime(2025, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExecutionTime = new TimeSpan(0, 10, 30, 0, 0),
+                            HomeServiceId = 2,
+                            IsDeleted = false,
+                            Status = 5
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CityId = 2,
+                            CreatedAt = new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 3,
+                            Description = "طراحی فضای سبز حیاط ویلا",
+                            ExecutionDate = new DateTime(2025, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExecutionTime = new TimeSpan(0, 8, 0, 0, 0),
+                            HomeServiceId = 7,
+                            IsDeleted = false,
+                            Status = 5
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CityId = 1,
+                            CreatedAt = new DateTime(2025, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 5,
+                            Description = "تعمیر یخچال ساید بای ساید",
+                            ExecutionDate = new DateTime(2025, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExecutionTime = new TimeSpan(0, 14, 0, 0, 0),
+                            HomeServiceId = 3,
+                            IsDeleted = false,
+                            Status = 5
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CityId = 1,
+                            CreatedAt = new DateTime(2025, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 2,
+                            Description = "نظافت فوری واحد اداری",
+                            ExecutionDate = new DateTime(2025, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExecutionTime = new TimeSpan(0, 9, 30, 0, 0),
+                            HomeServiceId = 1,
+                            IsDeleted = false,
+                            Status = 5
                         });
                 });
 
@@ -1268,6 +1359,9 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ReviewStatus")
+                        .HasColumnType("int");
+
                     b.Property<int>("Score")
                         .HasColumnType("int");
 
@@ -1286,35 +1380,122 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 1,
-                            Comment = "سرویس کولر خیلی خوب انجام شد، فقط کمی با تاخیر آمدند.",
-                            CreatedAt = new DateTime(2025, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CustomerId = 3,
-                            ExpertId = 2,
-                            IsDeleted = false,
-                            OrderId = 3,
-                            Score = 4
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Comment = "باغبانی عالی و حرفه‌ای! حیاط ما کاملاً متحول شد. ممنونم از خانم جعفری.",
-                            CreatedAt = new DateTime(2025, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CustomerId = 5,
-                            ExpertId = 5,
-                            IsDeleted = false,
-                            OrderId = 5,
-                            Score = 5
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Comment = "بسیار تمیز و با حوصله کار انجام شد. راضی بودم.",
+                            Comment = "نظافت بسیار دقیق و منظم انجام شد. کاملاً راضی هستم.",
                             CreatedAt = new DateTime(2025, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CustomerId = 1,
                             ExpertId = 1,
                             IsDeleted = false,
                             OrderId = 1,
+                            ReviewStatus = 0,
                             Score = 5
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Comment = "سرویس کولر خوب بود ولی کمی با تاخیر مراجعه کردند.",
+                            CreatedAt = new DateTime(2025, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 3,
+                            ExpertId = 2,
+                            IsDeleted = false,
+                            OrderId = 3,
+                            ReviewStatus = 0,
+                            Score = 4
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Comment = "باغبانی عالی و حرفه‌ای! حیاط ما کاملاً متحول شد.",
+                            CreatedAt = new DateTime(2025, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 5,
+                            ExpertId = 5,
+                            IsDeleted = false,
+                            OrderId = 5,
+                            ReviewStatus = 0,
+                            Score = 5
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Comment = "کار تمیز و به‌موقع انجام شد.",
+                            CreatedAt = new DateTime(2025, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 2,
+                            ExpertId = 1,
+                            IsDeleted = false,
+                            OrderId = 7,
+                            ReviewStatus = 0,
+                            Score = 5
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Comment = "برخورد محترمانه و کیفیت مناسب.",
+                            CreatedAt = new DateTime(2025, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 4,
+                            ExpertId = 4,
+                            IsDeleted = false,
+                            OrderId = 8,
+                            ReviewStatus = 0,
+                            Score = 4
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Comment = "تعمیرکار کاملاً مسلط بود و مشکل حل شد.",
+                            CreatedAt = new DateTime(2025, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 6,
+                            ExpertId = 6,
+                            IsDeleted = false,
+                            OrderId = 9,
+                            ReviewStatus = 0,
+                            Score = 5
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Comment = "سرویس کامل انجام شد، پیشنهاد می‌کنم.",
+                            CreatedAt = new DateTime(2025, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 1,
+                            ExpertId = 2,
+                            IsDeleted = false,
+                            OrderId = 10,
+                            ReviewStatus = 0,
+                            Score = 4
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Comment = "طراحی بسیار زیبا و خلاقانه بود.",
+                            CreatedAt = new DateTime(2025, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 3,
+                            ExpertId = 5,
+                            IsDeleted = false,
+                            OrderId = 11,
+                            ReviewStatus = 0,
+                            Score = 5
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Comment = "مشکل یخچال کاملاً برطرف شد.",
+                            CreatedAt = new DateTime(2025, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 5,
+                            ExpertId = 6,
+                            IsDeleted = false,
+                            OrderId = 12,
+                            ReviewStatus = 0,
+                            Score = 5
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Comment = "سریع و حرفه‌ای، راضی بودم.",
+                            CreatedAt = new DateTime(2025, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 2,
+                            ExpertId = 1,
+                            IsDeleted = false,
+                            OrderId = 13,
+                            ReviewStatus = 0,
+                            Score = 4
                         });
                 });
 

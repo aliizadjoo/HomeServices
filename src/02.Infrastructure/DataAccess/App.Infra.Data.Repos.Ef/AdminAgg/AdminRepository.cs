@@ -26,7 +26,7 @@ namespace App.Infra.Data.Repos.Ef.AdminAgg
             var totalCount = await query.CountAsync(cancellationToken);
 
            
-            var data = await query
+            var data = await query.OrderBy(a=>a.Id)
                 .Select(a => new AdminListDto
                 {
                     AdminId = a.Id,

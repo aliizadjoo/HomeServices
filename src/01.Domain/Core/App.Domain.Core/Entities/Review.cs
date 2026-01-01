@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App.Domain.Core.Enums.ReviewAgg;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,8 @@ namespace App.Domain.Core.Entities
     public class Review : BaseEntity
     {
         public string Comment { get; set; }
-        public int Score { get; set; } 
-
+        public int Score { get; set; }
+        public ReviewStatus ReviewStatus { get; set; } = ReviewStatus.Pending;
         public int OrderId { get; set; }
         public Order Order { get; set; }
 

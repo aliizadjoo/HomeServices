@@ -19,7 +19,7 @@ namespace App.Infra.Data.Repos.Ef.OderAgg
             var query = _context.Orders.AsQueryable();
 
             return await query.AsNoTracking()
-                .OrderBy(o => o.CreatedAt)
+                .OrderBy(o => o.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .Select(o => new OrderDto

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infra.Db.SqlServer.Ef.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251230125002_Add col AverageScore")]
-    partial class AddcolAverageScore
+    [Migration("20260101081123_InitialSeed")]
+    partial class InitialSeed
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,6 +100,9 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -160,6 +163,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             EmailConfirmed = true,
                             FirstName = "Admin",
                             ImagePath = "admin.jpg",
+                            IsDeleted = false,
                             LastName = "System",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@SITE.COM",
@@ -179,6 +183,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             EmailConfirmed = true,
                             FirstName = "Ali",
                             ImagePath = "customer1.jpg",
+                            IsDeleted = false,
                             LastName = "Moshtari",
                             LockoutEnabled = false,
                             NormalizedEmail = "CUSTOMER@SITE.COM",
@@ -198,6 +203,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             EmailConfirmed = true,
                             FirstName = "Reza",
                             ImagePath = "expert1.jpg",
+                            IsDeleted = false,
                             LastName = "Karshenas",
                             LockoutEnabled = false,
                             NormalizedEmail = "EXPERT@SITE.COM",
@@ -217,6 +223,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             EmailConfirmed = true,
                             FirstName = "Zahra",
                             ImagePath = "customer2.jpg",
+                            IsDeleted = false,
                             LastName = "Ahmadi",
                             LockoutEnabled = false,
                             NormalizedEmail = "CUSTOMER2@SITE.COM",
@@ -236,6 +243,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             EmailConfirmed = true,
                             FirstName = "Mohammad",
                             ImagePath = "customer3.jpg",
+                            IsDeleted = false,
                             LastName = "Hosseini",
                             LockoutEnabled = false,
                             NormalizedEmail = "CUSTOMER3@SITE.COM",
@@ -255,6 +263,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             EmailConfirmed = true,
                             FirstName = "Maryam",
                             ImagePath = "customer4.jpg",
+                            IsDeleted = false,
                             LastName = "Moradi",
                             LockoutEnabled = false,
                             NormalizedEmail = "CUSTOMER4@SITE.COM",
@@ -274,6 +283,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             EmailConfirmed = true,
                             FirstName = "Saeed",
                             ImagePath = "customer5.jpg",
+                            IsDeleted = false,
                             LastName = "Karimi",
                             LockoutEnabled = false,
                             NormalizedEmail = "CUSTOMER5@SITE.COM",
@@ -293,6 +303,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             EmailConfirmed = true,
                             FirstName = "Niloufar",
                             ImagePath = "customer6.jpg",
+                            IsDeleted = false,
                             LastName = "Sadeghi",
                             LockoutEnabled = false,
                             NormalizedEmail = "CUSTOMER6@SITE.COM",
@@ -312,6 +323,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             EmailConfirmed = true,
                             FirstName = "Hassan",
                             ImagePath = "expert2.jpg",
+                            IsDeleted = false,
                             LastName = "Alavi",
                             LockoutEnabled = false,
                             NormalizedEmail = "EXPERT2@SITE.COM",
@@ -331,6 +343,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             EmailConfirmed = true,
                             FirstName = "Sara",
                             ImagePath = "expert3.jpg",
+                            IsDeleted = false,
                             LastName = "Mousavi",
                             LockoutEnabled = false,
                             NormalizedEmail = "EXPERT3@SITE.COM",
@@ -350,6 +363,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             EmailConfirmed = true,
                             FirstName = "Omid",
                             ImagePath = "expert4.jpg",
+                            IsDeleted = false,
                             LastName = "Rahmani",
                             LockoutEnabled = false,
                             NormalizedEmail = "EXPERT4@SITE.COM",
@@ -369,6 +383,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             EmailConfirmed = true,
                             FirstName = "Elham",
                             ImagePath = "expert5.jpg",
+                            IsDeleted = false,
                             LastName = "Jafari",
                             LockoutEnabled = false,
                             NormalizedEmail = "EXPERT5@SITE.COM",
@@ -388,6 +403,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             EmailConfirmed = true,
                             FirstName = "Meysam",
                             ImagePath = "expert6.jpg",
+                            IsDeleted = false,
                             LastName = "Ghasemi",
                             LockoutEnabled = false,
                             NormalizedEmail = "EXPERT6@SITE.COM",
@@ -1023,6 +1039,97 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             HomeServiceId = 6,
                             IsDeleted = false,
                             Status = 4
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CityId = 1,
+                            CreatedAt = new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 2,
+                            Description = "نظافت کامل واحد ۱۲۰ متری",
+                            ExecutionDate = new DateTime(2025, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExecutionTime = new TimeSpan(0, 9, 0, 0, 0),
+                            HomeServiceId = 1,
+                            IsDeleted = false,
+                            Status = 5
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CityId = 3,
+                            CreatedAt = new DateTime(2025, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 4,
+                            Description = "کارواش کامل خودرو در محل",
+                            ExecutionDate = new DateTime(2025, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExecutionTime = new TimeSpan(0, 16, 0, 0, 0),
+                            HomeServiceId = 4,
+                            IsDeleted = false,
+                            Status = 5
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CityId = 4,
+                            CreatedAt = new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 6,
+                            Description = "تعمیر ماشین لباسشویی دیجیتال",
+                            ExecutionDate = new DateTime(2025, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExecutionTime = new TimeSpan(0, 11, 0, 0, 0),
+                            HomeServiceId = 6,
+                            IsDeleted = false,
+                            Status = 5
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CityId = 1,
+                            CreatedAt = new DateTime(2025, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 1,
+                            Description = "سرویس دوره‌ای کولر آبی",
+                            ExecutionDate = new DateTime(2025, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExecutionTime = new TimeSpan(0, 10, 30, 0, 0),
+                            HomeServiceId = 2,
+                            IsDeleted = false,
+                            Status = 5
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CityId = 2,
+                            CreatedAt = new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 3,
+                            Description = "طراحی فضای سبز حیاط ویلا",
+                            ExecutionDate = new DateTime(2025, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExecutionTime = new TimeSpan(0, 8, 0, 0, 0),
+                            HomeServiceId = 7,
+                            IsDeleted = false,
+                            Status = 5
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CityId = 1,
+                            CreatedAt = new DateTime(2025, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 5,
+                            Description = "تعمیر یخچال ساید بای ساید",
+                            ExecutionDate = new DateTime(2025, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExecutionTime = new TimeSpan(0, 14, 0, 0, 0),
+                            HomeServiceId = 3,
+                            IsDeleted = false,
+                            Status = 5
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CityId = 1,
+                            CreatedAt = new DateTime(2025, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 2,
+                            Description = "نظافت فوری واحد اداری",
+                            ExecutionDate = new DateTime(2025, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExecutionTime = new TimeSpan(0, 9, 30, 0, 0),
+                            HomeServiceId = 1,
+                            IsDeleted = false,
+                            Status = 5
                         });
                 });
 
@@ -1246,6 +1353,9 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                     b.Property<int>("ExpertId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -1270,35 +1380,122 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 1,
-                            Comment = "سرویس کولر خیلی خوب انجام شد، فقط کمی با تاخیر آمدند.",
+                            Comment = "نظافت بسیار دقیق و منظم انجام شد. کاملاً راضی هستم.",
+                            CreatedAt = new DateTime(2025, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 1,
+                            ExpertId = 1,
+                            IsApproved = false,
+                            IsDeleted = false,
+                            OrderId = 1,
+                            Score = 5
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Comment = "سرویس کولر خوب بود ولی کمی با تاخیر مراجعه کردند.",
                             CreatedAt = new DateTime(2025, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CustomerId = 3,
                             ExpertId = 2,
+                            IsApproved = false,
                             IsDeleted = false,
                             OrderId = 3,
                             Score = 4
                         },
                         new
                         {
-                            Id = 2,
-                            Comment = "باغبانی عالی و حرفه‌ای! حیاط ما کاملاً متحول شد. ممنونم از خانم جعفری.",
+                            Id = 3,
+                            Comment = "باغبانی عالی و حرفه‌ای! حیاط ما کاملاً متحول شد.",
                             CreatedAt = new DateTime(2025, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CustomerId = 5,
                             ExpertId = 5,
+                            IsApproved = false,
                             IsDeleted = false,
                             OrderId = 5,
                             Score = 5
                         },
                         new
                         {
-                            Id = 3,
-                            Comment = "بسیار تمیز و با حوصله کار انجام شد. راضی بودم.",
-                            CreatedAt = new DateTime(2025, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CustomerId = 1,
+                            Id = 4,
+                            Comment = "کار تمیز و به‌موقع انجام شد.",
+                            CreatedAt = new DateTime(2025, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 2,
                             ExpertId = 1,
+                            IsApproved = false,
                             IsDeleted = false,
-                            OrderId = 1,
+                            OrderId = 7,
                             Score = 5
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Comment = "برخورد محترمانه و کیفیت مناسب.",
+                            CreatedAt = new DateTime(2025, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 4,
+                            ExpertId = 4,
+                            IsApproved = false,
+                            IsDeleted = false,
+                            OrderId = 8,
+                            Score = 4
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Comment = "تعمیرکار کاملاً مسلط بود و مشکل حل شد.",
+                            CreatedAt = new DateTime(2025, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 6,
+                            ExpertId = 6,
+                            IsApproved = false,
+                            IsDeleted = false,
+                            OrderId = 9,
+                            Score = 5
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Comment = "سرویس کامل انجام شد، پیشنهاد می‌کنم.",
+                            CreatedAt = new DateTime(2025, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 1,
+                            ExpertId = 2,
+                            IsApproved = false,
+                            IsDeleted = false,
+                            OrderId = 10,
+                            Score = 4
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Comment = "طراحی بسیار زیبا و خلاقانه بود.",
+                            CreatedAt = new DateTime(2025, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 3,
+                            ExpertId = 5,
+                            IsApproved = false,
+                            IsDeleted = false,
+                            OrderId = 11,
+                            Score = 5
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Comment = "مشکل یخچال کاملاً برطرف شد.",
+                            CreatedAt = new DateTime(2025, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 5,
+                            ExpertId = 6,
+                            IsApproved = false,
+                            IsDeleted = false,
+                            OrderId = 12,
+                            Score = 5
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Comment = "سریع و حرفه‌ای، راضی بودم.",
+                            CreatedAt = new DateTime(2025, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 2,
+                            ExpertId = 1,
+                            IsApproved = false,
+                            IsDeleted = false,
+                            OrderId = 13,
+                            Score = 4
                         });
                 });
 

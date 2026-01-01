@@ -30,6 +30,14 @@
                 </div>
                 <h4 class="font-weight-bold">@Model.FirstName @Model.LastName</h4>
                 <p class="text-muted">متخصص در شهر: @Model.CityName</p>
+                <div class="mt-2">
+                    <span class="text-secondary small">امتیاز کارشناس</span>
+                    <h5 class="text-warning mt-1 font-weight-bold">
+                        @(Model.AverageScore.HasValue? Model.AverageScore.Value.ToString("0.0") : "بدون امتیاز")
+                        <i class="bi bi-star-fill"></i>
+                    </h5>
+                </div>
+
 
                 <hr />
 

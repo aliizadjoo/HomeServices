@@ -97,7 +97,7 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
             var totalCount = await query.CountAsync(cancellationToken);
 
            
-            var data = await query
+            var data = await query.OrderBy(c=>c.Id)
                 .Select(c => new CustomerListDto
                 {
                     CustomerId = c.Id,

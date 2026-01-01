@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace App.Infra.Db.SqlServer.Ef.Migrations
 {
     /// <inheritdoc />
-    public partial class SeedData : Migration
+    public partial class InitialSeed : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,6 +36,8 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -245,7 +247,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Address = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     WalletBalance = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     AppUserId = table.Column<int>(type: "int", nullable: false),
                     CityId = table.Column<int>(type: "int", nullable: false),
@@ -273,9 +275,9 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Bio = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
-                    ProfilePicture = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    WalletBalance = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Bio = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
+                    AverageScore = table.Column<double>(type: "float", nullable: true),
+                    WalletBalance = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: true),
                     AppUserId = table.Column<int>(type: "int", nullable: false),
                     CityId = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -333,24 +335,28 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExpertHomeService",
+                name: "ExpertHomeServices",
                 columns: table => new
                 {
-                    ExpertsId = table.Column<int>(type: "int", nullable: false),
-                    HomeServicesId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ExpertId = table.Column<int>(type: "int", nullable: false),
+                    HomeServiceId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExpertHomeService", x => new { x.ExpertsId, x.HomeServicesId });
+                    table.PrimaryKey("PK_ExpertHomeServices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ExpertHomeService_Experts_ExpertsId",
-                        column: x => x.ExpertsId,
+                        name: "FK_ExpertHomeServices_Experts_ExpertId",
+                        column: x => x.ExpertId,
                         principalTable: "Experts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ExpertHomeService_HomeServices_HomeServicesId",
-                        column: x => x.HomeServicesId,
+                        name: "FK_ExpertHomeServices_HomeServices_HomeServiceId",
+                        column: x => x.HomeServiceId,
                         principalTable: "HomeServices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -414,6 +420,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Comment = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     Score = table.Column<int>(type: "int", nullable: false),
+                    IsApproved = table.Column<bool>(type: "bit", nullable: false),
                     OrderId = table.Column<int>(type: "int", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
                     ExpertId = table.Column<int>(type: "int", nullable: false),
@@ -452,22 +459,22 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "ImagePath", "IsDeleted", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "081004b3-e25c-4414-9694-44e5c2fd863f", "admin@site.com", true, "Admin", "System", false, null, "ADMIN@SITE.COM", "ADMIN@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "B6FE5F0E-18B5-4062-AEF8-11555793E7CB", false, "admin@site.com" },
-                    { 2, 0, "df5dbb19-753c-4cc7-a623-13c8508d00f8", "customer@site.com", true, "Ali", "Moshtari", false, null, "CUSTOMER@SITE.COM", "CUSTOMER@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "D4D09FBB-ED60-4E17-B03E-B9B4B6C70E5D", false, "customer@site.com" },
-                    { 3, 0, "58afcc4e-2a82-4ad6-8e12-665778173973", "expert@site.com", true, "Reza", "Karshenas", false, null, "EXPERT@SITE.COM", "EXPERT@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "9489458F-27BA-400D-A45F-AFCE3D9A8D26", false, "expert@site.com" },
-                    { 4, 0, "C2-04b3-e25c-4414", "customer2@site.com", true, "Zahra", "Ahmadi", false, null, "CUSTOMER2@SITE.COM", "CUSTOMER2@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "S2-68B5-4062-AEF8", false, "customer2@site.com" },
-                    { 5, 0, "C3-04b3-e25c-4414", "customer3@site.com", true, "Mohammad", "Hosseini", false, null, "CUSTOMER3@SITE.COM", "CUSTOMER3@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "S3-68B5-4062-AEF8", false, "customer3@site.com" },
-                    { 6, 0, "C4-04b3-e25c-4414", "customer4@site.com", true, "Maryam", "Moradi", false, null, "CUSTOMER4@SITE.COM", "CUSTOMER4@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "S4-68B5-4062-AEF8", false, "customer4@site.com" },
-                    { 7, 0, "C5-04b3-e25c-4414", "customer5@site.com", true, "Saeed", "Karimi", false, null, "CUSTOMER5@SITE.COM", "CUSTOMER5@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "S5-68B5-4062-AEF8", false, "customer5@site.com" },
-                    { 8, 0, "C6-04b3-e25c-4414", "customer6@site.com", true, "Niloufar", "Sadeghi", false, null, "CUSTOMER6@SITE.COM", "CUSTOMER6@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "S6-68B5-4062-AEF8", false, "customer6@site.com" },
-                    { 9, 0, "CE2-04b3-e25c-4414", "expert2@site.com", true, "Hassan", "Alavi", false, null, "EXPERT2@SITE.COM", "EXPERT2@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "E2-68B5-4062-AEF8", false, "expert2@site.com" },
-                    { 10, 0, "CE3-04b3-e25c-4414", "expert3@site.com", true, "Sara", "Mousavi", false, null, "EXPERT3@SITE.COM", "EXPERT3@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "E3-68B5-4062-AEF8", false, "expert3@site.com" },
-                    { 11, 0, "CE4-04b3-e25c-4414", "expert4@site.com", true, "Omid", "Rahmani", false, null, "EXPERT4@SITE.COM", "EXPERT4@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "E4-68B5-4062-AEF8", false, "expert4@site.com" },
-                    { 12, 0, "CE5-04b3-e25c-4414", "expert5@site.com", true, "Elham", "Jafari", false, null, "EXPERT5@SITE.COM", "EXPERT5@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "E5-68B5-4062-AEF8", false, "expert5@site.com" },
-                    { 13, 0, "CE6-04b3-e25c-4414", "expert6@site.com", true, "Meysam", "Ghasemi", false, null, "EXPERT6@SITE.COM", "EXPERT6@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "E6-68B5-4062-AEF8", false, "expert6@site.com" }
+                    { 1, 0, "081004b3-e25c-4414-9694-44e5c2fd863f", "admin@site.com", true, "Admin", "admin.jpg", false, "System", false, null, "ADMIN@SITE.COM", "ADMIN@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "B6FE5F0E-18B5-4062-AEF8-11555793E7CB", false, "admin@site.com" },
+                    { 2, 0, "df5dbb19-753c-4cc7-a623-13c8508d00f8", "customer@site.com", true, "Ali", "customer1.jpg", false, "Moshtari", false, null, "CUSTOMER@SITE.COM", "CUSTOMER@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "D4D09FBB-ED60-4E17-B03E-B9B4B6C70E5D", false, "customer@site.com" },
+                    { 3, 0, "58afcc4e-2a82-4ad6-8e12-665778173973", "expert@site.com", true, "Reza", "expert1.jpg", false, "Karshenas", false, null, "EXPERT@SITE.COM", "EXPERT@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "9489458F-27BA-400D-A45F-AFCE3D9A8D26", false, "expert@site.com" },
+                    { 4, 0, "C2-04b3-e25c-4414", "customer2@site.com", true, "Zahra", "customer2.jpg", false, "Ahmadi", false, null, "CUSTOMER2@SITE.COM", "CUSTOMER2@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "S2-68B5-4062-AEF8", false, "customer2@site.com" },
+                    { 5, 0, "C3-04b3-e25c-4414", "customer3@site.com", true, "Mohammad", "customer3.jpg", false, "Hosseini", false, null, "CUSTOMER3@SITE.COM", "CUSTOMER3@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "S3-68B5-4062-AEF8", false, "customer3@site.com" },
+                    { 6, 0, "C4-04b3-e25c-4414", "customer4@site.com", true, "Maryam", "customer4.jpg", false, "Moradi", false, null, "CUSTOMER4@SITE.COM", "CUSTOMER4@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "S4-68B5-4062-AEF8", false, "customer4@site.com" },
+                    { 7, 0, "C5-04b3-e25c-4414", "customer5@site.com", true, "Saeed", "customer5.jpg", false, "Karimi", false, null, "CUSTOMER5@SITE.COM", "CUSTOMER5@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "S5-68B5-4062-AEF8", false, "customer5@site.com" },
+                    { 8, 0, "C6-04b3-e25c-4414", "customer6@site.com", true, "Niloufar", "customer6.jpg", false, "Sadeghi", false, null, "CUSTOMER6@SITE.COM", "CUSTOMER6@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "S6-68B5-4062-AEF8", false, "customer6@site.com" },
+                    { 9, 0, "CE2-04b3-e25c-4414", "expert2@site.com", true, "Hassan", "expert2.jpg", false, "Alavi", false, null, "EXPERT2@SITE.COM", "EXPERT2@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "E2-68B5-4062-AEF8", false, "expert2@site.com" },
+                    { 10, 0, "CE3-04b3-e25c-4414", "expert3@site.com", true, "Sara", "expert3.jpg", false, "Mousavi", false, null, "EXPERT3@SITE.COM", "EXPERT3@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "E3-68B5-4062-AEF8", false, "expert3@site.com" },
+                    { 11, 0, "CE4-04b3-e25c-4414", "expert4@site.com", true, "Omid", "expert4.jpg", false, "Rahmani", false, null, "EXPERT4@SITE.COM", "EXPERT4@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "E4-68B5-4062-AEF8", false, "expert4@site.com" },
+                    { 12, 0, "CE5-04b3-e25c-4414", "expert5@site.com", true, "Elham", "expert5.jpg", false, "Jafari", false, null, "EXPERT5@SITE.COM", "EXPERT5@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "E5-68B5-4062-AEF8", false, "expert5@site.com" },
+                    { 13, 0, "CE6-04b3-e25c-4414", "expert6@site.com", true, "Meysam", "expert6.jpg", false, "Ghasemi", false, null, "EXPERT6@SITE.COM", "EXPERT6@SITE.COM", "AQAAAAIAAYagAAAAELfo31+h+KKqnm1LH5xAKmHXILVYYm2LFfRa9MBOYhQ7tUa464HktXtipr7xzCC8rQ==", null, false, "E6-68B5-4062-AEF8", false, "expert6@site.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -507,7 +514,17 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                 {
                     { 1, 1 },
                     { 2, 2 },
-                    { 3, 3 }
+                    { 3, 3 },
+                    { 2, 4 },
+                    { 2, 5 },
+                    { 2, 6 },
+                    { 2, 7 },
+                    { 2, 8 },
+                    { 3, 9 },
+                    { 3, 10 },
+                    { 3, 11 },
+                    { 3, 12 },
+                    { 3, 13 }
                 });
 
             migrationBuilder.InsertData(
@@ -525,15 +542,15 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
 
             migrationBuilder.InsertData(
                 table: "Experts",
-                columns: new[] { "Id", "AppUserId", "Bio", "CityId", "CreatedAt", "IsDeleted", "ProfilePicture", "WalletBalance" },
+                columns: new[] { "Id", "AppUserId", "AverageScore", "Bio", "CityId", "CreatedAt", "IsDeleted", "WalletBalance" },
                 values: new object[,]
                 {
-                    { 1, 3, "متخصص در امور فنی با ۱۰ سال سابقه کار", 1, new DateTime(2025, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified), false, "expert1.jpg", 200000m },
-                    { 2, 9, "کارشناس ارشد تاسیسات و سیستم‌های برودتی", 1, new DateTime(2025, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "expert2.jpg", 500000m },
-                    { 3, 10, "متخصص طراحی داخلی و دکوراسیون با مدرک بین‌المللی", 2, new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "expert3.jpg", 1200000m },
-                    { 4, 11, "تکنسین برق قدرت و هوشمندسازی منازل", 1, new DateTime(2025, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "expert4.jpg", 0m },
-                    { 5, 12, "متخصص باغبانی و فضای سبز", 3, new DateTime(2025, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "expert5.jpg", 350000m },
-                    { 6, 13, "کارشناس تعمیرات لوازم خانگی دیجیتال", 2, new DateTime(2025, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "expert6.jpg", 800000m }
+                    { 1, 3, 5.0, "متخصص در امور فنی با ۱۰ سال سابقه کار", 1, new DateTime(2025, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified), false, 200000m },
+                    { 2, 9, 4.0, "کارشناس ارشد تاسیسات و سیستم‌های برودتی", 1, new DateTime(2025, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 500000m },
+                    { 3, 10, null, "متخصص طراحی داخلی و دکوراسیون با مدرک بین‌المللی", 2, new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 1200000m },
+                    { 4, 11, null, "تکنسین برق قدرت و هوشمندسازی منازل", 1, new DateTime(2025, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 0m },
+                    { 5, 12, 5.0, "متخصص باغبانی و فضای سبز", 3, new DateTime(2025, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 350000m },
+                    { 6, 13, null, "کارشناس تعمیرات لوازم خانگی دیجیتال", 2, new DateTime(2025, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 800000m }
                 });
 
             migrationBuilder.InsertData(
@@ -560,7 +577,14 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                     { 3, 2, new DateTime(2025, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "سرویس کامل کولر آبی برای فصل جدید", new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 9, 0, 0, 0), 2, false, 5 },
                     { 4, 3, new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, "شستشوی کامل پژو ۲۰۶ در پارکینگ منزل", new DateTime(2025, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 16, 0, 0, 0), 4, false, 6 },
                     { 5, 1, new DateTime(2025, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, "هرس درختان حیاط و کاشت گل‌های فصلی", new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 8, 0, 0, 0), 7, false, 5 },
-                    { 6, 4, new DateTime(2025, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 6, "جابجایی اثاثیه به ساختمان مجاور، طبقه سوم با آسانسور", new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 11, 0, 0, 0), 6, false, 4 }
+                    { 6, 4, new DateTime(2025, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 6, "جابجایی اثاثیه به ساختمان مجاور، طبقه سوم با آسانسور", new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 11, 0, 0, 0), 6, false, 4 },
+                    { 7, 1, new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "نظافت کامل واحد ۱۲۰ متری", new DateTime(2025, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 9, 0, 0, 0), 1, false, 5 },
+                    { 8, 3, new DateTime(2025, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, "کارواش کامل خودرو در محل", new DateTime(2025, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 16, 0, 0, 0), 4, false, 5 },
+                    { 9, 4, new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 6, "تعمیر ماشین لباسشویی دیجیتال", new DateTime(2025, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 11, 0, 0, 0), 6, false, 5 },
+                    { 10, 1, new DateTime(2025, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "سرویس دوره‌ای کولر آبی", new DateTime(2025, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 10, 30, 0, 0), 2, false, 5 },
+                    { 11, 2, new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "طراحی فضای سبز حیاط ویلا", new DateTime(2025, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 8, 0, 0, 0), 7, false, 5 },
+                    { 12, 1, new DateTime(2025, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, "تعمیر یخچال ساید بای ساید", new DateTime(2025, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 14, 0, 0, 0), 3, false, 5 },
+                    { 13, 1, new DateTime(2025, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "نظافت فوری واحد اداری", new DateTime(2025, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 9, 30, 0, 0), 1, false, 5 }
                 });
 
             migrationBuilder.InsertData(
@@ -592,12 +616,19 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
 
             migrationBuilder.InsertData(
                 table: "Reviews",
-                columns: new[] { "Id", "Comment", "CreatedAt", "CustomerId", "ExpertId", "IsDeleted", "OrderId", "Score" },
+                columns: new[] { "Id", "Comment", "CreatedAt", "CustomerId", "ExpertId", "IsApproved", "IsDeleted", "OrderId", "Score" },
                 values: new object[,]
                 {
-                    { 1, "سرویس کولر خیلی خوب انجام شد، فقط کمی با تاخیر آمدند.", new DateTime(2025, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, 2, false, 3, 4 },
-                    { 2, "باغبانی عالی و حرفه‌ای! حیاط ما کاملاً متحول شد. ممنونم از خانم جعفری.", new DateTime(2025, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 5, false, 5, 5 },
-                    { 3, "بسیار تمیز و با حوصله کار انجام شد. راضی بودم.", new DateTime(2025, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, false, 1, 5 }
+                    { 1, "نظافت بسیار دقیق و منظم انجام شد. کاملاً راضی هستم.", new DateTime(2025, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, false, false, 1, 5 },
+                    { 2, "سرویس کولر خوب بود ولی کمی با تاخیر مراجعه کردند.", new DateTime(2025, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, 2, false, false, 3, 4 },
+                    { 3, "باغبانی عالی و حرفه‌ای! حیاط ما کاملاً متحول شد.", new DateTime(2025, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 5, false, false, 5, 5 },
+                    { 4, "کار تمیز و به‌موقع انجام شد.", new DateTime(2025, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, 1, false, false, 7, 5 },
+                    { 5, "برخورد محترمانه و کیفیت مناسب.", new DateTime(2025, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, 4, false, false, 8, 4 },
+                    { 6, "تعمیرکار کاملاً مسلط بود و مشکل حل شد.", new DateTime(2025, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 6, 6, false, false, 9, 5 },
+                    { 7, "سرویس کامل انجام شد، پیشنهاد می‌کنم.", new DateTime(2025, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 2, false, false, 10, 4 },
+                    { 8, "طراحی بسیار زیبا و خلاقانه بود.", new DateTime(2025, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, 5, false, false, 11, 5 },
+                    { 9, "مشکل یخچال کاملاً برطرف شد.", new DateTime(2025, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 6, false, false, 12, 5 },
+                    { 10, "سریع و حرفه‌ای، راضی بودم.", new DateTime(2025, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, 1, false, false, 13, 4 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -657,9 +688,14 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExpertHomeService_HomeServicesId",
-                table: "ExpertHomeService",
-                column: "HomeServicesId");
+                name: "IX_ExpertHomeServices_ExpertId",
+                table: "ExpertHomeServices",
+                column: "ExpertId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExpertHomeServices_HomeServiceId",
+                table: "ExpertHomeServices",
+                column: "HomeServiceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Experts_AppUserId",
@@ -746,7 +782,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ExpertHomeService");
+                name: "ExpertHomeServices");
 
             migrationBuilder.DropTable(
                 name: "OrderImages");
