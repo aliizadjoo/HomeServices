@@ -29,6 +29,8 @@ namespace App.Domain.Core.Entities
         public City City { get; set; }
         public List<Proposal> Proposals { get; set; } = [];
         public List<OrderImage> Images { get; set; } = [];
+
+
       
     }
 }

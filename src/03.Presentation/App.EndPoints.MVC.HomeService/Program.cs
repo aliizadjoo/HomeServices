@@ -5,6 +5,7 @@ using App.Domain.AppServices.CityAgg;
 using App.Domain.AppServices.CustomerAgg;
 using App.Domain.AppServices.ExpertAgg;
 using App.Domain.AppServices.HomeserviceAgg;
+using App.Domain.AppServices.OrderAgg;
 using App.Domain.Core.Contract.AccountAgg.AppServices;
 using App.Domain.Core.Contract.AdminAgg.AppService;
 using App.Domain.Core.Contract.AdminAgg.Repository;
@@ -23,12 +24,16 @@ using App.Domain.Core.Contract.ExpertAgg.Repositorty;
 using App.Domain.Core.Contract.ExpertAgg.Service;
 using App.Domain.Core.Contract.HomeServiceAgg.Repository;
 using App.Domain.Core.Contract.HomeServiceAgg.Service;
+using App.Domain.Core.Contract.OrderAgg.AppService;
+using App.Domain.Core.Contract.OrderAgg.Repository;
+using App.Domain.Core.Contract.OrderAgg.Service;
 using App.Domain.Core.Entities;
 using App.Domain.Services.AdminAgg;
 using App.Domain.Services.CityAgg;
 using App.Domain.Services.CustomerAgg;
 using App.Domain.Services.ExpertAgg;
 using App.Domain.Services.HomeserviceServiceAgg;
+using App.Domain.Services.OrderAgg;
 using App.EndPoints.MVC.HomeService.Middlwares;
 using App.Framework;
 using App.Infra.Data.Repos.Ef.AdminAgg;
@@ -37,6 +42,7 @@ using App.Infra.Data.Repos.Ef.CityAgg;
 using App.Infra.Data.Repos.Ef.CustomerAgg;
 using App.Infra.Data.Repos.Ef.ExpertAgg;
 using App.Infra.Data.Repos.Ef.HomeServiceAgg;
+using App.Infra.Data.Repos.Ef.OderAgg;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -89,7 +95,9 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICategoryAppService, CategoryAppService>();
 
-
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderAppService, OrderAppService>();
 
 builder.Services.AddScoped<IAccountAppService, AccountAppService>();
 

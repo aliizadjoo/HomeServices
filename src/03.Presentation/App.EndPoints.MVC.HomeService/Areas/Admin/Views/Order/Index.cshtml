@@ -1,0 +1,159 @@
+﻿@model OrderListViewModel
+@using App.Domain.Core.Enums.OrderAgg
+@using App.Domain.Core.Enums.ProposalAgg
+@using App.EndPoints.MVC.HomeService.Areas.Admin.Models
+
+@{
+    ViewData["Title"] = "مدیریت سفارشات";
+}
+
+<div class="container mt-4" dir="rtl">
+
+    <h4 class="mb-4 fw-bold text-start border-bottom pb-3">
+        <i class="bi bi-cart-fill ms-2 text-primary"></i>پیشنهادات سفارشات
+    </h4>
+
+    @foreach (var order in Model.Orders)
+    {
+        <div class="card shadow-sm mb-4 border-0">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                <div class="d-flex align-items-center">
+                    <span class="badge bg-primary me-2">سفارش #@order.Id</span>
+                    <h6 class="mb-0 fw-bold">@order.HomeServiceName</h6>
+                    <small class="text-muted ms-3"><i class="bi bi-geo-alt"></i> @order.CityName</small>
+                </div>
+                <div>
+                    <span class="badge @GetStatusClass(order.Status)">@GetOrderStatusDisplayName(order.Status)</span>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-3 text-start mb-3 mb-md-0">
+                        <button class="btn btn-primary btn-sm w-100 shadow-sm" type="button" data-bs-toggle="collapse" data-bs-target="#proposals-@order.Id">
+                            <i class="bi bi-eye me-1"></i> مشاهده پیشنهادها (@order.Proposals.Count)
+                        </button>
+                    </div>
+
+                    <div class="col-md-9 text-end border-end">
+                        <p class="text-secondary mb-2">@order.Description</p>
+                        <div class="small text-muted">
+                            <strong>مشتری:</strong> @order.CustomerFirstName @order.CustomerLastName |
+                            <strong>تاریخ اجرا:</strong> <span class="convert-date">@order.ExecutionDate.ToString("yyyy-MM-dd")</span> |
+                            <strong>ساعت:</strong> @order.ExecutionTime
+                        </div>
+                    </div>
+                </div>
+
+                <div class="collapse mt-3" id="proposals-@order.Id">
+                    <div class="table-responsive bg-light p-3 rounded border">
+                        <table class="table table-sm mb-0 table-hover border-0">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th class="text-end">متخصص</th>
+                                    <th class="text-end">قیمت پیشنهادی</th>
+                                    <th class="text-end">وضعیت</th>
+                                    <th class="text-end">توضیحات متخصص</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var p in order.Proposals)
+                                {
+                                    <tr>
+                                        <td class="text-end">@p.ExpertFirstName @p.ExpertLastName</td>
+                                        <td class="text-end text-success fw-bold">@p.Price.ToString("N0") ریال</td>
+                                        <td class="text-end">
+                                            <span class="badge rounded-pill border @GetProposalStatusClass(p.Status) text-dark">
+                                                @GetProposalStatusDisplayName(p.Status)
+                                            </span>
+                                        </td>
+                                        <td class="text-end"><small class="text-muted">@p.Description</small></td>
+                                    </tr>
+                                }
+                                @if (!order.Proposals.Any())
+                                {
+                                    <tr><td colspan="4" class="text-center text-muted py-3">هنوز پیشنهادی برای این سفارش ارسال نشده است.</td></tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (Model.TotalPages > 1)
+    {
+        <nav class="mt-5">
+            <ul class="pagination justify-content-center shadow-sm">
+
+                <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.CurrentPage - 1)">
+                        <i class="bi bi-chevron-right small"></i> قبلی
+                    </a>
+                </li>
+
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-pageNumber="@i">@i</a>
+                    </li>
+                }
+
+                <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.CurrentPage + 1)">
+                        بعدی <i class="bi bi-chevron-left small"></i>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    }
+</div>
+
+@section Scripts {
+    <script src="~/js/date-converter.js"></script>
+}
+
+@functions {
+    
+    string GetOrderStatusDisplayName(OrderStatus status) => status switch
+    {
+        OrderStatus.WaitingForProposals => "در انتظار پیشنهاد",
+        OrderStatus.WaitingForSelection => "در انتظار انتخاب",
+        OrderStatus.ComingToPlace => "اعزام به محل",
+        OrderStatus.Started => "شروع کار",
+        OrderStatus.Finished => "پایان یافته",
+        OrderStatus.Cancelled => "لغو شده",
+        _ => "نامشخص"
+    };
+
+
+    string GetStatusClass(OrderStatus status) => status switch
+    {
+        OrderStatus.WaitingForProposals => "bg-warning text-dark",
+        OrderStatus.WaitingForSelection => "bg-info text-dark",
+        OrderStatus.ComingToPlace => "bg-primary",
+        OrderStatus.Started => "bg-primary",
+        OrderStatus.Finished => "bg-success",
+        OrderStatus.Cancelled => "bg-danger",
+        _ => "bg-secondary"
+    };
+
+    
+    string GetProposalStatusDisplayName(ProposalStatus status) => status switch
+    {
+        ProposalStatus.Pending => "در انتظار بررسی",
+        ProposalStatus.Accepted => "تایید شده",
+        ProposalStatus.Rejected => "رد شده",
+        _ => "نامشخص"
+    };
+
+   
+    string GetProposalStatusClass(ProposalStatus status) => status switch
+    {
+        ProposalStatus.Accepted => "border-success text-success",
+        ProposalStatus.Rejected => "border-danger text-danger",
+        _ => "border-warning text-warning"
+    };
+}

@@ -1,11 +1,10 @@
 ﻿@using App.EndPoints.MVC.HomeService.Areas.Admin.Models
-@using App.EndPoints.MVC.HomeService.Extentions
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model UserManagementViewModel
 
 @{
     ViewData["Title"] = "مدیریت کاربران";
 }
+
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -24,7 +23,7 @@
     </div>
 }
 
-<div class="container-fluid mt-4">
+<div class="container-fluid mt-4" dir="rtl">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-success fw-bold"><i class="bi bi-people-fill"></i> مدیریت جامع کاربران</h2>
         <a asp-action="Create" class="btn btn-success">
@@ -32,7 +31,6 @@
         </a>
     </div>
 
- 
     @if (ViewBag.CustomerError != null || ViewBag.ExpertError != null || ViewBag.AdminError != null)
     {
         <div class="alert alert-warning border-warning shadow-sm">
@@ -40,7 +38,6 @@
         </div>
     }
 
- 
     <ul class="nav nav-tabs border-success" id="userTabs" role="tablist">
         <li class="nav-item">
             <button class="nav-link @(Model.ActiveTab == "customers" ? "active bg-success text-white" : "text-success") fw-bold"
@@ -64,7 +61,6 @@
 
     <div class="tab-content border border-top-0 p-4 bg-white shadow-sm rounded-bottom">
 
-        
         <div class="tab-pane fade @(Model.ActiveTab == "customers" ? "show active" : "")" id="customers">
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
@@ -84,11 +80,11 @@
                                 <td>@c.FirstName @c.LastName</td>
                                 <td>@c.Email</td>
                                 <td>@c.WalletBalance.ToString("N0") ریال</td>
-                                <td>@c.CreatedAt.ToPersianDate()</td> 
+                                <td><span class="convert-date">@c.CreatedAt.ToString("yyyy-MM-dd")</span></td>
                                 <td class="text-center">
                                     <a asp-action="UpdateCustomer" asp-route-id="@c.CustomerId" asp-route-appUserId="@c.AppUserId" class="btn btn-sm btn-outline-primary">ویرایش</a>
-                                    <form asp-action="Delete" asp-route-id="@c.CustomerId" asp-route-appUserId="@c.AppUserId" method="post" class="d-inline" onsubmit="return confirm('حذف  انجام شود؟');">
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">حذف</button> 
+                                    <form asp-action="Delete" asp-route-id="@c.CustomerId" asp-route-appUserId="@c.AppUserId" method="post" class="d-inline" onsubmit="return confirm('حذف انجام شود؟');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">حذف</button>
                                     </form>
                                 </td>
                             </tr>
@@ -104,7 +100,6 @@
                         })
         </div>
 
-       
         <div class="tab-pane fade @(Model.ActiveTab == "experts" ? "show active" : "")" id="experts">
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
@@ -124,10 +119,10 @@
                                 <td>@e.FirstName @e.LastName</td>
                                 <td><span class="badge bg-warning text-dark">@e.AverageScore?.ToString("F1")</span></td>
                                 <td><small>@string.Join(" | ", e.ServiceNames)</small></td>
-                                <td>@e.CreatedAt.ToPersianDate()</td>
+                                <td><span class="convert-date">@e.CreatedAt.ToString("yyyy-MM-dd")</span></td>
                                 <td class="text-center">
                                     <a asp-action="UpdateExpert" asp-route-id="@e.ExpertId" asp-route-appUserId="@e.AppUserId" class="btn btn-sm btn-outline-primary">ویرایش</a>
-                                    <form asp-action="DeleteExpert" asp-route-id="@e.ExpertId" asp-route-appUserId="@e.AppUserId" method="post" class="d-inline" onsubmit="return confirm('حذف  انجام شود؟');">
+                                    <form asp-action="DeleteExpert" asp-route-id="@e.ExpertId" asp-route-appUserId="@e.AppUserId" method="post" class="d-inline" onsubmit="return confirm('حذف انجام شود؟');">
                                         <button type="submit" class="btn btn-sm btn-outline-danger">حذف</button>
                                     </form>
                                 </td>
@@ -144,7 +139,6 @@
                         })
         </div>
 
-      
         <div class="tab-pane fade @(Model.ActiveTab == "admins" ? "show active" : "")" id="admins">
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
@@ -164,12 +158,11 @@
                                 <td class="fw-bold text-success">@a.StaffCode</td>
                                 <td>@a.TotalRevenue.ToString("N0")</td>
                                 <td class="text-center">
-                                    <a asp-action="UpdateAdmin"  asp-route-appUserId="@a.AppUserId" class="btn btn-sm btn-outline-primary">ویرایش</a>
-                                    <form asp-action="DeleteAdmin"  asp-route-appUserId="@a.AppUserId" method="post" class="d-inline" onsubmit="return confirm('حذف  انجام شود؟');">
+                                    <a asp-action="UpdateAdmin" asp-route-appUserId="@a.AppUserId" class="btn btn-sm btn-outline-primary">ویرایش</a>
+                                    <form asp-action="DeleteAdmin" asp-route-appUserId="@a.AppUserId" method="post" class="d-inline" onsubmit="return confirm('حذف انجام شود؟');">
                                         <button type="submit" class="btn btn-sm btn-outline-danger">حذف</button>
                                     </form>
                                 </td>
-
                             </tr>
                         }
                     </tbody>
@@ -184,3 +177,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/date-converter.js"></script>
+}

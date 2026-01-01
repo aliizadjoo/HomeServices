@@ -16,4 +16,8 @@
     <Folder Include="Contract\AccountAgg\Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Contract\OrderAgg\Service\IOrderService.cs" />
+  </ItemGroup>
+
 </Project>
