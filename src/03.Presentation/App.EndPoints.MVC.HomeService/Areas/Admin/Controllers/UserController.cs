@@ -141,6 +141,45 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
             return View(model);
         }
 
+        public IActionResult ChangePassword(int appUserId)
+        {
+            ChangePasswordViewModel changePasswordViewModel = new ChangePasswordViewModel
+            {
+                AppUserId = appUserId,
+            };
+
+            return View(changePasswordViewModel);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+
+            var dto = new ChangePasswordDto
+            {
+                OldPassword = model.OldPassword,
+                NewPassword = model.NewPassword,
+                AppUserId = model.AppUserId,
+            };
+
+            var result = await _accountAppService.ChangePassword( dto);
+
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = result.Message;
+                return RedirectToAction("Index");
+            }
+
+
+            ModelState.AddModelError(string.Empty, result.Message);
+            return View(model);
+        }
 
 
         #region Customer

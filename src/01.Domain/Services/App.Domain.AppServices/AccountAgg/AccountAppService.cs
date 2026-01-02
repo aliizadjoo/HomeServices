@@ -152,5 +152,34 @@ namespace App.Domain.AppServices.AccountAgg
             var errorMessages = string.Join(", ", result.Errors.Select(e => e.Description));
             return Result<bool>.Failure(errorMessages);
         }
+
+
+        public async Task<Result<bool>> ChangePassword( ChangePasswordDto changePasswordDto)
+        {
+          
+            var user = await _userManager.FindByIdAsync(changePasswordDto.AppUserId.ToString());
+
+            if (user == null)
+            {
+                return Result<bool>.Failure("کاربر یافت نشد.");
+            }
+
+            
+            var result = await _userManager.ChangePasswordAsync(
+                user,
+                changePasswordDto.OldPassword,
+                changePasswordDto.NewPassword
+            );
+
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("کاربر با شناسه {UserId} رمز عبور خود را تغییر داد.", changePasswordDto.AppUserId);
+                return Result<bool>.Success(true, "رمز عبور با موفقیت تغییر یافت.");
+            }
+
+            var errorMessages = string.Join(", ", result.Errors.Select(e => e.Description));
+            return Result<bool>.Failure(errorMessages);
+        }
+
     }
 }

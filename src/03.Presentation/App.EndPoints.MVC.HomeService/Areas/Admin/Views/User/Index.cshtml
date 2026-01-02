@@ -83,6 +83,7 @@
                                 <td><span class="convert-date">@c.CreatedAt.ToString("yyyy-MM-dd")</span></td>
                                 <td class="text-center">
                                     <a asp-action="UpdateCustomer" asp-route-id="@c.CustomerId" asp-route-appUserId="@c.AppUserId" class="btn btn-sm btn-outline-primary">ویرایش</a>
+                                    <a asp-action="ChangePassword" asp-route-appUserId="@c.AppUserId" class="btn btn-sm btn-outline-primary">تغییر رمز عبور</a>
                                     <form asp-action="Delete" asp-route-id="@c.CustomerId" asp-route-appUserId="@c.AppUserId" method="post" class="d-inline" onsubmit="return confirm('حذف انجام شود؟');">
                                         <button type="submit" class="btn btn-sm btn-outline-danger">حذف</button>
                                     </form>
@@ -122,6 +123,7 @@
                                 <td><span class="convert-date">@e.CreatedAt.ToString("yyyy-MM-dd")</span></td>
                                 <td class="text-center">
                                     <a asp-action="UpdateExpert" asp-route-id="@e.ExpertId" asp-route-appUserId="@e.AppUserId" class="btn btn-sm btn-outline-primary">ویرایش</a>
+                                    <a asp-action="ChangePassword" asp-route-appUserId="@e.AppUserId" class="btn btn-sm btn-outline-primary">تغییر رمز عبور</a>
                                     <form asp-action="DeleteExpert" asp-route-id="@e.ExpertId" asp-route-appUserId="@e.AppUserId" method="post" class="d-inline" onsubmit="return confirm('حذف انجام شود؟');">
                                         <button type="submit" class="btn btn-sm btn-outline-danger">حذف</button>
                                     </form>
@@ -159,6 +161,7 @@
                                 <td>@a.TotalRevenue.ToString("N0")</td>
                                 <td class="text-center">
                                     <a asp-action="UpdateAdmin" asp-route-appUserId="@a.AppUserId" class="btn btn-sm btn-outline-primary">ویرایش</a>
+                                    <a asp-action="ChangePassword" asp-route-appUserId="@a.AppUserId" class="btn btn-sm btn-outline-primary">تغییر رمز عبور</a>
                                     <form asp-action="DeleteAdmin" asp-route-appUserId="@a.AppUserId" method="post" class="d-inline" onsubmit="return confirm('حذف انجام شود؟');">
                                         <button type="submit" class="btn btn-sm btn-outline-danger">حذف</button>
                                     </form>
