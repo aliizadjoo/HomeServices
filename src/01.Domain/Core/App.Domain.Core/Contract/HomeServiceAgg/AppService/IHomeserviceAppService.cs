@@ -24,7 +24,8 @@ namespace App.Domain.AppServices.HomeserviceAgg
         public Task<Result<HomeserviceDto>> GetById(int id, CancellationToken cancellationToken);
 
         public  Task<Result<bool>> Delete(int id, CancellationToken cancellationToken);
-        
+
+        public Task<Result<HomeservicePagedDto>> GetServicesByCategoryId(int categoryId, int pageNumber, int pageSize, CancellationToken cancellationToken);
 
 
     }

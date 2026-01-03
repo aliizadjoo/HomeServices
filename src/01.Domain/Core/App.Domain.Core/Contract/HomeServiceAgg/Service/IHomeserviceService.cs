@@ -25,6 +25,9 @@ namespace App.Domain.Core.Contract.HomeServiceAgg.Service
 
 
         public  Task<Result<bool>> Delete(int id, CancellationToken cancellationToken);
-      
+
+        public Task<Result<HomeservicePagedDto>> GetServicesByCategoryId(int categoryId, int pageNumber, int pageSize, CancellationToken cancellationToken);
+
+
     }
 }

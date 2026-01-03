@@ -18,38 +18,47 @@ namespace App.EndPoints.MVC.HomeService.Areas.Identity.Controllers
     {
         
 
-        public IActionResult Login()
+        public IActionResult Login(string? returnUrl = null)
         {
-            return View();
+            var model = new UserLoginViewModel { ReturnUrl = returnUrl };
+            return View(model);
+          
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Login(UserLoginViewModel userLoginViewModel)
-        {
 
+        [HttpPost]
+        public async Task<IActionResult> Login(UserLoginViewModel model)
+        {
             if (!ModelState.IsValid)
             {
-                return View(userLoginViewModel);
+                return View(model);
             }
 
             var userLoginDto = new UserLoginDto
             {
-                UserName = userLoginViewModel.UserName,
-                Password = userLoginViewModel.Password,
-                RememberMe = userLoginViewModel.RememberMe
+                UserName = model.UserName,
+                Password = model.Password,
+                RememberMe = model.RememberMe
             };
 
             var result = await _accountAppService.Login(userLoginDto);
 
             if (result)
             {
-                _logger.LogInformation("User {UserName} logged in successfully.", userLoginViewModel.UserName);
+                _logger.LogInformation("User {UserName} logged in successfully.", model.UserName);
+
+                
+                if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+                {
+                    return LocalRedirect(model.ReturnUrl);
+                }
+
                 return RedirectToAction("Index", "Home", new { area = "" });
             }
 
-            _logger.LogWarning("Failed login attempt for user {UserName}.", userLoginViewModel.UserName);
+            _logger.LogWarning("Failed login attempt for user {UserName}.", model.UserName);
             ModelState.AddModelError("", "نام کاربری یا رمز عبور اشتباه است.");
-            return View(userLoginViewModel);
+            return View(model);
         }
 
         public async Task<IActionResult> Register(CancellationToken cancellation)

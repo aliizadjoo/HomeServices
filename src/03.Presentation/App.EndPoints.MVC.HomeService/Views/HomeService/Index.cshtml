@@ -1,0 +1,86 @@
+﻿@using App.Domain.Core.Dtos.HomeServiceAgg
+@model HomeservicePagedDto
+
+@{
+    ViewData["Title"] = "انتخاب سرویس";
+    int currentPage = ViewBag.CurrentPage;
+    int pageSize = ViewBag.PageSize;
+    int totalPages = (int)Math.Ceiling(Model.TotalCount / (double)pageSize);
+    int categoryId = ViewBag.CategoryId;
+
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
+}
+
+@section Styles {
+   
+    <link rel="stylesheet" href="~/css/home-services.css" asp-append-version="true" />
+}
+
+<div class="container py-5" dir="rtl">
+    <div class="text-center mb-5">
+        <h3 class="fw-bold">سرویس‌های دسته‌بندی @(Model.HomeserviceDtos.FirstOrDefault()?.CategoryName ?? "خدمات")</h3>
+        <p class="text-muted">لطفاً سرویس مورد نظر خود را جهت ثبت سفارش انتخاب کنید</p>
+        <div class="mx-auto bg-success" style="height: 3px; width: 50px; border-radius: 2px;"></div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        @foreach (var service in Model.HomeserviceDtos)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0 service-card">
+                    <img src="/images/services/@service.ImagePath"
+                         class="card-img-top service-img"
+                         alt="@service.Name"
+                         onerror="this.src='/images/default-service.png'">
+
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">@service.Name</h5>
+                        <p class="card-text text-muted small service-desc">@service.Description</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="fw-bold price-tag">@service.BasePrice.ToString("N0") ریال</span>
+                            <span class="badge bg-light text-dark border small">قیمت پایه</span>
+                        </div>
+                    </div>
+
+                    <div class="card-footer bg-white border-0 pb-3">
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <a asp-area="Identity" asp-controller="Account" asp-action="Login" asp-route-ReturnUrl="@returnUrl"
+                               class="btn btn-warning w-100 rounded-pill shadow-sm fw-bold">
+                                لطفاً اول لاگین کنید
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-area="Customer" asp-controller="Order" asp-action="Create" asp-route-serviceId="@service.Id"
+                               class="btn btn-success w-100 rounded-pill shadow-sm fw-bold">
+                                ثبت سفارش
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+   
+    @if (totalPages > 1)
+    {
+        <nav class="mt-5">
+            <ul class="pagination justify-content-center">
+                <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                    <a class="page-link shadow-sm" asp-action="Index" asp-route-categoryId="@categoryId" asp-route-pageNumber="@(currentPage - 1)">قبلی</a>
+                </li>
+                @for (int i = 1; i <= totalPages; i++)
+                {
+                    <li class="page-item @(currentPage == i ? "active" : "")">
+                        <a class="page-link shadow-sm" asp-action="Index" asp-route-categoryId="@categoryId" asp-route-pageNumber="@i">@i</a>
+                    </li>
+                }
+                <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                    <a class="page-link shadow-sm" asp-action="Index" asp-route-categoryId="@categoryId" asp-route-pageNumber="@(currentPage + 1)">بعدی</a>
+                </li>
+            </ul>
+        </nav>
+    }
+</div>

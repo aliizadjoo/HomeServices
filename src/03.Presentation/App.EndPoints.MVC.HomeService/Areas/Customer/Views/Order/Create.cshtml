@@ -1,0 +1,87 @@
+﻿@using App.EndPoints.MVC.HomeService.Areas.Customer.Models
+@model CreateOrderViewModel
+
+@{
+    ViewData["Title"] = "ثبت درخواست خدمت";
+}
+
+<link rel="stylesheet" href="https://unpkg.com/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css">
+
+<div class="container py-5" dir="rtl">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-primary text-white py-3 rounded-top-4">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-pencil-square me-2"></i>فرم ثبت درخواست: @Model.ServiceName</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post" enctype="multipart/form-data">
+                        <input type="hidden" asp-for="HomeServiceId" />
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-muted">نام سرویس</label>
+                                <input type="text" class="form-control bg-light" value="@Model.ServiceName" readonly />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-muted">قیمت پایه (ریال)</label>
+                                <input type="text" class="form-control bg-light" value="@Model.BasePrice" readonly />
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <div class="mb-4 text-start">
+                            <label asp-for="Description" class="form-label fw-bold text-end w-100"></label>
+                            <textarea asp-for="Description" class="form-control" rows="4" placeholder="جزئیات دقیق خواسته خود را شرح دهید..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6 text-start">
+                                <label asp-for="ExecutionDateShamsi" class="form-label fw-bold text-end w-100"></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-calendar-check"></i></span>
+                                    <input asp-for="ExecutionDateShamsi" class="form-control p-datepicker"  placeholder="انتخاب تاریخ" />
+                                </div>
+                                <span asp-validation-for="ExecutionDateShamsi" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 text-start">
+                                <label asp-for="ExecutionTime" class="form-label fw-bold text-end w-100"></label>
+                                <input asp-for="ExecutionTime" type="time" class="form-control" />
+                                <span asp-validation-for="ExecutionTime" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4 text-start">
+                            <label asp-for="CityId" class="form-label fw-bold text-end w-100"></label>
+                            <select asp-for="CityId" asp-items="Model.Cities" class="form-select">
+                                <option value="">--- انتخاب شهر محل انجام کار ---</option>
+                            </select>
+                            <span asp-validation-for="CityId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4 text-start">
+                            <label asp-for="ImageFiles" class="form-label fw-bold text-end w-100"></label>
+                            <input asp-for="ImageFiles" type="file" multiple class="form-control" accept="image/*" />
+                            <div class="form-text">می‌توانید چند تصویر جهت شفافیت بیشتر درخواست خود آپلود کنید.</div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5 border-top pt-4">
+                            <a asp-area="" asp-controller="HomeService" asp-action="Index" asp-route-categoryId="1" class="btn btn-outline-secondary px-5 rounded-pill">انصراف</a>
+                            <button type="submit" class="btn btn-primary px-5 rounded-pill shadow">ثبت نهایی درخواست</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://unpkg.com/persian-date@1.1.0/dist/persian-date.min.js"></script>
+    <script src="https://unpkg.com/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+
+    <script src="~/js/order-create.js"></script>
+    <partial name="_ValidationScriptsPartial" />
+}

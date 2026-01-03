@@ -1,0 +1,162 @@
+﻿@using App.Domain.Core.Dtos.OrderAgg
+@using App.Domain.Core.Enums.OrderAgg
+@model OrderPagedDtos
+
+@{
+    ViewData["Title"] = "سفارشات من";
+    int currentPage = ViewBag.CurrentPage;
+    int totalPages = ViewBag.TotalPages;
+}
+
+<div class="container py-5" dir="rtl">
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+        <h4 class="fw-bold text-primary"><i class="bi bi-list-stars ms-2"></i>تاریخچه سفارشات من</h4>
+        <span class="badge bg-dark rounded-pill">تعداد کل: @Model.TotalCount</span>
+    </div>
+
+    @if (!Model.orderDtos.Any())
+    {
+        <div class="alert alert-info text-center py-5 shadow-sm border-0 rounded-4">
+            <i class="bi bi-info-circle fs-1 d-block mb-3"></i>
+            <p class="mb-0">شما هنوز هیچ سفارشی در سامانه ثبت نکرده‌اید.</p>
+            <a href="/" class="btn btn-primary mt-3 px-4 rounded-pill">مشاهده سرویس‌ها و ثبت سفارش</a>
+        </div>
+    }
+
+    @foreach (var order in Model.orderDtos)
+    {
+        <div class="card shadow-sm mb-5 border-0 rounded-4 overflow-hidden order-card">
+            <div class="row g-0">
+                <div class="col-md-4 bg-light p-0 border-start">
+                    @{
+                        var carouselId = "carousel-" + order.Id;
+                    }
+                    @if (order.ImagePaths != null && order.ImagePaths.Any())
+                    {
+                        <div id="@carouselId" class="carousel slide h-100" data-bs-ride="carousel">
+                            @if (order.ImagePaths.Count > 1)
+                            {
+                                <div class="carousel-indicators">
+                                    @for (int i = 0; i < order.ImagePaths.Count; i++)
+                                    {
+                                        <button type="button" data-bs-target="#@carouselId" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")" aria-current="@(i == 0 ? "true" : "false")"></button>
+                                    }
+                                </div>
+                            }
+
+                            <div class="carousel-inner h-100">
+                                @for (int i = 0; i < order.ImagePaths.Count; i++)
+                                {
+                                    <div class="carousel-item h-100 @(i == 0 ? "active" : "")">
+                                        <img src="/images/orders/@order.ImagePaths[i]" class="d-block w-100 h-100" style="object-fit: cover; min-height: 250px;" alt="تصویر سفارش">
+                                    </div>
+                                }
+                            </div>
+
+                            @if (order.ImagePaths.Count > 1)
+                            {
+                                <button class="carousel-control-prev" type="button" data-bs-target="#@carouselId" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">قبلی</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#@carouselId" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">بعدی</span>
+                                </button>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="d-flex flex-column align-items-center justify-content-center h-100 text-muted py-5">
+                            <i class="bi bi-image fs-1 opacity-25"></i>
+                            <p class="small">تصویری ثبت نشده است</p>
+                        </div>
+                    }
+                </div>
+
+                <div class="col-md-8 d-flex flex-column">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold text-dark mb-0">@order.HomeServiceName</h5>
+                            <span class="badge @GetStatusClass(order.Status) px-3 py-2 rounded-pill">
+                                @GetStatusName(order.Status)
+                            </span>
+                        </div>
+
+                        <p class="text-secondary mb-4" style="text-align: justify; line-height: 1.7;">
+                            @order.Description
+                        </p>
+
+                        <div class="row g-3 bg-light rounded-3 p-3 mt-auto">
+                            <div class="col-6 col-md-4">
+                                <div class="text-muted small mb-1">تاریخ اجرا</div>
+                                <div class="fw-bold"><i class="bi bi-calendar3 me-1 text-primary"></i> <span class="convert-date">@order.ExecutionDate.ToString("yyyy-MM-dd")</span></div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="text-muted small mb-1">ساعت</div>
+                                <div class="fw-bold"><i class="bi bi-clock me-1 text-primary"></i> @order.ExecutionTime</div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="text-muted small mb-1">شهر محل انجام</div>
+                                <div class="fw-bold"><i class="bi bi-geo-alt me-1 text-danger"></i> @order.CityName</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0 text-start p-4 pt-0">
+                        <a asp-action="Details" asp-route-id="@order.Id" class="btn btn-primary px-4 rounded-pill shadow-sm">
+                            مشاهده پیشنهادها و جزئیات <i class="bi bi-chevron-left ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (totalPages > 1)
+    {
+        <nav class="mt-5">
+            <ul class="pagination justify-content-center shadow-sm">
+                <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" asp-action="MyOrders" asp-route-pageNumber="@(currentPage - 1)">قبلی</a>
+                </li>
+                @for (int i = 1; i <= totalPages; i++)
+                {
+                    <li class="page-item @(currentPage == i ? "active" : "")">
+                        <a class="page-link" asp-action="MyOrders" asp-route-pageNumber="@i">@i</a>
+                    </li>
+                }
+                <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                    <a class="page-link" asp-action="MyOrders" asp-route-pageNumber="@(currentPage + 1)">بعدی</a>
+                </li>
+            </ul>
+        </nav>
+    }
+</div>
+
+@section Scripts {
+    <script src="~/js/date-converter.js"></script>
+    <script src="~/js/order-slider-init.js"></script>
+}
+
+@functions {
+    string GetStatusName(OrderStatus status) => status switch
+    {
+        OrderStatus.WaitingForProposals => "در انتظار پیشنهاد",
+        OrderStatus.WaitingForSelection => "انتخاب متخصص",
+        OrderStatus.ComingToPlace => "در راه محل",
+        OrderStatus.Started => "در حال انجام",
+        OrderStatus.Finished => "پایان یافته",
+        OrderStatus.Cancelled => "لغو شده",
+        _ => "نامشخص"
+    };
+
+    string GetStatusClass(OrderStatus status) => status switch
+    {
+        OrderStatus.WaitingForProposals => "bg-warning text-dark",
+        OrderStatus.Finished => "bg-success",
+        OrderStatus.Cancelled => "bg-danger",
+        OrderStatus.Started => "bg-primary",
+        _ => "bg-secondary"
+    };
+}

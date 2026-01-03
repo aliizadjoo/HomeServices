@@ -127,6 +127,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
 
             if (result.Succeeded)
             {
+                TempData["SuccessMessage"] = "کاربر با موفقیت ایجاد شد.";
                 _logger.LogInformation("کاربر جدید با نقش {Role} ایجاد شد.", selectedRole.Name);
                 return RedirectToAction("Index");
             }
@@ -135,7 +136,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
-
+            TempData["ErrorMessage"] = "عملیات ثبت کاربر با خطا مواجه شد.";
             ViewBag.CityDtos = await _cityAppService.GetAll(cancellationToken);
             ViewBag.RoleDtos = await _accountAppService.GetRoles(cancellationToken);
             return View(model);

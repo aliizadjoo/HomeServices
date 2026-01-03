@@ -28,5 +28,27 @@
 
             return fileName;
         }
+
+        public static List<string> UploadFiles(this List<IFormFile>? files, string folderName)
+        {
+            var paths = new List<string>();
+
+            if (files == null || !files.Any())
+            {
+                return paths; 
+            }
+
+            foreach (var file in files)
+            {
+                if (file.Length > 0)
+                {
+                    
+                    var path = file.UploadFile(folderName);
+                    paths.Add(path);
+                }
+            }
+
+            return paths;
+        }
     }
 }

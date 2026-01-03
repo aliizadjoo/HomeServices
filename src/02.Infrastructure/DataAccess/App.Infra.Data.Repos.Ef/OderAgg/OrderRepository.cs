@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core.Contract.OrderAgg.Repository;
 using App.Domain.Core.Dtos.OrderAgg;
 using App.Domain.Core.Dtos.ProposalAgg;
+using App.Domain.Core.Entities;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,6 +14,39 @@ namespace App.Infra.Data.Repos.Ef.OderAgg
 {
     public class OrderRepository(AppDbContext _context) : IOrderRepository
     {
+        public async Task<int> Create(OrderCreateDto orderCreateDto, CancellationToken cancellationToken)
+        {
+            var customerId = await _context.Customers
+                             .Where(c => c.AppUserId == orderCreateDto.AppUserId)
+                             .Select(c => c.Id)
+                             .FirstOrDefaultAsync(cancellationToken);
+
+            if (customerId == 0)
+            {
+               
+                return 0;
+            }
+
+            var order = new Order()
+            {
+                Description = orderCreateDto.Description,
+                ExecutionDate = orderCreateDto.ExecutionDate,
+                ExecutionTime = orderCreateDto.ExecutionTime,
+                CustomerId = customerId,
+                HomeServiceId = orderCreateDto.HomeServiceId,
+                CityId = orderCreateDto.CityId,
+                Images = orderCreateDto.ImagePaths.Select(path => new OrderImage
+                {
+                    ImagePath = path
+                   
+                }).ToList()
+            };
+
+           await _context.Orders.AddAsync(order, cancellationToken);
+ 
+           
+           return  await _context.SaveChangesAsync(cancellationToken);
+        }
 
         public async Task<OrderPagedDtos> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
@@ -58,7 +92,42 @@ namespace App.Infra.Data.Repos.Ef.OderAgg
             };
         }
 
+        public async Task<OrderPagedDtos> GetOrdersByAppUserId(int appUserId,int pageNumber, int pageSize, CancellationToken cancellationToken)
+        {
+            var query = _context.Orders
+                .Include(o => o.Customer)
+                .Where(o => o.Customer.AppUserId == appUserId).AsQueryable();
+             var totalCount = await query.CountAsync(cancellationToken);
+
+            var data= await query.AsNoTracking()
+                     .OrderBy(o=>o.CreatedAt)
+                      .Skip((pageNumber - 1) * pageSize)
+                     .Take(pageSize)
+                     .Select(o => new OrderDto
+                     { 
+                        Id=o.Id,
+                        Description = o.Description,                        
+                        Status = o.Status,
+                        ExecutionDate = o.ExecutionDate,
+                        ExecutionTime = o.ExecutionTime,
+                        CustomerId= o.CustomerId,    
+                        CustomerFirstName=o.Customer.AppUser.FirstName,
+                        CustomerLastName = o.Customer.AppUser.LastName,
+                        HomeServiceId = o.HomeServiceId,
+                        HomeServiceName= o.HomeService.Name,
+                        CityId = o.CityId,
+                        CityName = o.City.Name,
+                         ImagePaths = o.Images.Select(path => path.ImagePath).ToList()
+                     }).ToListAsync(cancellationToken);
+
+            return new OrderPagedDtos
+            {
+                orderDtos = data,
+                TotalCount = totalCount,
+
+            };
 
 
+        }
     }
 }

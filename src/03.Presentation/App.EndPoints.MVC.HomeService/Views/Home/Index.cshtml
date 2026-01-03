@@ -1,8 +1,95 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using App.Domain.Core.Dtos.CategoryAgg
+@model CategoryPagedDto
+
+@{
+    ViewData["Title"] = "صفحه اصلی - انتخاب دسته‌بندی";
+
+    int currentPage = ViewBag.CurrentPage ?? 1;
+    int pageSize = ViewBag.PageSize ?? 4;
+    int totalPages = (int)Math.Ceiling(Model.TotalCount / (double)pageSize);
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@section Styles {
+    <link rel="stylesheet" href="~/css/home-categories.css" asp-append-version="true" />
+}
+
+<div class="container py-5" dir="rtl">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-dark">به سامانه خدمات خانگی خوش آمدید</h2>
+        <p class="text-muted">لطفاً برای شروع، دسته‌بندی مورد نظر خود را انتخاب کنید</p>
+        <div class="mx-auto bg-primary section-divider"></div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        @foreach (var item in Model.CategoryDtos)
+        {
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm transition-up">
+
+                    
+                    <div class="category-img-wrapper">
+                        <img src="/images/categories/@item.ImagePath"
+                             alt="@item.Title"
+                             class="category-img"
+                             onerror="this.src='/images/default-category.png'">
+
+                        <div class="category-overlay">
+                            <h5 class="mb-0">@item.Title</h5>
+                        </div>
+                    </div>
+
+                    <div class="card-body text-center">
+                        <p class="text-muted small mb-3">
+                            مشاهده بهترین متخصصین در حوزه @item.Title
+                        </p>
+
+                        <a asp-controller="HomeService"
+                           asp-action="index"
+                           asp-route-categoryId="@item.Id"
+                           class="btn btn-primary w-100 rounded-pill fw-bold">
+                            مشاهده سرویس‌ها
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (totalPages > 1)
+    {
+        <nav class="mt-5">
+            <ul class="pagination justify-content-center">
+
+                <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-pageNumber="@(currentPage - 1)"
+                       asp-route-pageSize="@pageSize">
+                        قبلی
+                    </a>
+                </li>
+
+                @for (int i = 1; i <= totalPages; i++)
+                {
+                    <li class="page-item @(currentPage == i ? "active" : "")">
+                        <a class="page-link"
+                           asp-action="Index"
+                           asp-route-pageNumber="@i"
+                           asp-route-pageSize="@pageSize">@i</a>
+                    </li>
+                }
+
+                <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-pageNumber="@(currentPage + 1)"
+                       asp-route-pageSize="@pageSize">
+                        بعدی
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    }
 </div>

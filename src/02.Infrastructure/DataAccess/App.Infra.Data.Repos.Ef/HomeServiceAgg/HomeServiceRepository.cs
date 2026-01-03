@@ -125,5 +125,36 @@ namespace App.Infra.Data.Repos.Ef.HomeServiceAgg
         }
 
 
+        public async Task<HomeservicePagedDto> GetServicesByCategoryId(int categoryId, int pageNumber, int pageSize, CancellationToken cancellationToken)
+        {
+           
+            var query = _context.HomeServices
+                .Where(hs => hs.CategoryId == categoryId ); 
+
+            var totalCount = await query.CountAsync(cancellationToken);
+
+            var data = await query.AsNoTracking()
+                .OrderBy(hs => hs.CreatedAt)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .Select(hs => new HomeserviceDto
+                {
+                    Id = hs.Id,
+                    Name = hs.Name,
+                    CategoryName = hs.Category.Title,
+                    CategoryId = categoryId,
+                    BasePrice = hs.BasePrice,
+                    Description = hs.Description,
+                    ImagePath = hs.ImagePath,
+                }).ToListAsync(cancellationToken);
+
+            return new HomeservicePagedDto
+            {
+                HomeserviceDtos = data,
+                TotalCount = totalCount,
+            };
+        }
+
+
     }
 }

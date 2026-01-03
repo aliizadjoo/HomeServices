@@ -10,7 +10,10 @@ namespace App.Domain.Core.Contract.OrderAgg.Repository
     public interface IOrderRepository
     {
         public Task<OrderPagedDtos> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken);
+        public Task<int> Create(OrderCreateDto orderCreateDto , CancellationToken cancellationToken);
 
-     
+        public Task<OrderPagedDtos> GetOrdersByAppUserId(int appUserId,int pageNumber, int pageSize, CancellationToken cancellationToken);
+
+
     }
 }

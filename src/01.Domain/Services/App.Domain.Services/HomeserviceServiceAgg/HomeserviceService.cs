@@ -94,5 +94,16 @@ namespace App.Domain.Services.HomeserviceServiceAgg
 
             return Result<bool>.Failure("عملیات حذف شکست خورد. .");
         }
+
+
+        public async Task<Result<HomeservicePagedDto>> GetServicesByCategoryId(int categoryId, int pageNumber, int pageSize, CancellationToken cancellationToken)
+        {
+            var data = await _homeserviceRepository.GetServicesByCategoryId(categoryId, pageNumber, pageSize, cancellationToken);
+
+            if (data.HomeserviceDtos == null || !data.HomeserviceDtos.Any())
+                return Result<HomeservicePagedDto>.Failure("سرویسی در این دسته‌بندی یافت نشد.");
+
+            return Result<HomeservicePagedDto>.Success(data);
+        }
     }
 }
