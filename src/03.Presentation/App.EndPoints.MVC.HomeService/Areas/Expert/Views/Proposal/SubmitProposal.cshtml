@@ -1,0 +1,70 @@
+﻿@using App.EndPoints.MVC.HomeService.Areas.Expert.Models
+@model ProposalViewModel
+
+@{
+    ViewData["Title"] = "ثبت پیشنهاد قیمت";
+}
+
+<link rel="stylesheet" href="https://unpkg.com/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css">
+
+<div class="container py-5" dir="rtl">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-success text-white py-3">
+                    <h5 class="mb-0 fw-bold">ثبت پیشنهاد برای: @Model.OrderTitle</h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="alert alert-info border-0 rounded-3 mb-4">
+                        <i class="bi bi-info-circle me-2"></i>
+                        قیمت پایه این سرویس <strong>@Model.BasePrice.ToString("N0") ریال</strong> می‌باشد.
+                        قیمت پیشنهادی شما نباید کمتر از این مقدار باشد.
+                    </div>
+
+                    <form asp-action="SubmitProposal" asp-controller="Proposal" method="post" >
+                        <input type="hidden" asp-for="OrderId" />
+                        <input type="hidden" asp-for="BasePrice"  />
+
+                        <div class="mb-4">
+                            <label asp-for="Price" class="form-label fw-bold"></label>
+                            <div class="input-group">
+                                <input asp-for="Price" type="number" class="form-control" id="txtPrice" placeholder="مثلاً @Model.BasePrice" />
+                                <span class="input-group-text">ریال</span>
+                            </div>
+                            <span asp-validation-for="Price" class="text-danger small" id="priceError"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="SuggestedDateShamsi" class="form-label fw-bold"></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
+                                <input asp-for="SuggestedDateShamsi" class="form-control p-datepicker" readonly placeholder="انتخاب تاریخ شروع کار" />
+                            </div>
+                            <span asp-validation-for="SuggestedDateShamsi" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Description" class="form-label fw-bold"></label>
+                            <textarea asp-for="Description" class="form-control" rows="4" placeholder="رزومه مرتبط یا نحوه انجام کار را اینجا بنویسید..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a asp-action="Index" asp-controller="Order" class="btn btn-outline-secondary px-4 rounded-pill">انصراف</a>
+                            <button type="submit" class="btn btn-success px-5 rounded-pill fw-bold shadow">ارسال پیشنهاد</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/persian-date@1.1.0/dist/persian-date.min.js"></script>
+    <script src="https://unpkg.com/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+
+    <script src="~/js/proposal-submission.js"></script>
+    <partial name="_ValidationScriptsPartial" />
+}

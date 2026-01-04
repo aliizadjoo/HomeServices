@@ -1,0 +1,136 @@
+﻿@using App.Domain.Core.Dtos.OrderAgg
+@model AvailableOrdersPagedDto
+
+@{
+    ViewData["Title"] = "فرصت‌های شغلی جدید";
+    int currentPage = ViewBag.CurrentPage ?? 1;
+    int totalPages = ViewBag.TotalPages ?? 0;
+}
+
+<div class="container py-5" dir="rtl">
+    <div class="d-flex justify-content-between align-items-center mb-5 border-bottom pb-3">
+        <h3 class="fw-bold text-success"><i class="bi bi-briefcase-fill ms-2"></i>سفارش‌های متناسب با تخصص شما</h3>
+        <span class="badge bg-dark rounded-pill px-3 py-2">تعداد کل فرصت‌ها: @Model.TotalCount</span>
+    </div>
+
+    @if (TempData["InfoMessage"] != null)
+    {
+        <div class="alert alert-warning border-0 shadow-sm rounded-4 text-center py-4">
+            <i class="bi bi-exclamation-triangle fs-2 d-block mb-2"></i>
+            @TempData["InfoMessage"]
+        </div>
+    }
+
+    @foreach (var order in Model.AvailableOrdersDto)
+    {
+        <div class="card shadow-sm mb-4 border-0 rounded-4 overflow-hidden order-card">
+            <div class="row g-0">
+                <div class="col-md-4 bg-light border-start">
+                    @{
+                        var carouselId = "carousel-" + order.OrderId;
+                    }
+                    @if (order.Images != null && order.Images.Any())
+                    {
+                        <div id="@carouselId" class="carousel slide h-100" data-bs-ride="carousel">
+                            <div class="carousel-inner h-100">
+                                @for (int i = 0; i < order.Images.Count; i++)
+                                {
+                                    <div class="carousel-item h-100 @(i == 0 ? "active" : "")">
+                                        <img src="/images/orders/@order.Images[i]" class="d-block w-100 h-100" style="object-fit: cover; min-height: 250px;" alt="تصویر محل کار">
+                                    </div>
+                                }
+                            </div>
+                            @if (order.Images.Count > 1)
+                            {
+                                <button class="carousel-control-prev" type="button" data-bs-target="#@carouselId" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon"></span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#@carouselId" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon"></span>
+                                </button>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="d-flex flex-column align-items-center justify-content-center h-100 py-5 text-muted">
+                            <i class="bi bi-camera-video-off fs-1 opacity-25"></i>
+                            <p class="small">تصویری توسط مشتری ثبت نشده</p>
+                        </div>
+                    }
+                </div>
+
+                <div class="col-md-8 p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h5 class="fw-bold text-dark">@order.HomeServiceName</h5>
+                        <div class="text-end">
+                            <small class="text-muted d-block">مشتری:</small>
+                            <span class="fw-bold">@order.CustomerFullName</span>
+                        </div>
+                    </div>
+
+                    <p class="text-secondary small mb-4" style="line-height: 1.8; height: 50px; overflow: hidden;">
+                        @order.Description
+                    </p>
+
+                    <div class="row g-2 border-top pt-3 mb-4">
+                        <div class="col-md-4">
+                            <small class="text-muted d-block">زمان درخواستی:</small>
+                            <span class="fw-bold small"><i class="bi bi-calendar-event me-1"></i> <span class="convert-date">@order.ExecutionDate.ToString("yyyy-MM-dd")</span></span>
+                            <span class="fw-bold small ms-2"><i class="bi bi-clock me-1"></i> @order.ExecutionTime</span>
+                        </div>
+                        <div class="col-md-4">
+                            <small class="text-muted d-block">قیمت پایه سرویس:</small>
+                            <span class="text-success fw-bold">@order.BasePrice.ToString("N0") ریال</span>
+                        </div>
+                        <div class="col-md-4 text-md-start">
+                            <small class="text-muted d-block">وضعیت مناقصه:</small>
+                            <span class="badge bg-light text-primary border border-primary">در انتظار پیشنهاد</span>
+                        </div>
+                    </div>
+
+                    <div class="text-start">
+                        @if (order.IsProposalSent)
+                        {
+                            <button class="btn btn-secondary px-5 rounded-pill shadow-sm fw-bold" disabled>
+                                <i class="bi bi-check-all me-1"></i> پیشنهاد ارسال شده
+                            </button>
+                        }
+                        else
+                        {
+                            <a asp-controller="Proposal" asp-action="SubmitProposal" asp-route-orderId="@order.OrderId"
+                               class="btn btn-success px-5 rounded-pill shadow-sm fw-bold">
+                                <i class="bi bi-plus-circle me-1"></i> ثبت پیشنهاد قیمت
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (totalPages > 1)
+    {
+        <nav class="mt-5">
+            <ul class="pagination justify-content-center">
+                <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                    <a class="page-link shadow-sm" asp-action="Index" asp-route-pageNumber="@(currentPage - 1)">قبلی</a>
+                </li>
+                @for (int i = 1; i <= totalPages; i++)
+                {
+                    <li class="page-item @(currentPage == i ? "active" : "")">
+                        <a class="page-link shadow-sm mx-1" asp-action="Index" asp-route-pageNumber="@i">@i</a>
+                    </li>
+                }
+                <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                    <a class="page-link shadow-sm" asp-action="Index" asp-route-pageNumber="@(currentPage + 1)">بعدی</a>
+                </li>
+            </ul>
+        </nav>
+    }
+</div>
+
+@section Scripts {
+    <script src="~/js/date-converter.js"></script>
+    <script src="~/js/order-slider-init.js"></script>
+}

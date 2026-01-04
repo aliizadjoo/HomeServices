@@ -1,5 +1,5 @@
 ﻿using App.Domain.Core._common;
-using App.Domain.Core.Contract.ExpertAgg.Repositorty;
+using App.Domain.Core.Contract.ExpertAgg.Repository;
 using App.Domain.Core.Dtos.CustomerAgg;
 using App.Domain.Core.Dtos.ExpertAgg;
 using App.Domain.Core.Entities;
@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace App.Infra.Data.Repos.Ef.ExpertAgg
 {
-    public class ExpertRepositoy(AppDbContext _context) : IExpertRepositoy
+    public class ExpertRepositoy(AppDbContext _context) : IExpertRepository
     {
 
 
@@ -173,6 +173,14 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
 
 
             return rowsAffectedUser > 0 && rowsAffectedCustomer > 0;
+        }
+
+        public async Task<int> GetIdByAppUserId(int appUserId, CancellationToken cancellationToken)
+        {
+            return await _context.Experts
+                            .Where(e => e.AppUserId == appUserId)
+                            .Select(e => e.Id) 
+                            .FirstOrDefaultAsync(cancellationToken);
         }
     }
 }

@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.Contract.ExpertAgg.Repositorty
+namespace App.Domain.Core.Contract.ExpertAgg.Repository
 {
-    public interface IExpertRepositoy
+    public interface IExpertRepository
     {
         public Task<ProfileExpertDto?> GetProfile(int expertId, CancellationToken cancellationToken);
         public  Task<int> Create(CreateExpertDto expertDto, CancellationToken cancellationToken);
@@ -18,8 +18,8 @@ namespace App.Domain.Core.Contract.ExpertAgg.Repositorty
         public Task<ExpertPagedResultDto> GetAll( int pageNumber, int pageSize, CancellationToken cancellationToken);
 
         public Task<bool> Delete(int appUserId, CancellationToken cancellationToken);
-      
 
+        public Task<int> GetIdByAppUserId(int appUserId, CancellationToken cancellationToken);
 
     }
 }

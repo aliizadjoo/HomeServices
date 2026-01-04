@@ -22,9 +22,19 @@ namespace App.Domain.AppServices.OrderAgg
             return await _orderService.GetAll(pageNumber, pageSize, cancellationToken);
         }
 
+        public async Task<Result<AvailableOrdersPagedDto>> GetAvailableForExpert(int expertId, int pageNumber, int pageSize, CancellationToken cancellationToken)
+        {
+          return await _orderService.GetAvailableForExpert(expertId, pageNumber, pageSize, cancellationToken);
+        }
+
         public async Task<Result<OrderPagedDtos>> GetOrdersByAppUserId(int appUserId, int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
           return await  _orderService.GetOrdersByAppUserId(appUserId, pageNumber, pageSize, cancellationToken);
+        }
+
+        public async Task<Result<OrderSummaryDto>> GetOrderSummary(int orderId, CancellationToken cancellationToken)
+        {
+          return await   _orderService.GetOrderSummary(orderId, cancellationToken);
         }
     }
 }

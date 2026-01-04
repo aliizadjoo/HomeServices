@@ -84,7 +84,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.OrderAgg
            HomeServiceId = 3,
            CityId = 1,
            Description = "یخچال ساید بای ساید صدای ناهنجار می‌دهد",
-           Status = OrderStatus.WaitingForSelection,
+           Status = OrderStatus.WaitingForProposals,
            ExecutionDate = new DateTime(2025, 2, 5),
            ExecutionTime = new TimeSpan(14, 30, 0),
            CreatedAt = new DateTime(2025, 1, 15),

@@ -65,7 +65,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.HomeServiceAgg
     new HomeService
     {
         Id = 2,
-        Name = "تعمیر کولر آبی",
+        Name = "تعمیر کولر ",
         Description = "سرویس دوره‌ای و تعمیر موتور کولر",
         ImagePath = "cooler-repair.jpg",
         BasePrice = 300000m,

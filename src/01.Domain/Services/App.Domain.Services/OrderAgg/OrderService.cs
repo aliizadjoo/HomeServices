@@ -74,5 +74,41 @@ namespace App.Domain.Services.OrderAgg
             return Result<OrderPagedDtos>.Success(result);
         }
 
+
+        public async Task<Result<AvailableOrdersPagedDto>> GetAvailableForExpert(int expertId, int pageNumber, int pageSize, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Attempting to fetch available orders for Expert (AppUserId: {AppUserId}). Page: {Page}, Size: {Size}",
+                expertId, pageNumber, pageSize);
+
+            var result = await _orderRepository.GetAvailableForExpertAsync(expertId, pageNumber, pageSize, cancellationToken);
+
+           
+            if (result == null || result.TotalCount == 0)
+            {
+                _logger.LogWarning("No available orders matching skills and city were found for Expert: {ExpertId}", expertId);
+
+                return Result<AvailableOrdersPagedDto>.Failure("در حال حاضر سفارش جدیدی متناسب با تخصص و شهر شما ثبت نشده است.");
+            }
+
+            _logger.LogInformation("Successfully retrieved {Count} available orders for Expert: {AppUserId}",
+                result.AvailableOrdersDto.Count, expertId);
+
+            return Result<AvailableOrdersPagedDto>.Success(result);
+        }
+
+        public async Task<Result<OrderSummaryDto>> GetOrderSummary(int orderId, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Fetching order summary for OrderId: {OrderId}", orderId);
+
+            var orderSummary = await _orderRepository.GetOrderDetails(orderId, cancellationToken);
+
+            if (orderSummary == null)
+            {
+                _logger.LogWarning("Order summary not found for OrderId: {OrderId}", orderId);
+                return Result<OrderSummaryDto>.Failure("مشخصات سفارش مورد نظر یافت نشد یا ممکن است لغو شده باشد.");
+            }
+
+            return Result<OrderSummaryDto>.Success(orderSummary);
+        }
     }
 }

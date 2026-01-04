@@ -8,11 +8,9 @@ namespace App.Domain.Core.Enums.OrderAgg
 {
     public enum OrderStatus
     {
-        WaitingForProposals = 1, 
-        WaitingForSelection = 2, 
-        ComingToPlace = 3,      
-        Started = 4,             
-        Finished = 5,                       
-        Cancelled = 6        
+        WaitingForProposals = 1,       
+        Started = 2,             
+        Finished = 3,                       
+        Cancelled = 4        
     }
 }

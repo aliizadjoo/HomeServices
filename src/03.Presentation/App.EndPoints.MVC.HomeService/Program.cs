@@ -6,6 +6,7 @@ using App.Domain.AppServices.CustomerAgg;
 using App.Domain.AppServices.ExpertAgg;
 using App.Domain.AppServices.HomeserviceAgg;
 using App.Domain.AppServices.OrderAgg;
+using App.Domain.AppServices.ProposalAgg;
 using App.Domain.AppServices.ReviewAgg;
 using App.Domain.Core.Contract.AccountAgg.AppServices;
 using App.Domain.Core.Contract.AdminAgg.AppService;
@@ -21,13 +22,17 @@ using App.Domain.Core.Contract.CustomerAgg.AppService;
 using App.Domain.Core.Contract.CustomerAgg.Repository;
 using App.Domain.Core.Contract.CustomerAgg.Service;
 using App.Domain.Core.Contract.ExpertAgg.AppService;
-using App.Domain.Core.Contract.ExpertAgg.Repositorty;
+using App.Domain.Core.Contract.ExpertAgg.Repository;
+
 using App.Domain.Core.Contract.ExpertAgg.Service;
 using App.Domain.Core.Contract.HomeServiceAgg.Repository;
 using App.Domain.Core.Contract.HomeServiceAgg.Service;
 using App.Domain.Core.Contract.OrderAgg.AppService;
 using App.Domain.Core.Contract.OrderAgg.Repository;
 using App.Domain.Core.Contract.OrderAgg.Service;
+using App.Domain.Core.Contract.ProposalAgg.AppService;
+using App.Domain.Core.Contract.ProposalAgg.Repository;
+using App.Domain.Core.Contract.ProposalAgg.Service;
 using App.Domain.Core.Contract.ReviewAgg.AppService;
 using App.Domain.Core.Contract.ReviewAgg.Repository;
 using App.Domain.Core.Contract.ReviewAgg.Service;
@@ -38,6 +43,7 @@ using App.Domain.Services.CustomerAgg;
 using App.Domain.Services.ExpertAgg;
 using App.Domain.Services.HomeserviceServiceAgg;
 using App.Domain.Services.OrderAgg;
+using App.Domain.Services.ProposalAgg;
 using App.Domain.Services.ReviewAgg;
 using App.EndPoints.MVC.HomeService.Middlwares;
 using App.Framework;
@@ -48,6 +54,7 @@ using App.Infra.Data.Repos.Ef.CustomerAgg;
 using App.Infra.Data.Repos.Ef.ExpertAgg;
 using App.Infra.Data.Repos.Ef.HomeServiceAgg;
 using App.Infra.Data.Repos.Ef.OderAgg;
+using App.Infra.Data.Repos.Ef.ProposalAgg;
 using App.Infra.Data.Repos.Ef.ReviewAgg;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
 using Microsoft.AspNetCore.Identity;
@@ -78,7 +85,7 @@ builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ICustomerAppService, CustomerAppService>();
 
-builder.Services.AddScoped<IExpertRepositoy, ExpertRepositoy>();
+builder.Services.AddScoped<IExpertRepository, ExpertRepositoy>();
 builder.Services.AddScoped<IExpertService, ExpertService>();
 builder.Services.AddScoped<IExpertAppService, ExpertAppService>();
 
@@ -129,6 +136,13 @@ builder.Services.AddIdentity<AppUser, IdentityRole<int>>(options =>
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders()
 .AddErrorDescriber<PersianIdentityErrorDescriber>();
+
+builder.Services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, CustomUserClaimsPrincipalFactory>();
+
+
+builder.Services.AddScoped<IProposalRepository, ProposalRepository>();
+builder.Services.AddScoped<IProposalService, ProposalService>();
+builder.Services.AddScoped<IProposalAppService, ProposalAppService>();
 
 
 #endregion

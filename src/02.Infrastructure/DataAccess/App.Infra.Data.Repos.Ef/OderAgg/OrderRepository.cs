@@ -2,6 +2,7 @@
 using App.Domain.Core.Dtos.OrderAgg;
 using App.Domain.Core.Dtos.ProposalAgg;
 using App.Domain.Core.Entities;
+using App.Domain.Core.Enums.OrderAgg;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,23 +17,16 @@ namespace App.Infra.Data.Repos.Ef.OderAgg
     {
         public async Task<int> Create(OrderCreateDto orderCreateDto, CancellationToken cancellationToken)
         {
-            var customerId = await _context.Customers
-                             .Where(c => c.AppUserId == orderCreateDto.AppUserId)
-                             .Select(c => c.Id)
-                             .FirstOrDefaultAsync(cancellationToken);
+            
+           
 
-            if (customerId == 0)
-            {
-               
-                return 0;
-            }
 
             var order = new Order()
             {
                 Description = orderCreateDto.Description,
                 ExecutionDate = orderCreateDto.ExecutionDate,
                 ExecutionTime = orderCreateDto.ExecutionTime,
-                CustomerId = customerId,
+                CustomerId = orderCreateDto.CustomerId,
                 HomeServiceId = orderCreateDto.HomeServiceId,
                 CityId = orderCreateDto.CityId,
                 Images = orderCreateDto.ImagePaths.Select(path => new OrderImage
@@ -90,6 +84,74 @@ namespace App.Infra.Data.Repos.Ef.OderAgg
                 orderDtos = data,
                 TotalCount = totalCount,
             };
+        }
+
+        public async Task<AvailableOrdersPagedDto> GetAvailableForExpertAsync(int expertId, int pageNumber, int pageSize, CancellationToken cancellationToken)
+        {
+
+            var expertInfo = await _context.Experts
+                                  .Where(e => e.Id == expertId)
+                                  .Select(e => new
+                                  {
+                                      e.CityId,
+                                      ServiceIds = e.ExpertHomeServices
+                                          .Select(s => s.HomeServiceId)
+                                          .ToList()
+                                  })
+                                   .FirstOrDefaultAsync(cancellationToken);
+
+
+            if (expertInfo == null) return new AvailableOrdersPagedDto();
+
+            
+            var query = _context.Orders
+                                .AsNoTracking()
+                                .Where(o => o.Status == OrderStatus.WaitingForProposals)
+                                .Where(o => o.CityId == expertInfo.CityId)
+                                .Where(o => expertInfo.ServiceIds.Contains(o.HomeServiceId));
+
+            var totalCount = await query.CountAsync(cancellationToken);
+
+            
+            var data = await query
+                .OrderByDescending(o => o.CreatedAt)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .Select(o => new AvailableOrderDto
+                {
+                    OrderId = o.Id,
+                    CustomerId = o.CustomerId,
+                    CustomerFullName = o.Customer.AppUser.FirstName + " " + o.Customer.AppUser.LastName,
+                    Description = o.Description,
+                    HomeServiceName = o.HomeService.Name,
+                    BasePrice = o.HomeService.BasePrice,
+                    ExecutionDate = o.ExecutionDate,
+                    ExecutionTime = o.ExecutionTime,
+                    Status = o.Status,
+                    Images = o.Images.Select(img => img.ImagePath).ToList(),
+
+                   
+                    IsProposalSent = o.Proposals.Any(p => p.ExpertId == expertId)
+                })
+                .ToListAsync(cancellationToken);
+
+            return new AvailableOrdersPagedDto
+            {
+                AvailableOrdersDto = data,
+                TotalCount = totalCount
+            };
+        }
+
+        public async Task<OrderSummaryDto?> GetOrderDetails(int orderId, CancellationToken cancellationToken)
+        {
+           return await _context.Orders.AsNoTracking()
+                .Where(o=>o.Id==orderId)
+                .Select(o=>new OrderSummaryDto 
+                {
+                   BasePrice = o.HomeService.BasePrice , 
+                   HomeServiceName = o.HomeService.Name,
+
+                }).FirstOrDefaultAsync(cancellationToken);
         }
 
         public async Task<OrderPagedDtos> GetOrdersByAppUserId(int appUserId,int pageNumber, int pageSize, CancellationToken cancellationToken)

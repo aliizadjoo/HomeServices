@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core._common;
+using App.Domain.Core.Constants;
 using App.Domain.Core.Contract.AccountAgg.AppServices;
 using App.Domain.Core.Contract.AdminAgg.Service;
 using App.Domain.Core.Contract.CustomerAgg.AppService;
@@ -129,6 +130,18 @@ namespace App.Domain.AppServices.AccountAgg
             return userId != null ? int.Parse(userId) : 0;
         }
 
+        public int GetCustomerId(ClaimsPrincipal user)
+        {
+           
+            var claim = user.FindFirst(CustomClaimTypes.CustomerId);
+            return claim != null ? int.Parse(claim.Value) : 0;
+        }
+
+        public int GetExpertId(ClaimsPrincipal user)
+        {
+            var claim = user.FindFirst(CustomClaimTypes.ExpertId);
+            return claim != null ? int.Parse(claim.Value) : 0;
+        }
 
         public async Task<Result<bool>> ChangePassword(ClaimsPrincipal userPrincipal, ChangePasswordDto changePasswordDto)
         {

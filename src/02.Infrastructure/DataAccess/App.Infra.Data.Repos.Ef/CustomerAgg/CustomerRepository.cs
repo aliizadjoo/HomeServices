@@ -142,5 +142,12 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
 
             return rowsAffectedUser > 0 && rowsAffectedCustomer>0;
         }
+        public async Task<int> GetIdByAppUserId(int appUserId, CancellationToken cancellationToken)
+        {
+            return await _context.Customers
+                .Where(c => c.AppUserId == appUserId)
+                .Select(c => c.Id) 
+                .FirstOrDefaultAsync(cancellationToken);
+        }
     }
 }

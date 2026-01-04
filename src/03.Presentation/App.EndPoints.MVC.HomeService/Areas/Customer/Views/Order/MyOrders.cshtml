@@ -9,6 +9,24 @@
 }
 
 <div class="container py-5" dir="rtl">
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm border-0 rounded-4 mb-4" role="alert">
+            <i class="bi bi-check-circle-fill ms-2"></i>
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close shadow-none" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm border-0 rounded-4 mb-4" role="alert">
+            <i class="bi bi-exclamation-triangle-fill ms-2"></i>
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close shadow-none" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
     <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
         <h4 class="fw-bold text-primary"><i class="bi bi-list-stars ms-2"></i>تاریخچه سفارشات من</h4>
         <span class="badge bg-dark rounded-pill">تعداد کل: @Model.TotalCount</span>
@@ -143,8 +161,6 @@
     string GetStatusName(OrderStatus status) => status switch
     {
         OrderStatus.WaitingForProposals => "در انتظار پیشنهاد",
-        OrderStatus.WaitingForSelection => "انتخاب متخصص",
-        OrderStatus.ComingToPlace => "در راه محل",
         OrderStatus.Started => "در حال انجام",
         OrderStatus.Finished => "پایان یافته",
         OrderStatus.Cancelled => "لغو شده",

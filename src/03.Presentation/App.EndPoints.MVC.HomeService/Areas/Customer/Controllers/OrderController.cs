@@ -80,13 +80,20 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
                 return View(model);
             }
 
-            
+            var customerId = _accountAppService.GetCustomerId(User);
+            if (customerId <= 0)
+            {
+                TempData["ErrorMessage"] = "خطا در احراز هویت مشتری. لطفاً دوباره وارد شوید.";
+                return RedirectToAction("Login", "Account", new { area = "Identity" });
+            }
             DateTime executionDate = model.ExecutionDateShamsi.ToGregorianDate();
 
             List<string> imagePaths = model.ImageFiles.UploadFiles("orders");
 
-            var currentUserId = _accountAppService.GetUserId(User);
-         
+            
+
+           
+
             var orderDto = new OrderCreateDto
             {
                 HomeServiceId = model.HomeServiceId,
@@ -94,7 +101,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
                 ExecutionDate = executionDate,
                 ExecutionTime = model.ExecutionTime,
                 CityId = model.CityId,
-                AppUserId = currentUserId, 
+                CustomerId = customerId, 
                 ImagePaths = imagePaths
             };
 

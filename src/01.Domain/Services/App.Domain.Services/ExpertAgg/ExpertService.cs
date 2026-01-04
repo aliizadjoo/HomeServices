@@ -1,6 +1,6 @@
 ﻿using App.Domain.Core._common;
 using App.Domain.Core.Contract.CityAgg.Repository;
-using App.Domain.Core.Contract.ExpertAgg.Repositorty;
+using App.Domain.Core.Contract.ExpertAgg.Repository;
 using App.Domain.Core.Contract.ExpertAgg.Service;
 using App.Domain.Core.Dtos.CustomerAgg;
 using App.Domain.Core.Dtos.ExpertAgg;
@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace App.Domain.Services.ExpertAgg
 {
     public class ExpertService
-        (IExpertRepositoy _expertRepository
+        (IExpertRepository _expertRepository
         , ICityRepository _cityRepository ,
          UserManager<AppUser> _userManager
         , ILogger<ExpertService> _logger) : IExpertService
@@ -120,6 +120,11 @@ namespace App.Domain.Services.ExpertAgg
             }
 
             return Result<bool>.Success(true);
+        }
+
+        public async Task<int> GetIdByAppUserId(int appUserId, CancellationToken cancellationToken)
+        {
+            return await _expertRepository.GetIdByAppUserId(appUserId, cancellationToken);
         }
     }
 }

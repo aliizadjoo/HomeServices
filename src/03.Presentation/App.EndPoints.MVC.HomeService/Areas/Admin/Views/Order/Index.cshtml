@@ -120,8 +120,6 @@
     string GetOrderStatusDisplayName(OrderStatus status) => status switch
     {
         OrderStatus.WaitingForProposals => "در انتظار پیشنهاد",
-        OrderStatus.WaitingForSelection => "در انتظار انتخاب",
-        OrderStatus.ComingToPlace => "اعزام به محل",
         OrderStatus.Started => "شروع کار",
         OrderStatus.Finished => "پایان یافته",
         OrderStatus.Cancelled => "لغو شده",
@@ -132,8 +130,6 @@
     string GetStatusClass(OrderStatus status) => status switch
     {
         OrderStatus.WaitingForProposals => "bg-warning text-dark",
-        OrderStatus.WaitingForSelection => "bg-info text-dark",
-        OrderStatus.ComingToPlace => "bg-primary",
         OrderStatus.Started => "bg-primary",
         OrderStatus.Finished => "bg-success",
         OrderStatus.Cancelled => "bg-danger",

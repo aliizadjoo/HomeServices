@@ -7,7 +7,7 @@
             observer: true,
             initialValue: true,
             displayFormat: 'YYYY/MM/DD',
-            // اضافه کردن خط زیر برای جلوگیری از انتخاب تاریخ گذشته:
+          
             minDate: new persianDate().valueOf(),
             calendar: {
                 persian: {

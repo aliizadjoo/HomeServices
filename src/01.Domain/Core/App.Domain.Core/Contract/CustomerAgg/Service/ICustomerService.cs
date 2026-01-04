@@ -19,6 +19,7 @@ namespace App.Domain.Core.Contract.CustomerAgg.Service
 
 
         public Task<Result<bool>> DeleteUser(int appUserId, CancellationToken cancellationToken);
+        public Task<int> GetIdByAppUserId(int appUserId, CancellationToken cancellationToken);
 
 
 

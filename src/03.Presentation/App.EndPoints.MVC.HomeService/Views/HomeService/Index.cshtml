@@ -1,4 +1,5 @@
 ﻿@using App.Domain.Core.Dtos.HomeServiceAgg
+@using App.EndPoints.MVC.HomeService.Areas.Constants
 @model HomeservicePagedDto
 
 @{
@@ -45,17 +46,28 @@
                     <div class="card-footer bg-white border-0 pb-3">
                         @if (!User.Identity.IsAuthenticated)
                         {
+                            @* ۱. حالت عدم احراز هویت *@
                             <a asp-area="Identity" asp-controller="Account" asp-action="Login" asp-route-ReturnUrl="@returnUrl"
                                class="btn btn-warning w-100 rounded-pill shadow-sm fw-bold">
-                                لطفاً اول لاگین کنید
+                                <i class="bi bi-box-arrow-in-right me-1"></i> لطفاً اول لاگین کنید
                             </a>
                         }
-                        else
+                        else if (User.IsInRole(RoleConstants.Customer))
                         {
+                           
                             <a asp-area="Customer" asp-controller="Order" asp-action="Create" asp-route-serviceId="@service.Id"
                                class="btn btn-success w-100 rounded-pill shadow-sm fw-bold">
                                 ثبت سفارش
                             </a>
+                        }
+                        else
+                        {
+                           
+                            <div class="alert alert-secondary border-0 mb-0 py-2 rounded-pill text-center shadow-sm" style="font-size: 0.85rem;">
+                                <i class="bi bi-exclamation-octagon text-danger me-1"></i>
+                                <strong>فقط با اکانت مشتری</strong> می‌توان سفارش ثبت کرد
+                            </div>
+              
                         }
                     </div>
                 </div>

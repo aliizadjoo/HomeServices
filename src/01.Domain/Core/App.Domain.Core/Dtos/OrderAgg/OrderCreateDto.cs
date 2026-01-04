@@ -12,7 +12,7 @@ namespace App.Domain.Core.Dtos.OrderAgg
         public int HomeServiceId { get; set; }
 
         
-        public int AppUserId { get; set; }
+        public int CustomerId { get; set; }
 
         public string Description { get; set; }
 

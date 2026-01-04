@@ -15,5 +15,9 @@ namespace App.Domain.Core.Contract.OrderAgg.Repository
         public Task<OrderPagedDtos> GetOrdersByAppUserId(int appUserId,int pageNumber, int pageSize, CancellationToken cancellationToken);
 
 
+        public Task<AvailableOrdersPagedDto> GetAvailableForExpertAsync(int expertId, int pageNumber, int pageSize, CancellationToken cancellationToken);
+
+        public Task<OrderSummaryDto?> GetOrderDetails(int orderId , CancellationToken cancellationToken);
+
     }
 }

@@ -81,10 +81,7 @@ namespace App.Domain.Services.CustomerAgg
         
 
 
-        public async Task<Result<CustomerPagedResultDto>> GetAll(
-            int pageNumber,
-            int pageSize,
-            CancellationToken cancellationToken)
+        public async Task<Result<CustomerPagedResultDto>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)  
         {
           
             var customers = await _customerRepository.GetAll( pageNumber, pageSize, cancellationToken);
@@ -126,6 +123,13 @@ namespace App.Domain.Services.CustomerAgg
             }
 
             return Result<bool>.Success(true);
+        }
+
+
+        public async Task<int> GetIdByAppUserId(int appUserId, CancellationToken cancellationToken)
+        {
+           
+            return await _customerRepository.GetIdByAppUserId(appUserId, cancellationToken);
         }
     }
 }

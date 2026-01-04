@@ -28,5 +28,8 @@ namespace App.Domain.Core.Contract.AccountAgg.AppServices
         public Task<Result<bool>> ChangePassword(ClaimsPrincipal userPrincipal, ChangePasswordDto changePasswordDto);
 
         public Task<Result<bool>> ChangePassword(ChangePasswordDto changePasswordDto);
+
+        public int GetCustomerId(ClaimsPrincipal user);
+        public int GetExpertId(ClaimsPrincipal user);
     }
 }
