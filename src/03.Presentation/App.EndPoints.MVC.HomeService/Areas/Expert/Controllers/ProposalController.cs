@@ -22,7 +22,35 @@ namespace App.EndPoints.MVC.HomeService.Areas.Expert.Controllers
         ) 
         : Controller
     {
-        
+
+
+
+       
+        public async Task<IActionResult> MyProposals(CancellationToken cancellationToken)
+        {
+          
+            int expertId = _accountAppService.GetExpertId(User);
+
+            if (expertId <= 0)
+            {
+                return RedirectToAction("Login", "Account", new { area = "Identity" });
+            }
+
+         
+            var result = await _proposalAppService.GetExpertProposals(expertId, cancellationToken);
+
+          
+            if (result.IsSuccess && result.Data != null)
+            {
+                foreach (var proposal in result.Data)
+                {
+                    proposal.PersianExecutionDate = proposal.ExecutionDate.ToPersianDate();
+                }
+            }
+
+            return View(result.Data ?? new List<ExpertProposalDto>());
+        }
+
         public async Task<IActionResult> SubmitProposal(int orderId, CancellationToken cancellationToken)
         {
             ProposalViewModel proposalViewModel = new ProposalViewModel() { OrderId = orderId };

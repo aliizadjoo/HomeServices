@@ -29,6 +29,25 @@ namespace App.Infra.Data.Repos.Ef.ProposalAgg
            await _context.Proposals.AddAsync(proposal , cancellationToken);
            return await _context.SaveChangesAsync(cancellationToken);
         }
+
+        public async Task<List<ExpertProposalDto>> GetByExpertId( int expertId, CancellationToken cancellationToken)
+        {
+         return await   _context.Proposals.AsNoTracking().Where(p => p.ExpertId == expertId)
+                .Select(p => new ExpertProposalDto
+                {
+                    ProposalId = p.Id,
+                    OrderId =   p.OrderId,
+                    HomeServiceName = p.Order.HomeService.Name,
+                    CustomerFullName = p.Order.Customer.AppUser.FirstName +""+ p.Order.Customer.AppUser.LastName,
+                    Price = p.Price,
+                    ExecutionDate = p.Order.ExecutionDate,
+                    ExecutionTime = p.Order.ExecutionTime,
+                    Description = p.Description, 
+
+                    Status = p.Status,
+
+                }).ToListAsync(cancellationToken);
+        }
     }
 
 }

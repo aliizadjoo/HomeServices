@@ -12,6 +12,9 @@ namespace App.Domain.Core.Contract.ProposalAgg.Service
     public interface IProposalService
     {
         public Task<Result<bool>> Create(ProposalCreateDto proposalCreateDto, CancellationToken cancellationToken);
-      
+
+        public Task<Result<List<ExpertProposalDto>>> GetExpertProposals(int expertId, CancellationToken cancellationToken);
+       
+
     }
 }

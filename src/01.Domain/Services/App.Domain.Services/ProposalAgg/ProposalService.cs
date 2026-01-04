@@ -37,5 +37,19 @@ namespace App.Domain.Services.ProposalAgg
 
             return Result<bool>.Failure("خطایی در هنگام ذخیره پیشنهاد در سیستم رخ داد. لطفاً مجدداً تلاش کنید.");
         }
+
+        public async Task<Result<List<ExpertProposalDto>>> GetExpertProposals(int expertId, CancellationToken cancellationToken)
+        {
+           
+            var proposals = await _proposalRepository.GetByExpertId(expertId, cancellationToken);
+
+           
+            if (proposals == null || !proposals.Any())
+            {
+                return Result<List<ExpertProposalDto>>.Failure("شما هنوز هیچ پیشنهادی برای سفارشات ثبت نکرده‌اید.");
+            }
+
+            return Result<List<ExpertProposalDto>>.Success(proposals);
+        }
     }
 }
