@@ -20,6 +20,8 @@ namespace App.Domain.Core.Contract.ExpertAgg.Repository
         public Task<bool> Delete(int appUserId,  CancellationToken cancellationToken);
 
         public Task<int> GetIdByAppUserId(int appUserId, CancellationToken cancellationToken);
+      
+     
 
     }
 }

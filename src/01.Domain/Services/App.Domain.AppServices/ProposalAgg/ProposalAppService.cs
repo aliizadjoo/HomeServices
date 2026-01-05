@@ -32,5 +32,10 @@ namespace App.Domain.AppServices.ProposalAgg
         {
           return  await _proposalService.GetOrderProposals(orderId, cancellationToken);
         }
+
+        public async Task<bool> IsAlreadySubmitted(int expertId, int orderId, CancellationToken cancellationToken)
+        {
+           return await _proposalService.IsAlreadySubmitted(expertId, orderId, cancellationToken);
+        }
     }
 }

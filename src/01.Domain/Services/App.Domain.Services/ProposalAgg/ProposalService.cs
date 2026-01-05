@@ -131,6 +131,9 @@ namespace App.Domain.Services.ProposalAgg
             return Result<bool>.Failure("خطا در به‌روزرسانی وضعیت. عملیات انجام نشد.");
         }
 
-
+        public async Task<bool> IsAlreadySubmitted(int expertId, int orderId, CancellationToken cancellationToken)
+        {
+           return await _proposalRepository.IsAlreadySubmitted(expertId, orderId, cancellationToken);
+        }
     }
 }

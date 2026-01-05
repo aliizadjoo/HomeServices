@@ -89,5 +89,12 @@ namespace App.Infra.Data.Repos.Ef.ProposalAgg
 
             
         }
+
+        public async Task<bool> IsAlreadySubmitted(int expertId, int orderId, CancellationToken cancellationToken)
+        {
+           
+            return await _context.Proposals
+                .AnyAsync(p => p.ExpertId == expertId && p.OrderId == orderId, cancellationToken);
+        }
     }
 }

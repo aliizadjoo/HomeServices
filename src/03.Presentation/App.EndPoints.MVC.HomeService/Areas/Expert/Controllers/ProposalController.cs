@@ -74,35 +74,40 @@ namespace App.EndPoints.MVC.HomeService.Areas.Expert.Controllers
             return View(viewModel);
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SubmitProposal(ProposalViewModel model, CancellationToken cancellationToken)
         {
-
+           
             if (model.Price < model.BasePrice)
             {
                 ModelState.AddModelError("Price", $"قیمت پیشنهادی نمی‌تواند کمتر از {model.BasePrice:N0} ریال باشد.");
             }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-
-        
+          
             int expertId = _accountAppService.GetExpertId(User);
             if (expertId <= 0)
             {
-               
-                _logger.LogWarning("User {UserId} tried to create an order but has no CustomerId claim.", User.Identity.Name);
-
+                _logger.LogWarning("User {UserId} tried to submit proposal without expertId claim.", User.Identity.Name);
                 TempData["ErrorMessage"] = "اطلاعات حساب کاربری شما ناقص است. لطفا دوباره وارد شوید.";
                 return RedirectToAction("Login", "Account", new { area = "Identity" });
             }
 
-            DateTime suggestedDate = model.SuggestedDateShamsi.ToGregorianDate();
+            
+            var alreadySubmitted = await _proposalAppService.IsAlreadySubmitted(expertId, model.OrderId, cancellationToken);
+            if (alreadySubmitted)
+            {
+                TempData["ErrorMessage"] = "شما قبلاً برای این سفارش پیشنهادی ثبت کرده‌اید. امکان ثبت پیشنهاد مجدد وجود ندارد.";
+                return RedirectToAction("Index", "Order");
+            }
 
+            
+            DateTime suggestedDate = model.SuggestedDateShamsi.ToGregorianDate();
 
             var proposalDto = new ProposalCreateDto
             {
@@ -113,16 +118,14 @@ namespace App.EndPoints.MVC.HomeService.Areas.Expert.Controllers
                 ExpertId = expertId
             };
 
-
+           
             var result = await _proposalAppService.Create(proposalDto, cancellationToken);
 
             if (result.IsSuccess)
             {
                 TempData["SuccessMessage"] = result.Message;
-
-                return RedirectToAction("Index" , "order");
+                return RedirectToAction("Index", "Order");
             }
-
 
             TempData["ErrorMessage"] = result.Message;
             return View(model);

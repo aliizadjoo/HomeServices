@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core._common;
+using App.Domain.Core.Contract.ExpertAgg.Repository;
 using App.Domain.Core.Dtos.ExpertAgg;
 using System;
 using System.Collections.Generic;
@@ -16,5 +17,7 @@ namespace App.Domain.Core.Contract.ExpertAgg.AppService
         public Task<Result<ExpertPagedResultDto>> GetAll( int pageNumber, int pageSize, CancellationToken cancellationToken);
 
         public Task<Result<bool>> Delete(int appUserId, CancellationToken cancellationToken);
+      
+      
     }
 }

@@ -21,6 +21,8 @@ namespace App.Domain.Core.Contract.ExpertAgg.Service
         public Task<Result<ExpertPagedResultDto>> GetAll( int pageNumber, int pageSize, CancellationToken cancellationToken);
         public  Task<Result<bool>> Delete(int appUserId, CancellationToken cancellationToken);
 
+    
+
         public Task<int> GetIdByAppUserId(int appUserId, CancellationToken cancellationToken);
 
 

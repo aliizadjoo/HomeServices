@@ -19,6 +19,6 @@ namespace App.Domain.Core.Contract.ProposalAgg.AppService
 
         public Task<Result<bool>> ChangeStatus(int proposalId, int orderId, ProposalStatus newStatus, CancellationToken cancellationToken);
 
-
+        public Task<bool> IsAlreadySubmitted(int expertId, int orderId, CancellationToken cancellationToken);
     }
 }

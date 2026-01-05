@@ -26,6 +26,9 @@ namespace App.Domain.Core.Contract.ProposalAgg.Repository
 
         public Task<bool> AnyAccepted(int orderId, CancellationToken cancellationToken);
 
+        public Task<bool> IsAlreadySubmitted(int expertId, int orderId, CancellationToken cancellationToken);
+       
+
 
     }
 }

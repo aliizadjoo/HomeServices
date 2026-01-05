@@ -7,6 +7,7 @@ using App.Domain.Core.Dtos.CustomerAgg;
 using App.Domain.Core.Dtos.ExpertAgg;
 using App.Domain.Core.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -134,5 +135,7 @@ namespace App.Domain.Services.ExpertAgg
         {
             return await _expertRepository.GetIdByAppUserId(appUserId, cancellationToken);
         }
+
+     
     }
 }
