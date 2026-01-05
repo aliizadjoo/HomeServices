@@ -10,6 +10,7 @@ namespace App.Domain.Core.Enums.ProposalAgg
     {
         Pending = 1,  
         Accepted = 2, 
-        Rejected = 3  
+        Rejected = 3  ,
+        OrderCancelled=4
     }
 }
