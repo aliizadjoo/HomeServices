@@ -75,41 +75,37 @@ namespace App.Domain.Services.ProposalAgg
 
         public async Task<Result<bool>> ChangeStatus(int proposalId, int orderId, ProposalStatus newStatus, CancellationToken cancellationToken)
         {
-         
+            // ۱. چک کردن وجود سفارش و صحت پروپوزال
             var isExist = await _orderRepository.IsExists(orderId, cancellationToken);
-            if (!isExist)
-            {
-                return Result<bool>.Failure("سفارشی با این شناسه موجود نیست.");
-            }
+            if (!isExist) return Result<bool>.Failure("سفارشی با این شناسه موجود نیست.");
 
             var isProposalValid = await _proposalRepository.IsRelatedToOrder(proposalId, orderId, cancellationToken);
-            if (!isProposalValid)
-            {
-                return Result<bool>.Failure("این پیشنهاد متعلق به سفارش مورد نظر نمی‌باشد.");
-            }
+            if (!isProposalValid) return Result<bool>.Failure("این پیشنهاد متعلق به سفارش مورد نظر نمی‌باشد.");
 
             int affectedRowsOrder = 0;
             int affectedRowsProposal = 0;
 
-           
             if (newStatus == ProposalStatus.Accepted)
             {
-               
+                
                 var alreadyHasAccepted = await _proposalRepository.AnyAccepted(orderId, cancellationToken);
-                if (alreadyHasAccepted)
-                {
-                    return Result<bool>.Failure("شما قبلاً یک متخصص را برای این سفارش تایید کرده‌اید.");
-                }
+                if (alreadyHasAccepted) return Result<bool>.Failure("شما قبلاً یک متخصص را برای این سفارش تایید کرده‌اید.");
 
+                
                 affectedRowsProposal = await _proposalRepository.ChangeStatus(proposalId, newStatus, cancellationToken);
+
+                
+                await _proposalRepository.RejectOtherProposals(proposalId, orderId, cancellationToken);
+
+                
                 affectedRowsOrder = await _orderRepository.ChangeStatus(orderId, OrderStatus.Started, cancellationToken);
 
                 if (affectedRowsProposal > 0 && affectedRowsOrder > 0)
-                    return Result<bool>.Success(true, "پیشنهاد تایید شد و کار آغاز گردید.");
+                    return Result<bool>.Success(true, "پیشنهاد تایید شد، بقیه پیشنهادها رد شدند و کار آغاز گردید.");
             }
             else if (newStatus == ProposalStatus.Pending)
             {
-                
+               
                 affectedRowsProposal = await _proposalRepository.ChangeStatus(proposalId, newStatus, cancellationToken);
                 affectedRowsOrder = await _orderRepository.ChangeStatus(orderId, OrderStatus.WaitingForProposals, cancellationToken);
 
@@ -119,16 +115,10 @@ namespace App.Domain.Services.ProposalAgg
             else if (newStatus == ProposalStatus.Rejected)
             {
                 affectedRowsProposal = await _proposalRepository.ChangeStatus(proposalId, newStatus, cancellationToken);
-
-                if (affectedRowsProposal > 0)
-                    return Result<bool>.Success(true, "پیشنهاد با موفقیت رد شد.");
-            }
-            else
-            {
-                return Result<bool>.Failure("وضعیت ارسالی معتبر نیست.");
+                if (affectedRowsProposal > 0) return Result<bool>.Success(true, "پیشنهاد با موفقیت رد شد.");
             }
 
-            return Result<bool>.Failure("خطا در به‌روزرسانی وضعیت. عملیات انجام نشد.");
+            return Result<bool>.Failure("خطا در به‌روزرسانی وضعیت.");
         }
 
         public async Task<bool> IsAlreadySubmitted(int expertId, int orderId, CancellationToken cancellationToken)

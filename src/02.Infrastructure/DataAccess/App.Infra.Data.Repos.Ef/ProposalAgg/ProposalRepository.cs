@@ -96,5 +96,14 @@ namespace App.Infra.Data.Repos.Ef.ProposalAgg
             return await _context.Proposals
                 .AnyAsync(p => p.ExpertId == expertId && p.OrderId == orderId, cancellationToken);
         }
+        public async Task<int> RejectOtherProposals(int proposalId, int orderId, CancellationToken cancellationToken)
+        {
+            return await _context.Proposals
+                .Where(p => p.OrderId == orderId && p.Id != proposalId && p.Status != ProposalStatus.Rejected)
+                .ExecuteUpdateAsync(setter => setter
+                    .SetProperty(p => p.Status, ProposalStatus.Rejected),
+                    cancellationToken);
+        }
+
     }
 }
