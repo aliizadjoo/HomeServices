@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core._common;
+using App.Domain.Core.Contract.AccountAgg.Services;
 using App.Domain.Core.Contract.CityAgg.Repository;
 using App.Domain.Core.Contract.CustomerAgg.Repository;
 using App.Domain.Core.Contract.CustomerAgg.Service;
@@ -19,7 +20,9 @@ namespace App.Domain.Services.CustomerAgg
         (ICustomerRepository _customerRepository ,
         ICityRepository _cityRepository,
         UserManager<AppUser> _userManager,
-        ILogger<CustomerService> _logger) : ICustomerService
+        ILogger<CustomerService> _logger,
+        IAccountService _accountService
+        ) : ICustomerService
 
     {
         public async Task<Result<bool>> ChangeProfileCustomer(int appuserId, ProfileCustomerDto profileCustomerDto, bool isAdmin, CancellationToken cancellationToken)
@@ -114,15 +117,16 @@ namespace App.Domain.Services.CustomerAgg
         }
 
 
-        public async Task<Result<bool>> DeleteUser(int appUserId, CancellationToken cancellationToken)
+        public async Task<Result<bool>> Delete(int appUserId, CancellationToken cancellationToken)
         {
-           var result= await _customerRepository.DeleteUser(appUserId, cancellationToken);
-            if (!result)
-            {
-                return Result<bool>.Failure("خطا در حذف مشتری");
-            }
+            var identityResult = await _accountService.DeleteUserIdentity(appUserId, cancellationToken);
+            if (!identityResult.IsSuccess) return identityResult;
 
-            return Result<bool>.Success(true);
+            var repoResult = await _customerRepository.Delete(appUserId, cancellationToken);
+
+            return repoResult
+                ? Result<bool>.Success(true, "مشتری با موفقیت حذف شد.")
+                : Result<bool>.Failure("خطا در حذف رکورد مشتری.");
         }
 
 

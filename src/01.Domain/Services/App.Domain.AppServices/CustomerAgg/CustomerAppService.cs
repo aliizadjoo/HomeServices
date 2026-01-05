@@ -19,7 +19,7 @@ namespace App.Domain.AppServices.CustomerAgg
 
         public async Task<Result<bool>> DeleteUser(int appUserId, CancellationToken cancellationToken)
         {
-          return  await  _customerService.DeleteUser(appUserId, cancellationToken);
+          return  await  _customerService.Delete(appUserId, cancellationToken);
         }
 
         public async Task<Result<CustomerPagedResultDto>> GetAll( int pageNumber, int pageSize, CancellationToken cancellationToken)

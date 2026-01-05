@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
 
-   
+    
     if ($('.p-datepicker').length > 0) {
         $('.p-datepicker').persianDatepicker({
             format: 'YYYY/MM/DD',
@@ -8,36 +8,39 @@
             observer: true,
             initialValue: true,
             displayFormat: 'YYYY/MM/DD',
-            minDate: new persianDate().valueOf(), 
+            minDate: new persianDate().valueOf(),
             calendar: {
                 persian: {
                     locale: 'fa',
                     showHint: true,
-                    leapYearMode: 'astronomical' 
+                    leapYearMode: 'astronomical'
                 }
             }
         });
-    } else {
-        console.error("المان .p-datepicker یافت نشد!");
     }
 
-   
+  
     $('#txtPrice').on('input change', function () {
         validatePrice();
     });
 
- 
+   
     $('#proposalForm').on('submit', function (e) {
         const isPriceValid = validatePrice();
-        const isDateSelected = $('.p-datepicker').val() !== "";
+        const dateValue = $('.p-datepicker').val();
 
-        if (!isPriceValid || !isDateSelected) {
+        if (!isPriceValid) {
+            e.preventDefault(); 
+            return false;
+        }
+
+        if (dateValue === "" || dateValue === null) {
             e.preventDefault();
-            if (!isDateSelected) alert("لطفاً تاریخ شروع را انتخاب کنید.");
+            alert("لطفاً تاریخ شروع را انتخاب کنید.");
+            return false;
         }
     });
 
-  
     function validatePrice() {
         const price = parseFloat($('#txtPrice').val());
         const basePrice = parseFloat($('#hdnBasePrice').val());
@@ -46,6 +49,7 @@
         if (isNaN(price) || price < basePrice) {
             errorSpan.text("قیمت پیشنهادی نباید از قیمت پایه (" + basePrice.toLocaleString() + " ریال) کمتر باشد.");
             $('#txtPrice').addClass('is-invalid');
+            $('#txtPrice').removeClass('is-valid');
             return false;
         } else {
             errorSpan.text("");

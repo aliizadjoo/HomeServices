@@ -60,7 +60,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Expert.Controllers
             if (!result.IsSuccess)
             {
                 TempData["ErrorMessage"] = result.Message;
-                return RedirectToAction("Index");
+                return RedirectToAction("Index" , "order");
             }
 
 
@@ -80,6 +80,10 @@ namespace App.EndPoints.MVC.HomeService.Areas.Expert.Controllers
         public async Task<IActionResult> SubmitProposal(ProposalViewModel model, CancellationToken cancellationToken)
         {
 
+            if (model.Price < model.BasePrice)
+            {
+                ModelState.AddModelError("Price", $"قیمت پیشنهادی نمی‌تواند کمتر از {model.BasePrice:N0} ریال باشد.");
+            }
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -116,7 +120,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Expert.Controllers
             {
                 TempData["SuccessMessage"] = result.Message;
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index" , "order");
             }
 
 

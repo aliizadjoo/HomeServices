@@ -125,22 +125,16 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
 
 
 
-        public async Task<bool> DeleteUser(int appUserId, CancellationToken cancellationToken)
+        public async Task<bool> Delete(int appUserId,  CancellationToken cancellationToken)
         {
-            var rowsAffectedUser = await _context.Users
-                .Where(u => u.Id == appUserId)
-                .ExecuteUpdateAsync(setters => setters
-                    .SetProperty(u => u.IsDeleted, true),
-                    cancellationToken);
+            
+            var expertRows = await _context.Customers
+                .Where(e => e.AppUserId == appUserId)
+                .ExecuteUpdateAsync(s => s.SetProperty(e => e.IsDeleted, true), cancellationToken);
 
+       
 
-             var rowsAffectedCustomer = await _context.Customers.Where(c => c.AppUserId == appUserId)
-                .ExecuteUpdateAsync(setter=>setter
-                .SetProperty(c=>c.IsDeleted, true), cancellationToken); 
-
-
-
-            return rowsAffectedUser > 0 && rowsAffectedCustomer>0;
+            return expertRows > 0 ;
         }
         public async Task<int> GetIdByAppUserId(int appUserId, CancellationToken cancellationToken)
         {

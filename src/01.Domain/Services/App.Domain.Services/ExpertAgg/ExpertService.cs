@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core._common;
+using App.Domain.Core.Contract.AccountAgg.Services;
 using App.Domain.Core.Contract.CityAgg.Repository;
 using App.Domain.Core.Contract.ExpertAgg.Repository;
 using App.Domain.Core.Contract.ExpertAgg.Service;
@@ -19,7 +20,9 @@ namespace App.Domain.Services.ExpertAgg
         (IExpertRepository _expertRepository
         , ICityRepository _cityRepository ,
          UserManager<AppUser> _userManager
-        , ILogger<ExpertService> _logger) : IExpertService
+        , ILogger<ExpertService> _logger,
+         IAccountService _accountService
+        ) : IExpertService
     {
         public async Task<Result<bool>> Create(int userId, int cityId, CancellationToken cancellationToken)
         {
@@ -110,17 +113,22 @@ namespace App.Domain.Services.ExpertAgg
 
             return Result<ExpertPagedResultDto>.Success(experts);
         }
-
-        public async Task<Result<bool>> Delete(int appUserId, CancellationToken cancellationToken)
-        {
-            var result = await _expertRepository.Delete(appUserId, cancellationToken);
-            if (!result)
+        
+            public async Task<Result<bool>> Delete(int appUserId, CancellationToken cancellationToken)
             {
-                return Result<bool>.Failure("خطا در حذف کارشناس");
-            }
+               
+                var identityResult = await _accountService.DeleteUserIdentity(appUserId, cancellationToken);
+                if (!identityResult.IsSuccess) return identityResult;
 
-            return Result<bool>.Success(true);
-        }
+                
+                var repoResult = await _expertRepository.Delete(appUserId, cancellationToken);
+
+                if (!repoResult)
+                    return Result<bool>.Failure("بخش هویت حذف شد اما رکورد کارشناس یافت نشد یا عملیات ناقص ماند.");
+
+                return Result<bool>.Success(true, "کارشناس با موفقیت حذف گردید.");
+            }
+        
 
         public async Task<int> GetIdByAppUserId(int appUserId, CancellationToken cancellationToken)
         {

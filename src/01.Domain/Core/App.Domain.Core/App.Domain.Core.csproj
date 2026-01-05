@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Folder Include="Contract\AccountAgg\Repositories\" />
-    <Folder Include="Contract\AccountAgg\Services\" />
   </ItemGroup>
 
   <ItemGroup>

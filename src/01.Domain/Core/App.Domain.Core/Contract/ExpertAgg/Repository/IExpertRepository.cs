@@ -17,7 +17,7 @@ namespace App.Domain.Core.Contract.ExpertAgg.Repository
         public Task<bool> ChangeProfile(int appuserId, ProfileExpertDto profileExpertDto, bool isAdmin, CancellationToken cancellationToken);
         public Task<ExpertPagedResultDto> GetAll( int pageNumber, int pageSize, CancellationToken cancellationToken);
 
-        public Task<bool> Delete(int appUserId, CancellationToken cancellationToken);
+        public Task<bool> Delete(int appUserId,  CancellationToken cancellationToken);
 
         public Task<int> GetIdByAppUserId(int appUserId, CancellationToken cancellationToken);
 

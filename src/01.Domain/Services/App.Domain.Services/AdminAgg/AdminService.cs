@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core._common;
+using App.Domain.Core.Contract.AccountAgg.Services;
 using App.Domain.Core.Contract.AdminAgg.Repository;
 using App.Domain.Core.Contract.AdminAgg.Service;
 using App.Domain.Core.Dtos.AdminAgg;
@@ -14,7 +15,9 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Services.AdminAgg
 {
-    public class AdminService(IAdminRepository _adminRepository, ILogger<AdminService> _logger , UserManager<AppUser> _userManager)
+    public class AdminService(IAdminRepository _adminRepository
+        , IAccountService _accountService, ILogger<AdminService> _logger 
+        , UserManager<AppUser> _userManager)
         : IAdminService
     {
         public async Task<Result<AdminPagedResultDto>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
@@ -126,23 +129,17 @@ namespace App.Domain.Services.AdminAgg
         }
 
 
-
         public async Task<Result<bool>> Delete(int appUserId, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("درخواست حذف منطقی برای مدیر با شناسه {Id}", appUserId);
+            var identityResult = await _accountService.DeleteUserIdentity(appUserId, cancellationToken);
+            if (!identityResult.IsSuccess) return identityResult;
 
-            var isDeleted = await _adminRepository.Delete(appUserId, cancellationToken);
+            var repoResult = await _adminRepository.Delete(appUserId, cancellationToken);
 
-            if (!isDeleted)
-            {
-                _logger.LogWarning("عملیات حذف برای ادمین {Id} با شکست مواجه شد.", appUserId);
-                return Result<bool>.Failure("امکان حذف این ادمین وجود ندارد یا قبلاً حذف شده است.");
-            }
-
-            _logger.LogInformation("مدیر با شناسه {Id} با موفقیت Soft Delete شد.", appUserId);
-            return Result<bool>.Success(true, "ادمین با موفقیت حذف شد.");
+            return repoResult
+                ? Result<bool>.Success(true, "مدیر با موفقیت حذف شد.")
+                : Result<bool>.Failure("خطا در حذف رکورد مدیریت.");
         }
-
 
     }
 }

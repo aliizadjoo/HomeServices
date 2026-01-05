@@ -1,6 +1,8 @@
 ﻿using App.Domain.Core.Contract.ProposalAgg.Repository;
 using App.Domain.Core.Dtos.ProposalAgg;
 using App.Domain.Core.Entities;
+using App.Domain.Core.Enums.OrderAgg;
+using App.Domain.Core.Enums.ProposalAgg;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,39 +17,77 @@ namespace App.Infra.Data.Repos.Ef.ProposalAgg
     {
         public async Task<int> Create(ProposalCreateDto proposalCreateDto, CancellationToken cancellationToken)
         {
-           
 
-          
-            Proposal proposal = new Proposal() 
+
+
+            Proposal proposal = new Proposal()
             {
-               Price = proposalCreateDto.Price,
-               Description = proposalCreateDto.Description,
-               OrderId = proposalCreateDto.OrderId,
-               ExpertId  = proposalCreateDto.ExpertId
+                Price = proposalCreateDto.Price,
+                Description = proposalCreateDto.Description,
+                OrderId = proposalCreateDto.OrderId,
+                ExpertId = proposalCreateDto.ExpertId
             };
 
-           await _context.Proposals.AddAsync(proposal , cancellationToken);
-           return await _context.SaveChangesAsync(cancellationToken);
+            await _context.Proposals.AddAsync(proposal, cancellationToken);
+            return await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<List<ExpertProposalDto>> GetByExpertId( int expertId, CancellationToken cancellationToken)
+        public async Task<List<ExpertProposalDto>> GetByExpertId(int expertId, CancellationToken cancellationToken)
         {
-         return await   _context.Proposals.AsNoTracking().Where(p => p.ExpertId == expertId)
-                .Select(p => new ExpertProposalDto
-                {
-                    ProposalId = p.Id,
-                    OrderId =   p.OrderId,
-                    HomeServiceName = p.Order.HomeService.Name,
-                    CustomerFullName = p.Order.Customer.AppUser.FirstName +""+ p.Order.Customer.AppUser.LastName,
-                    Price = p.Price,
-                    ExecutionDate = p.Order.ExecutionDate,
-                    ExecutionTime = p.Order.ExecutionTime,
-                    Description = p.Description, 
+            return await _context.Proposals.AsNoTracking().Where(p => p.ExpertId == expertId)
+                   .Select(p => new ExpertProposalDto
+                   {
+                       ProposalId = p.Id,
+                       OrderId = p.OrderId,
+                       HomeServiceName = p.Order.HomeService.Name,
+                       CustomerFullName = p.Order.Customer.AppUser.FirstName + "" + p.Order.Customer.AppUser.LastName,
+                       Price = p.Price,
+                       ExecutionDate = p.Order.ExecutionDate,
+                       ExecutionTime = p.Order.ExecutionTime,
+                       Description = p.Description,
 
-                    Status = p.Status,
+                       Status = p.Status,
 
-                }).ToListAsync(cancellationToken);
+                   }).ToListAsync(cancellationToken);
+        }
+
+        public async Task<List<ProposalSummaryDto>> GetByOrderId(int orderId, CancellationToken cancellationToken)
+        {
+            return await _context.Proposals.AsNoTracking()
+                             .Where(p => p.OrderId == orderId)
+                             .Select(p => new ProposalSummaryDto
+                             {
+                                 Id = p.Id,
+                                 HomeServiceName = p.Order.HomeService.Name,
+                                 ExecutionDate = p.Order.ExecutionDate,
+                                 ExpertFirstName = p.Expert.AppUser.FirstName,
+                                 ExpertLastName = p.Expert.AppUser.LastName,
+                                 Status = p.Status,
+                                 Price = p.Price,
+                                 Description = p.Description,
+
+                             })
+                             .ToListAsync(cancellationToken);
+
+        }
+
+        public async Task<bool> IsRelatedToOrder(int proposalId, int orderId, CancellationToken cancellationToken)
+        {
+          return await  _context.Proposals.AnyAsync(p => p.OrderId == orderId && p.Id == proposalId, cancellationToken); 
+        }
+
+        public async Task<int> ChangeStatus(int proposalId, ProposalStatus newStatus, CancellationToken cancellationToken)
+        {
+            return await _context.Proposals
+                .Where(p => p.Id == proposalId) 
+                .ExecuteUpdateAsync(setter => setter.SetProperty(o => o.Status, newStatus), cancellationToken);
+        }
+
+        public async Task<bool> AnyAccepted(int orderId, CancellationToken cancellationToken)
+        {
+           return await _context.Proposals.AnyAsync(p=>p.OrderId==orderId && p.Status==ProposalStatus.Accepted , cancellationToken);
+
+            
         }
     }
-
 }

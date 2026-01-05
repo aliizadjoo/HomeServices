@@ -114,19 +114,14 @@ namespace App.Infra.Data.Repos.Ef.AdminAgg
         }
 
 
-        public async Task<bool> Delete(int appUserId, CancellationToken cancellationToken)
+        public async Task<bool> Delete(int appUserId,  CancellationToken cancellationToken)
         {
             
             var adminRows = await _context.Admins
                 .Where(a => a.AppUserId == appUserId)
                 .ExecuteUpdateAsync(s => s.SetProperty(a => a.IsDeleted, true), cancellationToken);
 
-           
-            var userRows = await _context.Users
-                .Where(u => u.Id == appUserId)
-                .ExecuteUpdateAsync(s => s.SetProperty(u => u.IsDeleted, true), cancellationToken);
-
-            return adminRows > 0 && userRows > 0;
+            return  adminRows>0;
         }
 
     }

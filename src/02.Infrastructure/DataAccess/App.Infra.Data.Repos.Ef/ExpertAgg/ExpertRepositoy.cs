@@ -157,22 +157,18 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
             };
         }
 
-        public async Task<bool> Delete(int appUserId, CancellationToken cancellationToken)
+        public async Task<bool> Delete(int appUserId,  CancellationToken cancellationToken)
         {
-            var rowsAffectedUser = await _context.Users
-                .Where(u => u.Id == appUserId)
-                .ExecuteUpdateAsync(setters => setters
-                    .SetProperty(u => u.IsDeleted, true),
+          
+          
+            var rowsAffectedExpert = await _context.Experts
+                .Where(e => e.AppUserId == appUserId )
+                .ExecuteUpdateAsync(setter => setter
+                    .SetProperty(e => e.IsDeleted, true),
                     cancellationToken);
 
-
-            var rowsAffectedCustomer = await _context.Experts.Where(c => c.AppUserId == appUserId)
-               .ExecuteUpdateAsync(setter => setter
-               .SetProperty(c => c.IsDeleted, true), cancellationToken);
-
-
-
-            return rowsAffectedUser > 0 && rowsAffectedCustomer > 0;
+            
+            return rowsAffectedExpert > 0;
         }
 
         public async Task<int> GetIdByAppUserId(int appUserId, CancellationToken cancellationToken)

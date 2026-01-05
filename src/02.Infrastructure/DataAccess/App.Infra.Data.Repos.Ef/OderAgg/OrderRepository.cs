@@ -5,6 +5,7 @@ using App.Domain.Core.Entities;
 using App.Domain.Core.Enums.OrderAgg;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,16 @@ namespace App.Infra.Data.Repos.Ef.OderAgg
 {
     public class OrderRepository(AppDbContext _context) : IOrderRepository
     {
+        public async Task<int> ChangeStatus(int orderId, OrderStatus newStatus , CancellationToken cancellationToken)
+        {
+            return await   _context.Orders.
+                    Where(o => o.Id == orderId ).
+                     ExecuteUpdateAsync(setter => setter
+                      .SetProperty(o => o.Status, newStatus)
+                      , cancellationToken
+                     );
+        }
+
         public async Task<int> Create(OrderCreateDto orderCreateDto, CancellationToken cancellationToken)
         {
             
@@ -191,5 +202,12 @@ namespace App.Infra.Data.Repos.Ef.OderAgg
 
 
         }
+
+        public async Task<bool> IsExists(int orderId, CancellationToken cancellationToken)
+        {
+           return await _context.Orders.AnyAsync(o => o.Id == orderId, cancellationToken);
+        }
+
+       
     }
 }

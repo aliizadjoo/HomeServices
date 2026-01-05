@@ -2,7 +2,9 @@
 using App.Domain.Core.Contract.AccountAgg.AppServices;
 using App.Domain.Core.Contract.CityAgg.AppService;
 using App.Domain.Core.Contract.OrderAgg.AppService;
+using App.Domain.Core.Contract.ProposalAgg.AppService;
 using App.Domain.Core.Dtos.OrderAgg;
+using App.Domain.Core.Enums.ProposalAgg;
 using App.EndPoints.MVC.HomeService.Areas.Constants;
 using App.EndPoints.MVC.HomeService.Areas.Customer.Models;
 using App.EndPoints.MVC.HomeService.Extentions;
@@ -20,11 +22,14 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
         (IHomeserviceAppService _homeserviceAppService,
         ICityAppService _cityAppService
         , IOrderAppService _orderAppService,
-        IAccountAppService _accountAppService
+        IAccountAppService _accountAppService,
+        IProposalAppService _proposalAppService
         )
         : Controller
 
     {
+
+
 
         public async Task<IActionResult> MyOrders(int pageNumber = 1, int pageSize = 5, CancellationToken cancellationToken = default)
         {
@@ -119,7 +124,47 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> Proposals(int orderId, CancellationToken cancellationToken)
+        {
+            var result = await _proposalAppService.GetOrderProposals(orderId, cancellationToken);
 
+            if (!result.IsSuccess)
+            {
+                TempData["ErrorMessage"] = result.Message;            
+                return RedirectToAction("MyOrders");
+            }
+
+        
+            foreach (var item in result.Data)
+            {
+                item.PersianExecutionDate = item.ExecutionDate.ToPersianDate();
+            }
+
+            ViewBag.OrderId = orderId;
+            return View(result.Data);
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangeStatus(int proposalId, ProposalStatus newStatus, int orderId, CancellationToken cancellationToken)
+        {
+          
+            var result = await _proposalAppService.ChangeStatus(proposalId, orderId, newStatus, cancellationToken);
+
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = result.Message;
+            }
+            else
+            {
+                
+                TempData["ErrorMessage"] = result.Message;
+            }
+
+            return RedirectToAction("Proposals", "Order", new { area = "Customer", orderId = orderId });
+        }
 
 
     }

@@ -504,7 +504,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
 
             if (result.IsSuccess)
             {
-                TempData["SuccessMessage"] = "حساب ادمین مورد نظر با موفقیت غیرفعال شد.";
+                TempData["SuccessMessage"] = "حساب ادمین مورد نظر با موفقیت حذف شد.";
             }
             else
             {

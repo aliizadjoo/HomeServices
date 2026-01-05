@@ -9,6 +9,7 @@ using App.Domain.AppServices.OrderAgg;
 using App.Domain.AppServices.ProposalAgg;
 using App.Domain.AppServices.ReviewAgg;
 using App.Domain.Core.Contract.AccountAgg.AppServices;
+using App.Domain.Core.Contract.AccountAgg.Services;
 using App.Domain.Core.Contract.AdminAgg.AppService;
 using App.Domain.Core.Contract.AdminAgg.Repository;
 using App.Domain.Core.Contract.AdminAgg.Service;
@@ -37,6 +38,7 @@ using App.Domain.Core.Contract.ReviewAgg.AppService;
 using App.Domain.Core.Contract.ReviewAgg.Repository;
 using App.Domain.Core.Contract.ReviewAgg.Service;
 using App.Domain.Core.Entities;
+using App.Domain.Services.AccountAgg;
 using App.Domain.Services.AdminAgg;
 using App.Domain.Services.CityAgg;
 using App.Domain.Services.CustomerAgg;
@@ -143,6 +145,7 @@ builder.Services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, CustomUserClaim
 builder.Services.AddScoped<IProposalRepository, ProposalRepository>();
 builder.Services.AddScoped<IProposalService, ProposalService>();
 builder.Services.AddScoped<IProposalAppService, ProposalAppService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 
 #endregion

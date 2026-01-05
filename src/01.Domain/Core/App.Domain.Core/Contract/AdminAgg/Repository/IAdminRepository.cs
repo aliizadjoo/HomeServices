@@ -23,7 +23,8 @@ namespace App.Domain.Core.Contract.AdminAgg.Repository
         public Task<bool> Update(AdminProfileDto adminProfileDto, CancellationToken cancellationToken);
 
 
-        public  Task<bool> Delete(int appUserId, CancellationToken cancellationToken);
-       
+        public Task<bool> Delete(int appUserId,  CancellationToken cancellationToken);
+
+
     }
 }

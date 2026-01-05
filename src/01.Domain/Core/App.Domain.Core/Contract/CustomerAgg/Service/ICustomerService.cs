@@ -18,7 +18,7 @@ namespace App.Domain.Core.Contract.CustomerAgg.Service
         public Task<Result<CustomerPagedResultDto>> GetAll( int pageNumber, int pageSize, CancellationToken cancellationToken);
 
 
-        public Task<Result<bool>> DeleteUser(int appUserId, CancellationToken cancellationToken);
+        public Task<Result<bool>> Delete(int appUserId, CancellationToken cancellationToken);
         public Task<int> GetIdByAppUserId(int appUserId, CancellationToken cancellationToken);
 
 

@@ -21,12 +21,14 @@
                         قیمت پیشنهادی شما نباید کمتر از این مقدار باشد.
                     </div>
 
-                    <form asp-action="SubmitProposal" asp-controller="Proposal" method="post" >
+                    
+                    <form asp-action="SubmitProposal" asp-controller="Proposal" method="post" id="proposalForm">
                         <input type="hidden" asp-for="OrderId" />
-                        <input type="hidden" asp-for="BasePrice"  />
+                      
+                        <input type="hidden" asp-for="BasePrice" id="hdnBasePrice" />
 
                         <div class="mb-4">
-                            <label asp-for="Price" class="form-label fw-bold"></label>
+                            <label asp-for="Price" class="form-label fw-bold">قیمت پیشنهادی شما</label>
                             <div class="input-group">
                                 <input asp-for="Price" type="number" class="form-control" id="txtPrice" placeholder="مثلاً @Model.BasePrice" />
                                 <span class="input-group-text">ریال</span>
@@ -35,7 +37,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label asp-for="SuggestedDateShamsi" class="form-label fw-bold"></label>
+                            <label asp-for="SuggestedDateShamsi" class="form-label fw-bold">تاریخ پیشنهادی شروع کار</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
                                 <input asp-for="SuggestedDateShamsi" class="form-control p-datepicker" readonly placeholder="انتخاب تاریخ شروع کار" />
@@ -44,7 +46,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label asp-for="Description" class="form-label fw-bold"></label>
+                            <label asp-for="Description" class="form-label fw-bold">توضیحات و رزومه</label>
                             <textarea asp-for="Description" class="form-control" rows="4" placeholder="رزومه مرتبط یا نحوه انجام کار را اینجا بنویسید..."></textarea>
                             <span asp-validation-for="Description" class="text-danger small"></span>
                         </div>
@@ -64,7 +66,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://unpkg.com/persian-date@1.1.0/dist/persian-date.min.js"></script>
     <script src="https://unpkg.com/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
-
     <script src="~/js/proposal-submission.js"></script>
     <partial name="_ValidationScriptsPartial" />
 }

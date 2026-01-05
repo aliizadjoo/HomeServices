@@ -10,11 +10,13 @@ namespace App.Domain.Core.Dtos.ProposalAgg
     public class ProposalSummaryDto
     {
         public int Id { get; set; }
-        public int ExpertId { get; set; } 
+        public int ExpertId { get; set; }
+        public string HomeServiceName { get; set; }
+        public DateTime ExecutionDate { get; set; }
+        public string PersianExecutionDate { get; set; }
         public string ExpertFirstName { get; set; }
         public string ExpertLastName { get; set; }
         public ProposalStatus Status { get; set; } = ProposalStatus.Pending;
-
         public decimal Price { get; set; }
         public string Description { get; set; }
       
