@@ -98,7 +98,9 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
                 LastName = editProfileCustomerViewModel.LastName,
                 ImagePath = editProfileCustomerViewModel.ImagePath,
                 Address = editProfileCustomerViewModel.Address,
-                CityId = editProfileCustomerViewModel.CityId
+                CityId = editProfileCustomerViewModel.CityId,
+                WalletBalance = editProfileCustomerViewModel.WalletBalance
+                
             };
 
             var appuserId = _accountAppService.GetUserId(User);

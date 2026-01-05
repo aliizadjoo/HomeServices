@@ -28,7 +28,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Models
 
         [Display(Name = "موجودی کیف پول")]
         [Range(0, double.MaxValue, ErrorMessage = "{0} نمی‌تواند عدد منفی باشد")]
-        public decimal WalletBalance { get; set; }
+        public decimal? WalletBalance { get; set; }
 
         [Display(Name = "شهر")]
         public int CityId { get; set; }

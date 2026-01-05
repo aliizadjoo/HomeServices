@@ -28,5 +28,8 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Models
         [Display(Name = "نام شهر")]
         [Required(ErrorMessage = "انتخاب {0} الزامی است")]
         public int CityId { get; set; }
+
+        [Range(0, double.MaxValue, ErrorMessage = "موجودی کیف پول نمی‌تواند عدد منفی باشد.")]
+        public decimal? WalletBalance { get; set; }
     }
 }

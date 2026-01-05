@@ -16,13 +16,11 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
         (AppDbContext _context ,ILogger<CustomerRepository> _logger) 
         : ICustomerRepository
     {
-        public async Task<bool> ChangeProfileCustomer(int appuserId, ProfileCustomerDto profileCustomerDto, bool isAdmin, CancellationToken cancellationToken)
+        public async Task<bool> ChangeProfileCustomer(int appuserId, ProfileCustomerDto profileCustomerDto,  CancellationToken cancellationToken)
         {
             int customerRows;
 
-            if (isAdmin)
-            {
-              
+            
                 customerRows = await _context.Customers
                    .Where(c => c.AppUserId == appuserId ) 
                     .ExecuteUpdateAsync(setters => setters
@@ -30,17 +28,8 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
                         .SetProperty(c => c.CityId, profileCustomerDto.CityId)
                         .SetProperty(c => c.WalletBalance, profileCustomerDto.WalletBalance),
                         cancellationToken);
-            }
-            else
-            {
-           
-                customerRows = await _context.Customers
-                  .Where(c => c.AppUserId == appuserId ) 
-                    .ExecuteUpdateAsync(setters => setters
-                        .SetProperty(c => c.Address, profileCustomerDto.Address)
-                        .SetProperty(c => c.CityId, profileCustomerDto.CityId),
-                        cancellationToken);
-            }
+            
+         
 
          
             var userRows = await _context.Users
@@ -122,7 +111,6 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
 
 
         }
-
 
 
         public async Task<bool> Delete(int appUserId,  CancellationToken cancellationToken)

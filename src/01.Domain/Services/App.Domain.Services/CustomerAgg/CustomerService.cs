@@ -57,7 +57,7 @@ namespace App.Domain.Services.CustomerAgg
             }
 
           
-            var isUpdated = await _customerRepository.ChangeProfileCustomer(appuserId, profileCustomerDto, isAdmin, cancellationToken);
+            var isUpdated = await _customerRepository.ChangeProfileCustomer(appuserId, profileCustomerDto,  cancellationToken);
 
             if (!isUpdated)
             {
