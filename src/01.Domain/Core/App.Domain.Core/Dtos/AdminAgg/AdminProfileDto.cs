@@ -17,5 +17,6 @@ namespace App.Domain.Core.Dtos.AdminAgg
 
         public string StaffCode { get; set; } 
         public decimal TotalRevenue { get; set; }
+        public string? PhoneNumber { get; set; }
     }
 }

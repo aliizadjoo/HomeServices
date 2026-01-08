@@ -31,5 +31,8 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Models
 
         [Range(0, double.MaxValue, ErrorMessage = "موجودی کیف پول نمی‌تواند عدد منفی باشد.")]
         public decimal? WalletBalance { get; set; }
+
+        [RegularExpression(@"^09\d{9}$", ErrorMessage = "فرمت {0} صحیح نیست (مثال: 09120000000)")]
+        public string? PhoneNumber { get; set; }
     }
 }

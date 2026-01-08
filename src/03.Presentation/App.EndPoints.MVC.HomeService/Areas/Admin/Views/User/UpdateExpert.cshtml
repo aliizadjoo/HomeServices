@@ -5,18 +5,23 @@
     ViewData["Title"] = "ویرایش کارشناس";
 }
 
+@section Head {
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/update-expert.css" asp-append-version="true" />
+}
+
 <div class="container mt-4">
     <div class="card shadow-sm border-success">
         <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-            <h5 class="mb-0"><i class="bi bi-person-gear"></i> ویرایش پروفایل کارشناس: @Model.FirstName @Model.LastName</h5>
-            <a asp-action="Index" class="btn btn-sm btn-light text-success fw-bold">
-                <i class="bi bi-arrow-right"></i> بازگشت به لیست
-            </a>
+            <h5 class="mb-0">
+                <i class="bi bi-person-gear"></i>
+                ویرایش پروفایل کارشناس: @Model.FirstName @Model.LastName
+            </h5>
+            <a asp-action="Index" class="btn btn-sm btn-light text-success fw-bold">بازگشت</a>
         </div>
+
         <div class="card-body">
             <form asp-area="Admin" asp-controller="User" asp-action="UpdateExpert" method="post" enctype="multipart/form-data">
-
-                
                 <input type="hidden" asp-for="AppUserId" />
                 <input type="hidden" asp-for="ExistingImagePath" />
 
@@ -42,6 +47,12 @@
                     </div>
 
                     <div class="col-md-6">
+                        <label asp-for="PhoneNumber" class="form-label fw-bold text-success"></label>
+                        <input asp-for="PhoneNumber" class="form-control border-success" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
                         <label asp-for="CityId" class="form-label fw-bold text-success"></label>
                         <select asp-for="CityId" class="form-select border-success"
                                 asp-items="@(new SelectList(Model.AvailableCities, "Id", "CityName"))">
@@ -53,7 +64,7 @@
                     <div class="col-md-6">
                         <label asp-for="WalletBalance" class="form-label fw-bold text-success"></label>
                         <div class="input-group">
-                            <input asp-for="WalletBalance" class="form-control border-success" type="number" />
+                            <input asp-for="WalletBalance" type="number" class="form-control border-success" />
                             <span class="input-group-text bg-success text-white">ریال</span>
                         </div>
                         <span asp-validation-for="WalletBalance" class="text-danger small"></span>
@@ -61,54 +72,32 @@
 
                     <div class="col-12">
                         <label asp-for="Bio" class="form-label fw-bold text-success"></label>
-                        <textarea asp-for="Bio" class="form-control border-success" rows="2" placeholder="توضیحات درباره کارشناس..."></textarea>
+                        <textarea asp-for="Bio" rows="2" class="form-control border-success"></textarea>
                         <span asp-validation-for="Bio" class="text-danger small"></span>
                     </div>
 
-                    <div class="col-12 mt-4">
+                    <div class="col-12 mt-3">
                         <label class="form-label fw-bold text-success">
-                            <i class="bi bi-tags"></i> @Html.DisplayNameFor(m => m.SelectedHomeServicesId)
+                            <i class="bi bi-tags"></i> تخصص‌ها
                         </label>
-                        <div class="card border-success bg-light shadow-sm">
-                            <div class="card-body" style="max-height: 250px; overflow-y: auto;">
-                                <div class="row">
-                                    @foreach (var service in Model.AvailableServices)
-                                    {
-                                        <div class="col-md-4 mb-2">
-                                            <div class="form-check">
-                                                <input class="form-check-input border-success" type="checkbox"
-                                                       name="SelectedHomeServicesId"
-                                                       value="@service.HomeservicesId"
-                                                       id="service_@service.HomeservicesId"
-                                                       @(Model.SelectedHomeServicesId.Contains(service.HomeservicesId) ? "checked" : "")>
-                                                <label class="form-check-label" for="service_@service.HomeservicesId">
-                                                    @service.Name
-                                                </label>
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-text mt-1 text-muted">مهارت‌هایی که از قبل تیک دارند، تخصص‌های فعلی کارشناس هستند.</div>
+                        <select asp-for="SelectedHomeServicesId" class="form-select select2-multiple"
+                                asp-items="@(new SelectList(Model.AvailableServices, "HomeservicesId", "Name"))"
+                                multiple="multiple">
+                        </select>
+                        <div class="form-text text-muted small">می‌توانید چند مورد را انتخاب کنید.</div>
+                        <span asp-validation-for="SelectedHomeServicesId" class="text-danger small"></span>
                     </div>
 
                     <div class="col-12 mt-4">
                         <div class="card bg-light border-0 p-3 shadow-sm">
                             <div class="row align-items-center">
-                                <div class="col-md-2 text-center border-start border-success border-2">
-                                    <label class="d-block mb-2 text-success fw-bold">تصویر فعلی</label>
-                                    @if (!string.IsNullOrEmpty(Model.ExistingImagePath))
-                                    {
-                                        <img src="~/images/profiles/@Model.ExistingImagePath" class="img-thumbnail rounded-circle shadow" style="width: 100px; height: 100px; object-fit: cover;" alt="پروفایل" />
-                                    }
-                                    else
-                                    {
-                                        <img src="~/images/default-expert.png" class="img-thumbnail rounded-circle shadow" style="width: 100px;" alt="پیش‌فرض" />
-                                    }
+                                <div class="col-md-2 text-center border-start">
+                                    <label class="fw-bold text-success mb-2 d-block small">تصویر فعلی</label>
+                                    <img src="@(string.IsNullOrEmpty(Model.ExistingImagePath) ? "/images/default-expert.png" : "/images/profiles/" + Model.ExistingImagePath)"
+                                         class="img-thumbnail rounded-circle" style="width:100px;height:100px;object-fit:cover;" />
                                 </div>
-                                <div class="col-md-10 ps-4">
-                                    <label asp-for="NewProfileImage" class="form-label fw-bold text-success">آپلود تصویر جدید (در صورت نیاز)</label>
+                                <div class="col-md-10">
+                                    <label asp-for="NewProfileImage" class="form-label fw-bold text-success"></label>
                                     <input asp-for="NewProfileImage" type="file" class="form-control border-success" accept="image/*" />
                                 </div>
                             </div>
@@ -118,9 +107,9 @@
 
                 <hr class="mt-4 border-success opacity-25" />
 
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
-                    <button type="submit" class="btn btn-success px-5 shadow-sm">
-                        <i class="bi bi-save"></i> ذخیره نهایی اطلاعات
+                <div class="d-flex justify-content-end gap-2">
+                    <button type="submit" class="btn btn-success px-5">
+                        <i class="bi bi-save"></i> ذخیره تغییرات
                     </button>
                     <a asp-action="Index" class="btn btn-outline-secondary">انصراف</a>
                 </div>
@@ -131,4 +120,8 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script src="~/js/update-expert.js" asp-append-version="true"></script>
 }

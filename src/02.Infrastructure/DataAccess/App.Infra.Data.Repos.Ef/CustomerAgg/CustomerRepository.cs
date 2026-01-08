@@ -27,6 +27,7 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
                         .SetProperty(c => c.Address, profileCustomerDto.Address)
                         .SetProperty(c => c.CityId, profileCustomerDto.CityId)
                         .SetProperty(c => c.WalletBalance, profileCustomerDto.WalletBalance),
+                    
                         cancellationToken);
             
          
@@ -37,7 +38,9 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
                 .ExecuteUpdateAsync(setters => setters
                     .SetProperty(u => u.FirstName, profileCustomerDto.FirstName)
                     .SetProperty(u => u.LastName, profileCustomerDto.LastName)
-                    .SetProperty(u => u.ImagePath, profileCustomerDto.ImagePath),
+                    .SetProperty(u => u.ImagePath, profileCustomerDto.ImagePath)
+                    .SetProperty(u=>u.PhoneNumber,profileCustomerDto.PhoneNumber)
+                    ,
                     cancellationToken);
 
             return customerRows > 0 || userRows > 0;
@@ -58,7 +61,10 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
                     Email = c.AppUser.Email,
                     ImagePath = c.AppUser.ImagePath,
                     Address = c.Address,
-                    CityName = c.City.Name
+                    CityName = c.City.Name,
+                    CityId = c.CityId,
+                    PhoneNumber =c.AppUser.PhoneNumber,
+                    
 
                 }).FirstOrDefaultAsync(cancellationToken);
         }
@@ -96,7 +102,8 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
                     Email = c.AppUser.Email,
                     CityName = c.City.Name,
                     WalletBalance = c.WalletBalance,
-                    CreatedAt = c.CreatedAt
+                    CreatedAt = c.CreatedAt,
+                    PhoneNumber = c.AppUser.PhoneNumber
                 })
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)

@@ -42,7 +42,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.CustomerAgg
 
             builder.Property(c => c.WalletBalance)
                  .HasPrecision(18, 2)
-                 .IsRequired();
+                 .IsRequired(false);
 
 
             builder.HasQueryFilter(c => !c.IsDeleted);

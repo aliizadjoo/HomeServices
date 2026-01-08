@@ -53,9 +53,11 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
                 AdminPage = aPageNumber,
                 PageSize = pageSize,
                 ActiveTab = activeTab,
+                
 
                 Customers =  resultCustomer.Data.Customers ,
                 CustomerTotalCount =  resultCustomer.Data.TotalCount ,
+
 
                 Experts =  resultExpert.Data.Experts ,
                 ExpertTotalCount =  resultExpert.Data.TotalCount,
@@ -207,7 +209,9 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
                 Address = customer.Address,
                 WalletBalance = customer.WalletBalance,
                 CityId = customer.CityId,
-                ExistingImagePath = customer.ImagePath
+                ExistingImagePath = customer.ImagePath,
+                PhoneNumber = customer.PhoneNumber,
+                
             };
 
 
@@ -245,7 +249,8 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
                 Address = model.Address,
                 WalletBalance = model.WalletBalance,
                 CityId = model.CityId,
-                ImagePath = imagePath
+                ImagePath = imagePath,
+                PhoneNumber = model.PhoneNumber,
             };
 
             var result = await _customerAppService.ChangeProfileCustomer(model.AppUserId, updateDto, true, cancellationToken);
@@ -322,7 +327,8 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
                 ExistingImagePath = expert.ImagePath,
                 SelectedHomeServicesId = expert.HomeServicesId,
                 AvailableCities = cities,
-                AvailableServices = servicesResult.Data
+                AvailableServices = servicesResult.Data,
+                PhoneNumber = expert.PhoneNumber,
             };
 
             return View(viewModel);
@@ -361,7 +367,9 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
                 WalletBalance = model.WalletBalance,
                 CityId = model.CityId,
                 ImagePath = imagePath,
-                HomeServicesId = model.SelectedHomeServicesId
+                HomeServicesId = model.SelectedHomeServicesId,
+                PhoneNumber = model.PhoneNumber
+
             };
 
          
@@ -438,7 +446,8 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
                 Email = admin.Email!,
                 StaffCode = admin.StaffCode,
                 TotalRevenue = admin.TotalRevenue,
-                ExistingImagePath = admin.ImagePath
+                ExistingImagePath = admin.ImagePath,
+                PhoneNumber = admin.PhoneNumber
             };
 
             return View(viewModel);
@@ -474,6 +483,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
                 StaffCode = model.StaffCode,
                 ImagePath = imagePath,
                  Email = model.Email,
+                 PhoneNumber= model.PhoneNumber
                 
             };
 

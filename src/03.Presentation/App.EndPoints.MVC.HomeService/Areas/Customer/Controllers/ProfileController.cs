@@ -66,6 +66,9 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
                 ImagePath = result.Data.ImagePath,
                 Address = result.Data.Address,
                 CityName = result.Data.CityName,
+                PhoneNumber = result.Data.PhoneNumber, 
+                CityId = result.Data.CityId,           
+                WalletBalance = result.Data.WalletBalance ?? 0,
             };
 
             return View(editProfileCustomerViewModel);
@@ -99,7 +102,8 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
                 ImagePath = editProfileCustomerViewModel.ImagePath,
                 Address = editProfileCustomerViewModel.Address,
                 CityId = editProfileCustomerViewModel.CityId,
-                WalletBalance = editProfileCustomerViewModel.WalletBalance
+                WalletBalance = editProfileCustomerViewModel.WalletBalance,
+                PhoneNumber = editProfileCustomerViewModel.PhoneNumber
                 
             };
 

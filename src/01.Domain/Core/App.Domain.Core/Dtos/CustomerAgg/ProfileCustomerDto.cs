@@ -17,5 +17,6 @@ namespace App.Domain.Core.Dtos.CustomerAgg
         public string CityName { get; set; }
         public string? Email { get; set; }
         public decimal? WalletBalance { get; set; }
+        public string? PhoneNumber { get; set; }
     }
 }

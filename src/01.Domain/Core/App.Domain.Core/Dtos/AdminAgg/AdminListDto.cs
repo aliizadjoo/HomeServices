@@ -14,8 +14,10 @@ namespace App.Domain.Core.Dtos.AdminAgg
         public string LastName { get; set; }
         public string? Email { get; set; }
         public string StaffCode { get; set; }
+        public string? PhoneNumber { get; set; }
         public decimal TotalRevenue { get; set; }
         public DateTime CreatedAt { get; set; }
+        
 
     }
 }

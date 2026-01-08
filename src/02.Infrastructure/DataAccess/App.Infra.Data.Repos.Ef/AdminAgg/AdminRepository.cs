@@ -37,6 +37,7 @@ namespace App.Infra.Data.Repos.Ef.AdminAgg
                     StaffCode = a.StaffCode ,
                     TotalRevenue = a.TotalRevenue,
                     CreatedAt = a.CreatedAt,
+                    PhoneNumber = a.AppUser.PhoneNumber
                 })
                .Skip((pageNumber - 1) * pageSize) 
                .Take(pageSize) 
@@ -87,7 +88,8 @@ namespace App.Infra.Data.Repos.Ef.AdminAgg
                     Email = a.AppUser.Email,
                     ImagePath = a.AppUser.ImagePath,
                     StaffCode = a.StaffCode,
-                    TotalRevenue = a.TotalRevenue
+                    TotalRevenue = a.TotalRevenue,
+                    PhoneNumber =a.AppUser.PhoneNumber,
                 })
                 .FirstOrDefaultAsync(cancellationToken);
         }
@@ -106,7 +108,9 @@ namespace App.Infra.Data.Repos.Ef.AdminAgg
                 .ExecuteUpdateAsync(setters => setters
                     .SetProperty(u => u.FirstName, adminProfileDto.FirstName)
                     .SetProperty(u => u.LastName, adminProfileDto.LastName)
-                    .SetProperty(u => u.ImagePath, adminProfileDto.ImagePath),
+                    .SetProperty(u => u.ImagePath, adminProfileDto.ImagePath)
+                    .SetProperty(u=>u.PhoneNumber , adminProfileDto.PhoneNumber)
+                    ,
                     cancellationToken);
 
          

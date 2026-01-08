@@ -10,7 +10,7 @@
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <i class="bi bi-check-circle-fill me-2"></i>
         @TempData["SuccessMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 }
 
@@ -19,42 +19,47 @@
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <i class="bi bi-exclamation-triangle-fill me-2"></i>
         @TempData["ErrorMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 }
 
 <div class="container-fluid mt-4" dir="rtl">
+
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-success fw-bold"><i class="bi bi-people-fill"></i> مدیریت جامع کاربران</h2>
+        <h2 class="text-success fw-bold">
+            <i class="bi bi-people-fill"></i> مدیریت جامع کاربران
+        </h2>
         <a asp-action="Create" class="btn btn-success">
             <i class="bi bi-plus-circle"></i> افزودن کاربر جدید
         </a>
     </div>
 
-    @if (ViewBag.CustomerError != null || ViewBag.ExpertError != null || ViewBag.AdminError != null)
-    {
-        <div class="alert alert-warning border-warning shadow-sm">
-            <i class="bi bi-exclamation-triangle-fill"></i> برخی از داده‌ها به دلیل خطای سیستمی بارگذاری نشدند.
-        </div>
-    }
-
-    <ul class="nav nav-tabs border-success" id="userTabs" role="tablist">
+    <ul class="nav nav-tabs border-success">
         <li class="nav-item">
             <button class="nav-link @(Model.ActiveTab == "customers" ? "active bg-success text-white" : "text-success") fw-bold"
-                    id="customers-tab" data-bs-toggle="tab" data-bs-target="#customers" type="button">
-                مشتریان <span class="badge @(Model.ActiveTab == "customers" ? "bg-white text-success" : "bg-success")">@Model.CustomerTotalCount</span>
+                    data-bs-toggle="tab" data-bs-target="#customers">
+                مشتریان
+                <span class="badge @(Model.ActiveTab == "customers" ? "bg-white text-success" : "bg-success")">
+                    @Model.CustomerTotalCount
+                </span>
             </button>
         </li>
         <li class="nav-item">
             <button class="nav-link @(Model.ActiveTab == "experts" ? "active bg-success text-white" : "text-success") fw-bold"
-                    id="experts-tab" data-bs-toggle="tab" data-bs-target="#experts" type="button">
-                کارشناسان <span class="badge @(Model.ActiveTab == "experts" ? "bg-white text-success" : "bg-success")">@Model.ExpertTotalCount</span>
+                    data-bs-toggle="tab" data-bs-target="#experts">
+                کارشناسان
+                <span class="badge @(Model.ActiveTab == "experts" ? "bg-white text-success" : "bg-success")">
+                    @Model.ExpertTotalCount
+                </span>
             </button>
         </li>
         <li class="nav-item">
             <button class="nav-link @(Model.ActiveTab == "admins" ? "active bg-success text-white" : "text-success") fw-bold"
-                    id="admins-tab" data-bs-toggle="tab" data-bs-target="#admins" type="button">
-                مدیران <span class="badge @(Model.ActiveTab == "admins" ? "bg-white text-success" : "bg-success")">@Model.AdminTotalCount</span>
+                    data-bs-toggle="tab" data-bs-target="#admins">
+                مدیران
+                <span class="badge @(Model.ActiveTab == "admins" ? "bg-white text-success" : "bg-success")">
+                    @Model.AdminTotalCount
+                </span>
             </button>
         </li>
     </ul>
@@ -64,9 +69,10 @@
         <div class="tab-pane fade @(Model.ActiveTab == "customers" ? "show active" : "")" id="customers">
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
-                    <thead class="table-light">
+                    <thead>
                         <tr>
                             <th>نام و خانوادگی</th>
+                            <th>شماره موبایل</th>
                             <th>ایمیل</th>
                             <th>موجودی</th>
                             <th>تاریخ ثبت</th>
@@ -78,14 +84,18 @@
                         {
                             <tr>
                                 <td>@c.FirstName @c.LastName</td>
+                                <td class="fw-bold">@c.PhoneNumber</td>
                                 <td>@c.Email</td>
-                                <td>@c.WalletBalance.ToString("N0") ریال</td>
+                                <td>@(c.WalletBalance?.ToString("N0") ?? "0") ریال</td>
                                 <td><span class="convert-date">@c.CreatedAt.ToString("yyyy-MM-dd")</span></td>
                                 <td class="text-center">
-                                    <a asp-action="UpdateCustomer" asp-route-id="@c.CustomerId" asp-route-appUserId="@c.AppUserId" class="btn btn-sm btn-outline-primary">ویرایش</a>
-                                    <a asp-action="ChangePassword" asp-route-appUserId="@c.AppUserId" class="btn btn-sm btn-outline-primary">تغییر رمز عبور</a>
-                                    <form asp-action="Delete" asp-route-id="@c.CustomerId" asp-route-appUserId="@c.AppUserId" method="post" class="d-inline" onsubmit="return confirm('حذف انجام شود؟');">
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">حذف</button>
+                                    <a asp-action="UpdateCustomer" asp-route-id="@c.CustomerId" asp-route-appUserId="@c.AppUserId"
+                                       class="btn btn-sm btn-outline-primary">ویرایش</a>
+                                    <a asp-action="ChangePassword" asp-route-appUserId="@c.AppUserId"
+                                       class="btn btn-sm btn-outline-primary">تغییر رمز</a>
+                                    <form asp-action="Delete" asp-route-id="@c.CustomerId" asp-route-appUserId="@c.AppUserId"
+                                          method="post" class="d-inline" onsubmit="return confirm('حذف انجام شود؟');">
+                                        <button class="btn btn-sm btn-outline-danger">حذف</button>
                                     </form>
                                 </td>
                             </tr>
@@ -93,20 +103,16 @@
                     </tbody>
                 </table>
             </div>
-            @await Html.PartialAsync("_PaginationPartial", null, new ViewDataDictionary(ViewData) {
-            { "TotalPages", Model.GetTotalPages(Model.CustomerTotalCount) },
-                        { "CurrentPage", Model.CustomerPage },
-                        { "ParamName", "cPageNumber" },
-                        { "Others", $"&ePageNumber={Model.ExpertPage}&aPageNumber={Model.AdminPage}&activeTab=customers" }
-                        })
         </div>
 
+        
         <div class="tab-pane fade @(Model.ActiveTab == "experts" ? "show active" : "")" id="experts">
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
-                    <thead class="table-light">
+                    <thead>
                         <tr>
                             <th>نام</th>
+                            <th>شماره موبایل</th>
                             <th>امتیاز</th>
                             <th>تخصص‌ها</th>
                             <th>تاریخ</th>
@@ -118,14 +124,22 @@
                         {
                             <tr>
                                 <td>@e.FirstName @e.LastName</td>
-                                <td><span class="badge bg-warning text-dark">@e.AverageScore?.ToString("F1")</span></td>
+                                <td class="fw-bold">@e.PhoneNumber</td>
+                                <td>
+                                    <span class="badge bg-warning text-dark">
+                                        @e.AverageScore?.ToString("F1")
+                                    </span>
+                                </td>
                                 <td><small>@string.Join(" | ", e.ServiceNames)</small></td>
                                 <td><span class="convert-date">@e.CreatedAt.ToString("yyyy-MM-dd")</span></td>
                                 <td class="text-center">
-                                    <a asp-action="UpdateExpert" asp-route-id="@e.ExpertId" asp-route-appUserId="@e.AppUserId" class="btn btn-sm btn-outline-primary">ویرایش</a>
-                                    <a asp-action="ChangePassword" asp-route-appUserId="@e.AppUserId" class="btn btn-sm btn-outline-primary">تغییر رمز عبور</a>
-                                    <form asp-action="DeleteExpert" asp-route-id="@e.ExpertId" asp-route-appUserId="@e.AppUserId" method="post" class="d-inline" onsubmit="return confirm('حذف انجام شود؟');">
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">حذف</button>
+                                    <a asp-action="UpdateExpert" asp-route-id="@e.ExpertId" asp-route-appUserId="@e.AppUserId"
+                                       class="btn btn-sm btn-outline-primary">ویرایش</a>
+                                    <a asp-action="ChangePassword" asp-route-appUserId="@e.AppUserId"
+                                       class="btn btn-sm btn-outline-primary">تغییر رمز</a>
+                                    <form asp-action="DeleteExpert" asp-route-id="@e.ExpertId" asp-route-appUserId="@e.AppUserId"
+                                          method="post" class="d-inline" onsubmit="return confirm('حذف انجام شود؟');">
+                                        <button class="btn btn-sm btn-outline-danger">حذف</button>
                                     </form>
                                 </td>
                             </tr>
@@ -133,20 +147,16 @@
                     </tbody>
                 </table>
             </div>
-            @await Html.PartialAsync("_PaginationPartial", null, new ViewDataDictionary(ViewData) {
-            { "TotalPages", Model.GetTotalPages(Model.ExpertTotalCount) },
-                        { "CurrentPage", Model.ExpertPage },
-                        { "ParamName", "ePageNumber" },
-                        { "Others", $"&cPageNumber={Model.CustomerPage}&aPageNumber={Model.AdminPage}&activeTab=experts" }
-                        })
         </div>
 
+       
         <div class="tab-pane fade @(Model.ActiveTab == "admins" ? "show active" : "")" id="admins">
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
-                    <thead class="table-light">
+                    <thead>
                         <tr>
                             <th>نام</th>
+                            <th>شماره موبایل</th>
                             <th>کد پرسنلی</th>
                             <th>درآمد کل</th>
                             <th class="text-center">عملیات</th>
@@ -157,13 +167,17 @@
                         {
                             <tr>
                                 <td>@a.FirstName @a.LastName</td>
-                                <td class="fw-bold text-success">@a.StaffCode</td>
+                                <td class="fw-bold">@a.PhoneNumber</td>
+                                <td class="text-success fw-bold">@a.StaffCode</td>
                                 <td>@a.TotalRevenue.ToString("N0")</td>
                                 <td class="text-center">
-                                    <a asp-action="UpdateAdmin" asp-route-appUserId="@a.AppUserId" class="btn btn-sm btn-outline-primary">ویرایش</a>
-                                    <a asp-action="ChangePassword" asp-route-appUserId="@a.AppUserId" class="btn btn-sm btn-outline-primary">تغییر رمز عبور</a>
-                                    <form asp-action="DeleteAdmin" asp-route-appUserId="@a.AppUserId" method="post" class="d-inline" onsubmit="return confirm('حذف انجام شود؟');">
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">حذف</button>
+                                    <a asp-action="UpdateAdmin" asp-route-appUserId="@a.AppUserId"
+                                       class="btn btn-sm btn-outline-primary">ویرایش</a>
+                                    <a asp-action="ChangePassword" asp-route-appUserId="@a.AppUserId"
+                                       class="btn btn-sm btn-outline-primary">تغییر رمز</a>
+                                    <form asp-action="DeleteAdmin" asp-route-appUserId="@a.AppUserId"
+                                          method="post" class="d-inline" onsubmit="return confirm('حذف انجام شود؟');">
+                                        <button class="btn btn-sm btn-outline-danger">حذف</button>
                                     </form>
                                 </td>
                             </tr>
@@ -171,13 +185,8 @@
                     </tbody>
                 </table>
             </div>
-            @await Html.PartialAsync("_PaginationPartial", null, new ViewDataDictionary(ViewData) {
-            { "TotalPages", Model.GetTotalPages(Model.AdminTotalCount) },
-                        { "CurrentPage", Model.AdminPage },
-                        { "ParamName", "aPageNumber" },
-                        { "Others", $"&cPageNumber={Model.CustomerPage}&ePageNumber={Model.ExpertPage}&activeTab=admins" }
-                        })
         </div>
+
     </div>
 </div>
 

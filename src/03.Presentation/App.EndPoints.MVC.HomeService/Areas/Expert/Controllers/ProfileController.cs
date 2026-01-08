@@ -76,7 +76,8 @@ namespace App.EndPoints.MVC.HomeService.Areas.Expert.Controllers
                 HomeServices = result.Data.HomeServices,
                 HomeServicesId = result.Data.HomeServicesId,
                 AvailableCities = citiesResult  ,
-                AvailableServices = servicesResult.Data 
+                AvailableServices = servicesResult.Data ,
+                PhoneNumber = result.Data.PhoneNumber,
 
             };
 
@@ -118,7 +119,9 @@ namespace App.EndPoints.MVC.HomeService.Areas.Expert.Controllers
                 LastName = editProfileExpertViewModel.LastName,
                 ImagePath = editProfileExpertViewModel.ImagePath,
                 CityId = editProfileExpertViewModel.CityId,
-                HomeServicesId = editProfileExpertViewModel.HomeServicesId
+                HomeServicesId = editProfileExpertViewModel.HomeServicesId,
+                PhoneNumber = editProfileExpertViewModel.PhoneNumber,
+
             };
             var appuserId = _accountAppService.GetUserId(User);
             var result = await _expertAppService.ChangeProfile(appuserId, profileExpertDto,false, cancellation);

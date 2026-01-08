@@ -15,6 +15,7 @@ namespace App.Domain.Core.Dtos.ExpertAgg
         public string? Email { get; set; } 
         public string CityName { get; set; }
         public decimal? WalletBalance { get; set; }
+        public string? PhoneNumber { get; set; }
 
         public double? AverageScore { get; set; } 
         public List<string> ServiceNames { get; set; } = []; 

@@ -38,9 +38,17 @@
 
                             <div class="col-md-6">
                                 <label asp-for="Email" class="form-label fw-bold text-muted small">ایمیل (نام کاربری)</label>
-                                <input asp-for="Email" class="form-control bg-light"  />
+                                <input asp-for="Email" class="form-control bg-light" />
                                 <span asp-validation-for="Email" class="text-danger small"></span>
                             </div>
+
+                        پ
+                            <div class="col-md-6">
+                                <label asp-for="PhoneNumber" class="form-label fw-bold text-muted small">شماره موبایل</label>
+                                <input asp-for="PhoneNumber" class="form-control" placeholder="مثال: 09123456789" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                            </div>
+
                             <div class="col-md-6">
                                 <label asp-for="StaffCode" class="form-label fw-bold text-muted small">کد پرسنلی</label>
                                 <input asp-for="StaffCode" class="form-control font-monospace" placeholder="مثال: ADM-12345" />
@@ -104,5 +112,4 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-   
 }

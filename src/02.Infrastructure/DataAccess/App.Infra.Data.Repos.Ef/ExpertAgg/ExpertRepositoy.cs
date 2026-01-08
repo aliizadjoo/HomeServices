@@ -29,6 +29,7 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
                     FirstName = e.AppUser.FirstName,
                     LastName = e.AppUser.LastName,
                     AverageScore = e.AverageScore,
+                    PhoneNumber = e.AppUser.PhoneNumber,
                     Bio = e.Bio,
                     ImagePath = e.AppUser.ImagePath,
                     WalletBalance = e.WalletBalance,
@@ -73,6 +74,7 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
             expert.AppUser.FirstName = profileExpertDto.FirstName;
             expert.AppUser.LastName = profileExpertDto.LastName;
             expert.AppUser.ImagePath = profileExpertDto.ImagePath;
+            expert.AppUser.PhoneNumber= profileExpertDto.PhoneNumber;
 
         
             expert.Bio = profileExpertDto.Bio;
@@ -143,7 +145,8 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
                           .ToList(),
                     WalletBalance = e.WalletBalance,
                     AverageScore = e.AverageScore,
-                    CreatedAt = e.CreatedAt
+                    CreatedAt = e.CreatedAt,
+                    PhoneNumber = e.AppUser.PhoneNumber
                 })
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)

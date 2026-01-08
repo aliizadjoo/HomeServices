@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,8 @@ namespace App.Domain.Core.Dtos.ExpertAgg
         public List<string> HomeServices { get; set; } = [];
         public decimal? WalletBalance { get; set; }
         public string CityName { get; set; }
-     
+
+        public string? PhoneNumber { get; set; }
+
     }
 }

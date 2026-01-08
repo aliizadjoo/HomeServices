@@ -2,6 +2,7 @@
 using App.Domain.Core.Dtos.CustomerAgg;
 using App.Domain.Core.Dtos.ExpertAgg;
 using App.Domain.Core.Dtos.UserAgg;
+using System.ComponentModel.DataAnnotations;
 
 namespace App.EndPoints.MVC.HomeService.Areas.Admin.Models
 {
@@ -21,6 +22,10 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Models
         public int AdminPage { get; set; } 
 
         public int PageSize { get; set; }
+
+     
+
+
         public string ActiveTab { get; set; } = "customers"; 
 
         public int GetTotalPages(int totalCount) => (int)Math.Ceiling((double)totalCount / PageSize);

@@ -7,39 +7,62 @@
 
 <div class="container mt-4">
     <div class="card shadow-sm border-success">
-        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-            <h5 class="mb-0"><i class="bi bi-pencil-square"></i> ویرایش اطلاعات مشتری: @Model.FirstName @Model.LastName</h5>
-            <a asp-action="Index" class="btn btn-sm btn-light text-success fw-bold">بازگشت به لیست</a>
-        </div>
-        <div class="card-body">
-            <form asp-area="Admin" asp-controller="User" asp-action="UpdateCustomer" method="post" enctype="multipart/form-data">
 
-                
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                <i class="bi bi-pencil-square"></i>
+                ویرایش اطلاعات مشتری: @Model.FirstName @Model.LastName
+            </h5>
+            <a asp-action="Index" class="btn btn-sm btn-light text-success fw-bold">
+                بازگشت به لیست
+            </a>
+        </div>
+
+        <div class="card-body">
+            <form asp-area="Admin"
+                  asp-controller="User"
+                  asp-action="UpdateCustomer"
+                  method="post"
+                  enctype="multipart/form-data">
+
                 <input type="hidden" asp-for="AppUserId" />
                 <input type="hidden" asp-for="ExistingImagePath" />
 
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
                 <div class="row g-3">
+
+                    
                     <div class="col-md-6">
                         <label asp-for="FirstName" class="form-label fw-bold text-success"></label>
                         <input asp-for="FirstName" class="form-control border-success" />
                         <span asp-validation-for="FirstName" class="text-danger small"></span>
                     </div>
 
+                  
                     <div class="col-md-6">
                         <label asp-for="LastName" class="form-label fw-bold text-success"></label>
                         <input asp-for="LastName" class="form-control border-success" />
                         <span asp-validation-for="LastName" class="text-danger small"></span>
                     </div>
 
+                   
+                    <div class="col-md-6">
+                        <label asp-for="PhoneNumber" class="form-label fw-bold text-success"></label>
+                        <input asp-for="PhoneNumber"
+                               class="form-control border-success"
+                               placeholder="مثال: 09123456789" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                    </div>
+
+                   
                     <div class="col-md-6">
                         <label asp-for="Email" class="form-label fw-bold text-success"></label>
                         <input asp-for="Email" class="form-control bg-light border-success" />
                         <span asp-validation-for="Email" class="text-danger small"></span>
-                        
                     </div>
 
+                    
                     <div class="col-md-6">
                         <label asp-for="WalletBalance" class="form-label fw-bold text-success"></label>
                         <div class="input-group">
@@ -49,21 +72,27 @@
                         <span asp-validation-for="WalletBalance" class="text-danger small"></span>
                     </div>
 
+                   
                     <div class="col-md-6">
                         <label asp-for="CityId" class="form-label fw-bold text-success"></label>
-                        <select asp-for="CityId" class="form-select border-success"
+                        <select asp-for="CityId"
+                                class="form-select border-success"
                                 asp-items="@(new SelectList(Model.Cities, "Id", "CityName"))">
                             <option value="">-- انتخاب شهر --</option>
                         </select>
                         <span asp-validation-for="CityId" class="text-danger small"></span>
                     </div>
 
+                    
                     <div class="col-md-6">
                         <label asp-for="Address" class="form-label fw-bold text-success"></label>
-                        <textarea asp-for="Address" class="form-control border-success" rows="1">@Model.Address</textarea>
+                        <textarea asp-for="Address"
+                                  class="form-control border-success"
+                                  rows="1">@Model.Address</textarea>
                         <span asp-validation-for="Address" class="text-danger small"></span>
                     </div>
 
+                  
                     <div class="col-12 mt-4">
                         <div class="card bg-light border-0 p-3">
                             <div class="row align-items-center">
@@ -71,21 +100,34 @@
                                     <label class="d-block mb-2 text-success fw-bold">تصویر فعلی</label>
                                     @if (!string.IsNullOrEmpty(Model.ExistingImagePath))
                                     {
-                                        <img src="/images/profiles/@Model.ExistingImagePath" class="img-thumbnail rounded-circle" style="width: 100px; height: 100px; object-fit: cover;" alt="پروفایل" />
+                                        <img src="/images/profiles/@Model.ExistingImagePath"
+                                             class="img-thumbnail rounded-circle"
+                                             style="width:100px;height:100px;object-fit:cover;" />
                                     }
                                     else
                                     {
-                                        <img src="/images/default-user.png" class="img-thumbnail rounded-circle" style="width: 100px;" alt="پیش‌فرض" />
+                                        <img src="/images/default-user.png"
+                                             class="img-thumbnail rounded-circle"
+                                             style="width:100px;" />
                                     }
                                 </div>
+
                                 <div class="col-md-10">
-                                    <label asp-for="NewProfileImage" class="form-label fw-bold text-success">آپلود تصویر جدید (اختیاری)</label>
-                                    <input asp-for="NewProfileImage" type="file" class="form-control border-success" accept="image/*" />
-                                    <div class="form-text mt-1 text-muted">در صورت عدم انتخاب تصویر، تصویر قبلی حفظ خواهد شد.</div>
+                                    <label asp-for="NewProfileImage" class="form-label fw-bold text-success">
+                                        آپلود تصویر جدید (اختیاری)
+                                    </label>
+                                    <input asp-for="NewProfileImage"
+                                           type="file"
+                                           class="form-control border-success"
+                                           accept="image/*" />
+                                    <div class="form-text text-muted mt-1">
+                                        در صورت عدم انتخاب تصویر، تصویر قبلی حفظ خواهد شد.
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
                 <hr class="mt-4 border-success opacity-25" />
@@ -94,8 +136,11 @@
                     <button type="submit" class="btn btn-success px-5">
                         <i class="bi bi-save"></i> ذخیره تغییرات
                     </button>
-                    <a asp-action="Index" class="btn btn-outline-secondary">انصراف</a>
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        انصراف
+                    </a>
                 </div>
+
             </form>
         </div>
     </div>

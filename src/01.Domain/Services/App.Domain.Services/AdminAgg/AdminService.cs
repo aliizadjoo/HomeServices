@@ -80,7 +80,8 @@ namespace App.Domain.Services.AdminAgg
                 Email = admin.Email,
                 ImagePath = admin.ImagePath,
                 StaffCode = admin.StaffCode,
-                TotalRevenue = admin.TotalRevenue
+                TotalRevenue = admin.TotalRevenue,
+                PhoneNumber = admin.PhoneNumber,
             };
 
             return Result<AdminProfileDto>.Success(adminProfileDto);

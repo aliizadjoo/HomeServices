@@ -38,6 +38,9 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Models
         public string? ExistingImagePath { get; set; }
         public IFormFile? NewProfileImage { get; set; }
 
+        [RegularExpression(@"^09\d{9}$", ErrorMessage = "فرمت {0} صحیح نیست (مثال: 09120000000)")]
+        public string? PhoneNumber { get; set; }
+
         [Display(Name = "تخصص‌ها")]
         public List<int> SelectedHomeServicesId { get; set; } = new();
 
