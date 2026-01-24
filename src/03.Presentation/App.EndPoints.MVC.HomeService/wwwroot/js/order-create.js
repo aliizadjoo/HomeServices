@@ -1,13 +1,12 @@
 ﻿$(document).ready(function () {
 
-    if ($('.p-datepicker').length > 0) {
+    if ($.fn.persianDatepicker) {
+
         $('.p-datepicker').persianDatepicker({
             format: 'YYYY/MM/DD',
             autoClose: true,
             observer: true,
-            initialValue: true,
-            displayFormat: 'YYYY/MM/DD',
-          
+            initialValue: false,
             minDate: new persianDate().valueOf(),
             calendar: {
                 persian: {
@@ -17,7 +16,8 @@
                 }
             }
         });
+
     } else {
-        console.error("المان .p-datepicker یافت نشد!");
+        console.error("persianDatepicker لود نشده است");
     }
 });

@@ -63,9 +63,13 @@
                         @(Model.WalletBalance?.ToString("N0") ?? "0") ریال
                     </h5>
                 </div>
-
-                <div class="mt-4">
-                    <a asp-action="Edit" class="btn btn-outline-success btn-block">ویرایش پروفایل</a>
+                <div class="mt-4 d-grid gap-2">
+                    <a asp-action="Edit" class="btn btn-outline-success">
+                        <i class="bi bi-pencil-square"></i> ویرایش پروفایل
+                    </a>
+                    <a asp-action="ChangePassword" class="btn btn-outline-warning">
+                        <i class="bi bi-key"></i> تغییر رمز عبور
+                    </a>
                 </div>
             </div>
         </div>

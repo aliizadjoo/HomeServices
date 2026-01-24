@@ -68,32 +68,65 @@ namespace App.Domain.AppServices.AccountAgg
 
                 if (roleResult.Succeeded)
                 {
-                  
-                   
+
                     if (userRegisterDto.Role == "Expert")
                     {
-                       
-                        await _expertService.Create(user.Id, userRegisterDto.CityId, cancellationToken); 
+                        var profileResult = await _expertService.Create(user.Id, userRegisterDto.CityId, cancellationToken);
+
+                        if (!profileResult.IsSuccess)
+                        {
+                           
+                            await _userManager.DeleteAsync(user);
+
+                            
+                            _logger.LogError("خطا در ساخت پروفایل کارشناس: {Message}", profileResult.Message);
+
+                           
+                            return IdentityResult.Failed(new IdentityError { Description = profileResult.Message });
+                        }
                     }
                     else if (userRegisterDto.Role == "Customer")
                     {
-                      
-                        await _customerService.Create(user.Id, userRegisterDto.CityId, cancellationToken); 
+                        var profileResult = await _customerService.Create(user.Id, userRegisterDto.CityId, cancellationToken);
+
+                        if (!profileResult.IsSuccess)
+                        {
+                            await _userManager.DeleteAsync(user);
+                            _logger.LogError("خطا در ساخت پروفایل مشتری: {Message}", profileResult.Message);
+                            return IdentityResult.Failed(new IdentityError { Description = profileResult.Message });
+                        }
                     }
 
                     else if (userRegisterDto.Role == "Admin") 
                     {
+
+                        var profileResult = await _adminService.Create(user.Id, cancellationToken);
+                        if (!profileResult.IsSuccess)
+                        {
+                            await _userManager.DeleteAsync(user);
+                            _logger.LogError("خطا در ساخت پروفایل ادمین: {Message}", profileResult.Message);
+                            return IdentityResult.Failed(new IdentityError { Description = profileResult.Message });
+                        }
+                    }
+
+                    else
+                    {
                        
-                        await _adminService.Create(user.Id, cancellationToken);
+                        await _userManager.DeleteAsync(user);
+                        _logger.LogError("نقش نامعتبر است: {Role}", userRegisterDto.Role);
+                        return IdentityResult.Failed(new IdentityError { Description = "نقش انتخاب شده معتبر نیست." });
                     }
                 }
                 else
                 {
+                    await _userManager.DeleteAsync(user);
                     _logger.LogError("نقش اختصاص نیافت: {Errors}", string.Join(", ", roleResult.Errors.Select(e => e.Description)));
+                    return IdentityResult.Failed(new IdentityError { Description = "خطا در اختصاص نقش به کاربر." });
                 }
             }
             else
             {
+
                 _logger.LogWarning("ثبت نام کاربر شکست خورد: {Email}", userRegisterDto.Email);
             }
 
@@ -167,7 +200,7 @@ namespace App.Domain.AppServices.AccountAgg
         }
 
 
-        public async Task<Result<bool>> ChangePassword( ChangePasswordDto changePasswordDto)
+        public async Task<Result<bool>> ChangePassword(ChangePasswordDto changePasswordDto)
         {
           
             var user = await _userManager.FindByIdAsync(changePasswordDto.AppUserId.ToString());
@@ -192,6 +225,7 @@ namespace App.Domain.AppServices.AccountAgg
 
             var errorMessages = string.Join(", ", result.Errors.Select(e => e.Description));
             return Result<bool>.Failure(errorMessages);
+
         }
 
     }

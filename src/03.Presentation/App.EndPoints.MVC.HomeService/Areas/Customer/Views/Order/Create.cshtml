@@ -5,7 +5,7 @@
     ViewData["Title"] = "ثبت درخواست خدمت";
 }
 
-<link rel="stylesheet" href="https://unpkg.com/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css">
+<link rel="stylesheet" href="~/lib/persian-datepicker/persian-datepicker.min.css">
 
 <div class="container py-5" dir="rtl">
     <div class="row justify-content-center">
@@ -79,9 +79,10 @@
 </div>
 
 @section Scripts {
-    <script src="https://unpkg.com/persian-date@1.1.0/dist/persian-date.min.js"></script>
-    <script src="https://unpkg.com/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
 
-    <script src="~/js/order-create.js"></script>
+
+    <script src="~/lib/persian-datepicker/persian-date.min.js"></script>
+    <script src="~/lib/persian-datepicker/persian-datepicker.min.js"></script>
+    <script src="~/js/order-create.js"></script> 
     <partial name="_ValidationScriptsPartial" />
 }

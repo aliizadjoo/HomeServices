@@ -98,7 +98,6 @@ namespace App.Infra.Data.Repos.Ef.CategoryAgg
             return await categoryRows > 0;
         }
 
-
         public async Task<bool> Delete(int id, CancellationToken cancellationToken)
         {
             var affectedRows = await _context.Categories

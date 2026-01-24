@@ -63,10 +63,14 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
                     Address = c.Address,
                     CityName = c.City.Name,
                     CityId = c.CityId,
-                    PhoneNumber =c.AppUser.PhoneNumber,
-                    
+                    PhoneNumber = c.AppUser.PhoneNumber,
+
 
                 }).FirstOrDefaultAsync(cancellationToken);
+
+
+
+
         }
 
         public async Task<int> Create(CreateCustomerDto custmoerDto, CancellationToken cancellationToken)

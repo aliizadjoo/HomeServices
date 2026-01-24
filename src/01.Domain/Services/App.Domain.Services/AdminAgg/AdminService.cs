@@ -33,7 +33,6 @@ namespace App.Domain.Services.AdminAgg
             return Result<AdminPagedResultDto>.Success(admins);
         }
 
-
         public async Task<Result<bool>> Create(int userId, CancellationToken cancellationToken)
         {
 
@@ -86,9 +85,6 @@ namespace App.Domain.Services.AdminAgg
 
             return Result<AdminProfileDto>.Success(adminProfileDto);
         }
-
-
-
 
         public async Task<Result<bool>> UpdateProfile(AdminProfileDto adminProfileDto, CancellationToken cancellationToken)
         {

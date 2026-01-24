@@ -115,7 +115,7 @@ namespace App.Domain.Services.ExpertAgg
             return Result<ExpertPagedResultDto>.Success(experts);
         }
         
-            public async Task<Result<bool>> Delete(int appUserId, CancellationToken cancellationToken)
+        public async Task<Result<bool>> Delete(int appUserId, CancellationToken cancellationToken)
             {
                
                 var identityResult = await _accountService.DeleteUserIdentity(appUserId, cancellationToken);
@@ -130,7 +130,6 @@ namespace App.Domain.Services.ExpertAgg
                 return Result<bool>.Success(true, "کارشناس با موفقیت حذف گردید.");
             }
         
-
         public async Task<int> GetIdByAppUserId(int appUserId, CancellationToken cancellationToken)
         {
             return await _expertRepository.GetIdByAppUserId(appUserId, cancellationToken);

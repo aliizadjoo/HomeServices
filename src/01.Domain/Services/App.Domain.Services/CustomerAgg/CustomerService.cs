@@ -80,10 +80,6 @@ namespace App.Domain.Services.CustomerAgg
             return Result<ProfileCustomerDto>.Success(ProfileCustomerDto);
         }
 
-        
-        
-
-
         public async Task<Result<CustomerPagedResultDto>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)  
         {
           
@@ -97,8 +93,6 @@ namespace App.Domain.Services.CustomerAgg
 
             return Result<CustomerPagedResultDto>.Success(customers);
         }
-
-
 
         public async Task<Result<bool>> Create(int userId, int cityId, CancellationToken cancellationToken)
         {

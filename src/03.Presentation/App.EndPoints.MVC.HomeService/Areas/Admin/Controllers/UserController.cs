@@ -171,7 +171,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
                 AppUserId = model.AppUserId,
             };
 
-            var result = await _accountAppService.ChangePassword( dto);
+            var result = await _accountAppService.ChangePassword(dto);
 
             if (result.IsSuccess)
             {
@@ -291,7 +291,6 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
         }
 
         #endregion
-
 
 
         #region Expert
@@ -502,7 +501,6 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Controllers
             ModelState.AddModelError(string.Empty, result.Message);
             return View(model);
         }
-
 
 
         [HttpPost]
