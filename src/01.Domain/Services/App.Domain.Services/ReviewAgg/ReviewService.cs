@@ -25,9 +25,6 @@ namespace App.Domain.Services.ReviewAgg
             return Result<ReviewPagedDto>.Success(reviews);
         }
 
-       
-
-       
         public async Task<Result<bool>> ChangeStatus(int id, ReviewStatus status, CancellationToken cancellationToken)
         {
             var isChanged = await _reviewRepository.ChangeStatus(id, status, cancellationToken);
@@ -40,6 +37,15 @@ namespace App.Domain.Services.ReviewAgg
             return Result<bool>.Failure("تغییر وضعیت انجام نشد.");
         }
 
-        
+        public async Task<Result<ReviewPagedDto>> GetByExpertId(int pageSize, int pageNumber, int expertId, CancellationToken cancellationToken)
+        {
+            var reviews  = await _reviewRepository.GetByExpertId(pageSize , pageNumber , expertId, cancellationToken);
+            if (reviews==null || !reviews.ReviewDtos.Any())
+            {
+                return Result<ReviewPagedDto>.Failure("هیچ نظری برای این کارشناس در سیستم یافت نشد.");
+            }
+
+            return Result<ReviewPagedDto>.Success(reviews, "عملیات با موفقیت انجام شد .");
+        }
     }
 }

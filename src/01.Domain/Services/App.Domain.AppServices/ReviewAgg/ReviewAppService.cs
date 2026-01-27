@@ -23,6 +23,9 @@ namespace App.Domain.AppServices.ReviewAgg
             return await _reviewService.GetAll(pageNumber, pageSize, cancellationToken);
         }
 
-       
+        public async Task<Result<ReviewPagedDto>> GetByExpertId(int pageSize, int pageNumber, int expertId, CancellationToken cancellationToken)
+        {
+            return await _reviewService.GetByExpertId(pageSize , pageNumber , expertId, cancellationToken);
+        }
     }
 }

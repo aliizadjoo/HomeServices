@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace App.Infra.Data.Repos.Ef.ReviewAgg
 {
@@ -49,8 +50,6 @@ namespace App.Infra.Data.Repos.Ef.ReviewAgg
         }
 
     
-
-
         public async Task<bool> ChangeStatus(int id, ReviewStatus status, CancellationToken cancellationToken)
         {
             var rowsAffected = await _context.Reviews
@@ -60,6 +59,38 @@ namespace App.Infra.Data.Repos.Ef.ReviewAgg
                     cancellationToken);
 
             return rowsAffected > 0;
+        }
+
+        public async Task<ReviewPagedDto> GetByExpertId(int pageSize, int pageNumber,int expertId ,  CancellationToken cancellationToken)
+        {
+            var query = _context.Reviews
+                .AsNoTracking()
+                .Where(r => r.ExpertId == expertId && r.ReviewStatus == ReviewStatus.Approved);
+
+            var totalCount = await query.CountAsync(cancellationToken);
+
+            var data= await query
+                     .OrderByDescending(r => r.CreatedAt)
+                     .Skip((pageNumber-1)*pageSize)
+                     .Take(pageSize)
+                     .Select(r=>new ReviewDto 
+                     { 
+                         Comment= r.Comment,
+                         Score = r.Score,
+                         CustomerFirstName = r.Customer.AppUser.FirstName,
+                         CustomerLastName = r.Customer.AppUser.LastName,
+                         
+                         CreatedAt = r.CreatedAt
+                    
+                     }).ToListAsync (cancellationToken);
+
+
+                    return new ReviewPagedDto
+                    {
+                        TotalCount = totalCount,
+                        ReviewDtos = data
+                    };
+
         }
     }
 }

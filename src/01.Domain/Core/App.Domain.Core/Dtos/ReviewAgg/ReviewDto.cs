@@ -25,6 +25,7 @@ namespace App.Domain.Core.Dtos.ReviewAgg
         public string ExpertLastName { get; set; }
         public string? ImagePathExpert { get; set; }
         public DateTime CreatedAt { get; set; }
+        public string CreatedAtShamsi { get; set; }
 
         public ReviewStatus ReviewStatus { get; set; }
     }

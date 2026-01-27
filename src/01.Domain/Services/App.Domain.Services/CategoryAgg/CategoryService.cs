@@ -27,6 +27,7 @@ namespace App.Domain.Core.Contract.CategoryAgg.Service
             return Result<CategoryPagedDto>.Success(categories, "عملیات با موفقیت انجام شد");
         }
 
+
         public async Task<Result<bool>> Update(CategoryDto categoryDto, CancellationToken cancellationToken)
         {
             var isUpdated = await _categoryRepository.Update(categoryDto, cancellationToken);

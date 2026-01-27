@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Entities;
+using App.Domain.Core.Enums.ReviewAgg;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -56,7 +57,8 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ReviewAgg
          Comment = "نظافت بسیار دقیق و منظم انجام شد. کاملاً راضی هستم.",
          Score = 5,
          CreatedAt = new DateTime(2025, 2, 2),
-         IsDeleted = false
+         IsDeleted = false,
+         ReviewStatus=ReviewStatus.Approved
      },
 
      new Review
@@ -68,7 +70,8 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ReviewAgg
          Comment = "سرویس کولر خوب بود ولی کمی با تاخیر مراجعه کردند.",
          Score = 4,
          CreatedAt = new DateTime(2025, 1, 22),
-         IsDeleted = false
+         IsDeleted = false,
+         ReviewStatus = ReviewStatus.Approved
      },
 
      new Review
@@ -80,7 +83,8 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ReviewAgg
          Comment = "باغبانی عالی و حرفه‌ای! حیاط ما کاملاً متحول شد.",
          Score = 5,
          CreatedAt = new DateTime(2025, 3, 5),
-         IsDeleted = false
+         IsDeleted = false,
+         ReviewStatus = ReviewStatus.Approved
      },
 
      new Review
@@ -92,7 +96,8 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ReviewAgg
          Comment = "کار تمیز و به‌موقع انجام شد.",
          Score = 5,
          CreatedAt = new DateTime(2025, 3, 8),
-         IsDeleted = false
+         IsDeleted = false,
+         ReviewStatus = ReviewStatus.Approved
      },
 
      new Review
@@ -104,7 +109,8 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ReviewAgg
          Comment = "برخورد محترمانه و کیفیت مناسب.",
          Score = 4,
          CreatedAt = new DateTime(2025, 3, 12),
-         IsDeleted = false
+         IsDeleted = false,
+         ReviewStatus = ReviewStatus.Approved
      },
 
      new Review
@@ -116,7 +122,8 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ReviewAgg
          Comment = "تعمیرکار کاملاً مسلط بود و مشکل حل شد.",
          Score = 5,
          CreatedAt = new DateTime(2025, 3, 18),
-         IsDeleted = false
+         IsDeleted = false,
+         ReviewStatus = ReviewStatus.Approved
      },
 
      new Review
@@ -128,7 +135,8 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ReviewAgg
          Comment = "سرویس کامل انجام شد، پیشنهاد می‌کنم.",
          Score = 4,
          CreatedAt = new DateTime(2025, 3, 20),
-         IsDeleted = false
+         IsDeleted = false,
+         ReviewStatus = ReviewStatus.Approved
      },
 
      new Review
@@ -140,7 +148,8 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ReviewAgg
          Comment = "طراحی بسیار زیبا و خلاقانه بود.",
          Score = 5,
          CreatedAt = new DateTime(2025, 3, 22),
-         IsDeleted = false
+         IsDeleted = false,
+         ReviewStatus = ReviewStatus.Approved
      },
 
      new Review
@@ -152,7 +161,8 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ReviewAgg
          Comment = "مشکل یخچال کاملاً برطرف شد.",
          Score = 5,
          CreatedAt = new DateTime(2025, 3, 25),
-         IsDeleted = false
+         IsDeleted = false,
+         ReviewStatus = ReviewStatus.Approved
      },
 
      new Review
@@ -164,7 +174,8 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.ReviewAgg
          Comment = "سریع و حرفه‌ای، راضی بودم.",
          Score = 4,
          CreatedAt = new DateTime(2025, 3, 28),
-         IsDeleted = false
+         IsDeleted = false,
+         ReviewStatus = ReviewStatus.Approved
      }
  );
 

@@ -3,7 +3,9 @@ using App.Domain.Core.Contract.AccountAgg.AppServices;
 using App.Domain.Core.Contract.CityAgg.AppService;
 using App.Domain.Core.Contract.OrderAgg.AppService;
 using App.Domain.Core.Contract.ProposalAgg.AppService;
+using App.Domain.Core.Contract.ReviewAgg.AppService;
 using App.Domain.Core.Dtos.OrderAgg;
+using App.Domain.Core.Dtos.ReviewAgg;
 using App.Domain.Core.Enums.ProposalAgg;
 using App.EndPoints.MVC.HomeService.Areas.Constants;
 using App.EndPoints.MVC.HomeService.Areas.Customer.Models;
@@ -23,12 +25,12 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
         ICityAppService _cityAppService
         , IOrderAppService _orderAppService,
         IAccountAppService _accountAppService,
-        IProposalAppService _proposalAppService
+        IProposalAppService _proposalAppService,
+        IReviewAppService _reviewAppService
         )
         : Controller
 
     {
-
 
 
         public async Task<IActionResult> MyOrders(int pageNumber = 1, int pageSize = 5, CancellationToken cancellationToken = default)
@@ -95,9 +97,6 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
 
             List<string> imagePaths = model.ImageFiles.UploadFiles("orders");
 
-            
-
-           
 
             var orderDto = new OrderCreateDto
             {
@@ -145,7 +144,6 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
         }
 
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangeStatus(int proposalId, ProposalStatus newStatus, int orderId, CancellationToken cancellationToken)
@@ -166,6 +164,37 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
             return RedirectToAction("Proposals", "Order", new { area = "Customer", orderId = orderId });
         }
 
+   
+        public async Task<IActionResult> GetByExpertId(int expertId, int pageNumber = 1, int pageSize = 10)
+        {
+           
+            var result = await _reviewAppService.GetByExpertId(pageSize, pageNumber, expertId, CancellationToken.None);
+
+            if (result.IsSuccess && result.Data != null)
+            {
+                
+                var totalPages = (int)Math.Ceiling(result.Data.TotalCount / (double)pageSize);
+                foreach (var reviewDto in result.Data.ReviewDtos)
+                {
+                    reviewDto.CreatedAtShamsi = reviewDto.CreatedAt.ToPersianDate();
+                }
+                ViewBag.CurrentPage = pageNumber;
+                ViewBag.TotalPages = totalPages;
+                ViewBag.ExpertId = expertId;
+
+               
+                return View( result.Data);
+            }
+
+           
+            ViewBag.CurrentPage = 1;
+            ViewBag.TotalPages = 1;
+            ViewBag.ExpertId = expertId;
+
+           
+
+            return View(new ReviewPagedDto());
+        }
 
     }
 }

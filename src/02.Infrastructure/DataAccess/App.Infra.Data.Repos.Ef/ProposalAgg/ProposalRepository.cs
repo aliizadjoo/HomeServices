@@ -59,7 +59,9 @@ namespace App.Infra.Data.Repos.Ef.ProposalAgg
                              {
                                  Id = p.Id,
                                  HomeServiceName = p.Order.HomeService.Name,
+                                 AverageScore=p.Expert.AverageScore,
                                  ExecutionDate = p.Order.ExecutionDate,
+                                 ExpertId = p.ExpertId,
                                  ExpertFirstName = p.Expert.AppUser.FirstName,
                                  ExpertLastName = p.Expert.AppUser.LastName,
                                  Status = p.Status,

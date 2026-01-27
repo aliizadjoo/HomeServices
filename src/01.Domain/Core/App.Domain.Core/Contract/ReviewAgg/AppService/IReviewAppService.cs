@@ -14,10 +14,10 @@ namespace App.Domain.Core.Contract.ReviewAgg.AppService
     {
 
         public Task<Result<ReviewPagedDto>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken);
-       
-
-
+   
         public Task<Result<bool>> ChangeStatus(int id, ReviewStatus status, CancellationToken cancellationToken);
+
+        public Task<Result<ReviewPagedDto>> GetByExpertId(int pageSize, int pageNumber, int expertId, CancellationToken cancellationToken);
 
     }
 }
