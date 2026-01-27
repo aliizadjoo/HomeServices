@@ -75,7 +75,7 @@ namespace App.Domain.Services.ProposalAgg
 
         public async Task<Result<bool>> ChangeStatus(int proposalId, int orderId, ProposalStatus newStatus, CancellationToken cancellationToken)
         {
-            // ۱. چک کردن وجود سفارش و صحت پروپوزال
+            
             var isExist = await _orderRepository.IsExists(orderId, cancellationToken);
             if (!isExist) return Result<bool>.Failure("سفارشی با این شناسه موجود نیست.");
 
