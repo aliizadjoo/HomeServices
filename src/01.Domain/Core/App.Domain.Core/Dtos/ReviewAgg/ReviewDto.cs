@@ -16,6 +16,7 @@ namespace App.Domain.Core.Dtos.ReviewAgg
 
         public int OrderId { get; set; }
         public string OrderDescription { get; set; }
+        public string HomeserviceName { get; set; }
         public int CustomerId { get; set; }
         public string CustomerFirstName { get; set; }
         public string CustomerLastName { get; set; }

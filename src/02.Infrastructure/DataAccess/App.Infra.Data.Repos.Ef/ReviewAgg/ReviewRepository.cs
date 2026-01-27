@@ -77,9 +77,9 @@ namespace App.Infra.Data.Repos.Ef.ReviewAgg
                      { 
                          Comment= r.Comment,
                          Score = r.Score,
+                         HomeserviceName = r.Order.HomeService.Name,
                          CustomerFirstName = r.Customer.AppUser.FirstName,
-                         CustomerLastName = r.Customer.AppUser.LastName,
-                         
+                         CustomerLastName = r.Customer.AppUser.LastName,                      
                          CreatedAt = r.CreatedAt
                     
                      }).ToListAsync (cancellationToken);
