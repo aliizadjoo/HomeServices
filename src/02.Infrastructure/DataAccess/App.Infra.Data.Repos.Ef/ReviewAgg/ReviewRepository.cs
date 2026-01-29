@@ -49,17 +49,23 @@ namespace App.Infra.Data.Repos.Ef.ReviewAgg
 
         }
 
-    
-        public async Task<bool> ChangeStatus(int id, ReviewStatus status, CancellationToken cancellationToken)
-        {
-            var rowsAffected = await _context.Reviews
-                .Where(r => r.Id == id)
-                .ExecuteUpdateAsync(setter => setter
-                    .SetProperty(r => r.ReviewStatus, status),
-                    cancellationToken);
+       public async Task<int> GetExpertIdByReviewId(int reviewId  , CancellationToken cancellationToken) 
+       {
 
-            return rowsAffected > 0;
-        }
+          return await _context.Reviews.Where(r => r.Id == reviewId)
+                 .Select(r => r.ExpertId)
+                 .FirstOrDefaultAsync(cancellationToken);
+       }
+       public async Task<bool> ChangeStatus(int id, ReviewStatus status, CancellationToken cancellationToken)
+       {
+           var rowsAffected = await _context.Reviews
+               .Where(r => r.Id == id)
+               .ExecuteUpdateAsync(setter => setter
+                   .SetProperty(r => r.ReviewStatus, status),
+                   cancellationToken);
+
+           return rowsAffected > 0;
+       }
 
         public async Task<ReviewPagedDto> GetByExpertId(int pageSize, int pageNumber,int expertId ,  CancellationToken cancellationToken)
         {
@@ -91,6 +97,12 @@ namespace App.Infra.Data.Repos.Ef.ReviewAgg
                         ReviewDtos = data
                     };
 
+        }
+
+        public async Task<double> AverageScore(int expertId, CancellationToken cancellationToken)
+        {
+           return await _context.Reviews.Where(r=>r.ExpertId==expertId && r.ReviewStatus==ReviewStatus.Approved)
+                  .AverageAsync(r=>(double?)r.Score , cancellationToken)??0;
         }
     }
 }

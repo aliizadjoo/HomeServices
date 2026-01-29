@@ -16,6 +16,8 @@ namespace App.Domain.Core.Contract.ReviewAgg.Repository
         public  Task<bool> ChangeStatus(int id, ReviewStatus status, CancellationToken cancellationToken);
 
         public Task<ReviewPagedDto> GetByExpertId(int pageSize, int pageNumber, int expertId, CancellationToken cancellationToken);
+        public Task<int> GetExpertIdByReviewId(int reviewId, CancellationToken cancellationToken);
+        public Task<double> AverageScore(int expertId, CancellationToken cancellationToken);
 
 
     }

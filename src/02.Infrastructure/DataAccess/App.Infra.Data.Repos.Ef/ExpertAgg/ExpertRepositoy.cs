@@ -182,6 +182,13 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
                             .FirstOrDefaultAsync(cancellationToken);
         }
 
-     
+        public async Task<bool> UpdateExpertScore(int expertId, double newAverageScore, CancellationToken cancellationToken)
+        {
+          var rowAffect= await _context.Experts.Where(e => e.Id == expertId)
+                 .ExecuteUpdateAsync(setter => setter
+                 .SetProperty(e => e.AverageScore, newAverageScore)
+                 , cancellationToken);
+            return rowAffect > 0;
+        }
     }
 }
