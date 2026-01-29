@@ -50,7 +50,7 @@ namespace App.Domain.Services.ReviewAgg
 
             if (isUpdated)
             {
-                return Result<bool>.Success(true, "وضعیت نظر تایید و امتیاز میانگین کارشناس با موفقیت بازبینی شد.");
+                return Result<bool>.Success(true, "وضعیت نظر تغییر و امتیاز میانگین کارشناس با موفقیت بروزرسانی شد.");
             }
 
             return Result<bool>.Failure("وضعیت نظر تغییر کرد، اما خطایی در بروزرسانی امتیاز نهایی کارشناس رخ داد.");
