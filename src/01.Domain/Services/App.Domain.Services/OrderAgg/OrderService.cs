@@ -16,7 +16,15 @@ namespace App.Domain.Services.OrderAgg
     {
         public async Task<Result<bool>> Create(OrderCreateDto orderCreateDto, CancellationToken cancellationToken)
         {
-          
+
+            var executionDateTime = orderCreateDto.ExecutionDate.Date.Add(orderCreateDto.ExecutionTime);
+
+            
+            if (executionDateTime < DateTime.Now)
+            {
+                return Result<bool>.Failure("زمان انتخاب شده نمی‌تواند در گذشته باشد. لطفاً ساعت و تاریخ معتبری را انتخاب کنید.");
+            }
+
             var orderId = await _orderRepository.Create(orderCreateDto, cancellationToken);
 
            
