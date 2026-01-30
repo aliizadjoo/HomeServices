@@ -8,7 +8,8 @@ namespace App.Domain.Core.Enums.OrderAgg
 {
     public enum OrderStatus
     {
-        WaitingForProposals = 1,       
+        WaitingForAdminApproval=0,
+        WaitingForProposals = 1, 
         Started = 2,             
         Finished = 3,                       
         Cancelled = 4        

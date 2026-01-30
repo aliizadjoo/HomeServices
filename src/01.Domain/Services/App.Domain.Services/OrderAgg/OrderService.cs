@@ -31,7 +31,7 @@ namespace App.Domain.Services.OrderAgg
             if (orderId > 0)
             {
                
-                return Result<bool>.Success(true, "سفارش شما با موفقیت ثبت شد و در انتظار پیشنهاد متخصصین است.");
+                return Result<bool>.Success(true, "سفارش شما با موفقیت ثبت شد و در انتظار تایید ادمین  است.");
             }
 
            
