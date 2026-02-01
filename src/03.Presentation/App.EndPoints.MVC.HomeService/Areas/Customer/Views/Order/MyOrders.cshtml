@@ -122,10 +122,25 @@
                         </div>
                     </div>
                     <div class="card-footer bg-white border-0 text-start p-4 pt-0">
-                        <a asp-action="Proposals" asp-route-orderId="@order.Id" class="btn btn-primary px-4 rounded-pill shadow-sm">
-                            مشاهده پیشنهادها  <i class="bi bi-chevron-left ms-1"></i>
-                        </a>
+
+                        @if (order.Status == OrderStatus.WaitingForProposals)
+                        {
+                            <a asp-action="Proposals"
+                               asp-route-orderId="@order.Id"
+                               class="btn btn-primary px-4 rounded-pill shadow-sm">
+                                مشاهده پیشنهادها <i class="bi bi-chevron-left ms-1"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <button class="btn btn-secondary px-4 rounded-pill shadow-sm" disabled
+                                    title="در این وضعیت امکان مشاهده پیشنهادها وجود ندارد">
+                                مشاهده پیشنهادها <i class="bi bi-lock ms-1"></i>
+                            </button>
+                        }
+
                     </div>
+
                 </div>
             </div>
         </div>

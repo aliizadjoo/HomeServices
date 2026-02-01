@@ -90,7 +90,7 @@
 
                                 <select asp-for="HomeServicesId"
                                         class="form-control select2-multiple"
-                                        asp-items="@(new SelectList(Model.AvailableServices, "HomeservicesId", "Name"))"
+                                        asp-items="@(new SelectList(Model.AvailableServices, "Id", "Name"))"
                                         multiple="multiple">
                                 </select>
 

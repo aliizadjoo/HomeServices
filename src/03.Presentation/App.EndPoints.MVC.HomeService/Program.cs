@@ -24,7 +24,6 @@ using App.Domain.Core.Contract.CustomerAgg.Repository;
 using App.Domain.Core.Contract.CustomerAgg.Service;
 using App.Domain.Core.Contract.ExpertAgg.AppService;
 using App.Domain.Core.Contract.ExpertAgg.Repository;
-
 using App.Domain.Core.Contract.ExpertAgg.Service;
 using App.Domain.Core.Contract.HomeServiceAgg.Repository;
 using App.Domain.Core.Contract.HomeServiceAgg.Service;
@@ -73,8 +72,6 @@ builder.Host.UseSerilog((context, configuration) =>
 
     configuration.ReadFrom.Configuration(context.Configuration);
 });
-
-
 
 
 // Add services to the container.
@@ -158,7 +155,7 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 
 var app = builder.Build();
 
-app.UseMiddleware<LoggingMiddleware>();
+//app.UseMiddleware<LoggingMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
