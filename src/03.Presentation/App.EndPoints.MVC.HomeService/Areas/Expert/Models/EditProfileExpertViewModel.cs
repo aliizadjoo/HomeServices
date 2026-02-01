@@ -39,7 +39,7 @@ namespace App.EndPoints.MVC.HomeService.Areas.Expert.Models
         public List<int> HomeServicesId { get; set; } = [];
 
         public List<CityDto> AvailableCities { get; set; } = [];
-        public List<HomeserviceSummaryDto> AvailableServices { get; set; } = [];
+        public List<HomeserviceDto> AvailableServices { get; set; } = [];
 
         [Display(Name = "شماره موبایل")]
         [RegularExpression(@"^09\d{9}$", ErrorMessage = "فرمت {0} صحیح نیست (مثال: 09120000000)")]

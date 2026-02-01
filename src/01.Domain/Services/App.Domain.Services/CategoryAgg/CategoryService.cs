@@ -1,6 +1,8 @@
 ﻿using App.Domain.Core._common;
 using App.Domain.Core.Contract.CategoryAgg.Repository;
 using App.Domain.Core.Dtos.CategoryAgg;
+using App.Infra.Cache;
+using App.Infra.Cache.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,22 +13,51 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.CategoryAgg.Service
 {
-    public class CategoryService(ICategoryRepository _categoryRepository) : ICategoryService
+    public class CategoryService(ICategoryRepository _categoryRepository  , ICacheService _cacheService) : ICategoryService
     {
-
-
         public async Task<Result<CategoryPagedDto>> GetAll(int pageSize, int pageNumber, string? search, CancellationToken cancellationToken)
         {
-            var categories = await _categoryRepository.GetAll(pageSize , pageNumber , search, cancellationToken);
 
-            if (categories == null || !categories.CategoryDtos.Any())
+          var allCategoryDtos= await _categoryRepository.GetAll(cancellationToken);
+
+            if (allCategoryDtos == null || !allCategoryDtos.Any())
             {
-                return Result<CategoryPagedDto>.Failure("هیچ دسته‌بندی در سیستم یافت نشد.");
+                return Result<CategoryPagedDto>.Failure("داده‌ای یافت نشد.");
             }
 
-            return Result<CategoryPagedDto>.Success(categories, "عملیات با موفقیت انجام شد");
+            IEnumerable<CategoryDto> filteredData = allCategoryDtos;
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                filteredData = filteredData.Where(c => c.Title.Contains(search));
+            }
+
+            var totalCount = filteredData.Count();
+            var pagedData = filteredData
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize).ToList();
+
+            return Result<CategoryPagedDto>.Success(new CategoryPagedDto
+            {
+                CategoryDtos = pagedData,
+                TotalCount = totalCount
+            }, "عملیات با موفقیت انجام شد.");
+
+
         }
 
+        public async Task<Result<List<CategoryDto>>> GetAll(CancellationToken cancellationToken)
+        {
+
+             var categoryDtos = await _categoryRepository.GetAll(cancellationToken);
+
+             if (categoryDtos == null || categoryDtos.Count == 0)
+             {
+                 return Result<List<CategoryDto>>.Failure("دسته‌بندی‌ای یافت نشد");
+             }
+
+             return Result<List<CategoryDto>>.Success(categoryDtos);
+           
+        }
 
         public async Task<Result<bool>> Update(CategoryDto categoryDto, CancellationToken cancellationToken)
         {
@@ -34,6 +65,7 @@ namespace App.Domain.Core.Contract.CategoryAgg.Service
 
             if (isUpdated)
             {
+                _cacheService.Remove(CacheKeys.Categories);
                 return Result<bool>.Success(true, "دسته بندی با موفقیت بروزرسانی شد.");
             }
 
@@ -43,9 +75,9 @@ namespace App.Domain.Core.Contract.CategoryAgg.Service
         public async Task<Result<CategoryDto>> GetById(int id, CancellationToken cancellationToken)
         {
            
+            
             var category = await _categoryRepository.GetById(id, cancellationToken);
 
-        
             if (category == null)
             {
                 return Result<CategoryDto>.Failure("دسته‌بندی مورد نظر یافت نشد.");
@@ -60,6 +92,7 @@ namespace App.Domain.Core.Contract.CategoryAgg.Service
 
             if (isDeleted)
             {
+                _cacheService.Remove(CacheKeys.Categories);
                 return Result<bool>.Success(true, "دسته‌بندی با موفقیت حذف (غیرفعال) شد.");
             }
 
@@ -77,25 +110,14 @@ namespace App.Domain.Core.Contract.CategoryAgg.Service
 
             if (affectedRows > 0)
             {
+                _cacheService.Remove(CacheKeys.Categories);
                 return Result<int>.Success(affectedRows, "دسته‌بندی جدید با موفقیت ایجاد شد.");
             }
 
             return Result<int>.Failure("خطایی در ذخیره‌سازی دسته‌بندی رخ داد.");
         }
 
-      
-
-        public async Task<Result<List<CategoryDto>>> GetAll(CancellationToken cancellationToken)
-        {
-            var categoryDtos = await _categoryRepository.GetAll(cancellationToken);
-
-            if (categoryDtos == null || categoryDtos.Count == 0)
-            {
-                return Result<List<CategoryDto>>.Failure("دسته‌بندی‌ای یافت نشد");
-            }
-
-            return Result<List<CategoryDto>>.Success(categoryDtos);
-        }
+       
 
     }
 }

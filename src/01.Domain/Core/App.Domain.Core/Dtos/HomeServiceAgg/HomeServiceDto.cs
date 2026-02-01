@@ -14,14 +14,9 @@ namespace App.Domain.Core.Dtos.HomeServiceAgg
         public string CategoryName { get; set; }
         public decimal BasePrice { get; set; }
         public string Description { get; set; }
-     
-        
         public string? ImagePath { get; set; }
-
-        
         public int CategoryId { get; set; }
     }
-
 
   
 }

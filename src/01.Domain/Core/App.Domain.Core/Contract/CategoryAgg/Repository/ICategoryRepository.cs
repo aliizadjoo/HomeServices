@@ -19,13 +19,7 @@ namespace App.Domain.Core.Contract.CategoryAgg.Repository
 
         public  Task<List<CategoryDto>> GetAll(CancellationToken cancellationToken);
 
-        public Task<CategoryPagedDto> GetAll(int pageSize , int pageNumber , string? search, CancellationToken cancellationToken);
         public Task<bool> Delete(int id, CancellationToken cancellationToken);
-
-        
-
-
-
 
     }
 }

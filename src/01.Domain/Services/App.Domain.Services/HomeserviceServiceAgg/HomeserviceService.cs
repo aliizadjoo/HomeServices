@@ -3,6 +3,8 @@ using App.Domain.Core.Contract.HomeServiceAgg.Repository;
 using App.Domain.Core.Contract.HomeServiceAgg.Service;
 using App.Domain.Core.Dtos.HomeServiceAgg;
 using App.Domain.Core.Entities;
+using App.Infra.Cache;
+using App.Infra.Cache.Contracts;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -13,31 +15,52 @@ using System.Threading.Tasks;
 namespace App.Domain.Services.HomeserviceServiceAgg
 {
     public class HomeserviceService(IHomeserviceRepository _homeserviceRepository ,
-        ILogger<HomeserviceService> _logger) : IHomeserviceService
+        ILogger<HomeserviceService> _logger , ICacheService _cacheService) : IHomeserviceService
     {
-        public async Task<Result<List<HomeserviceSummaryDto>>> GetAll( CancellationToken cancellationToken)
+        public async Task<Result<List<HomeserviceDto>>> GetAll( CancellationToken cancellationToken)
         {
-             var homeServiceSummaryDto = await  _homeserviceRepository.GetAll(cancellationToken);
-            if (homeServiceSummaryDto == null || !homeServiceSummaryDto.Any())
+            var homeServiceDto = await  _homeserviceRepository.GetAll(cancellationToken);
+            if (homeServiceDto == null || !homeServiceDto.Any())
             {
                 _logger.LogWarning("هیچ سرویس فعالی در سیستم یافت نشد.");
-                return Result<List<HomeserviceSummaryDto>>.Failure("در حال حاضر هیچ سرویسی برای نمایش وجود ندارد.");
+                return Result<List<HomeserviceDto>>.Failure("در حال حاضر هیچ سرویسی برای نمایش وجود ندارد.");
             }
-            return Result<List<HomeserviceSummaryDto>>.Success(homeServiceSummaryDto);
+            return Result<List<HomeserviceDto>>.Success(homeServiceDto);
         }
-
 
         public async Task<Result<HomeservicePagedDto>> GetAll(int pageSize, int pageNumber, SearchHomeServiceDto search, CancellationToken cancellationToken)
         {
             _logger.LogInformation("دریافت لیست سرویس‌ها - صفحه {Page}", pageNumber);
 
-            var services = await _homeserviceRepository.GetAll(pageSize, pageNumber, search, cancellationToken);
+            var services = await _homeserviceRepository.GetAll( cancellationToken);
 
-            if (services.HomeserviceDtos==null || !services.HomeserviceDtos.Any())
+            if (services==null || !services.Any())
             {
                 return Result<HomeservicePagedDto>.Failure("خدمتی یافت نشد.");
             }
-            return Result<HomeservicePagedDto>.Success(services);
+
+            IEnumerable <HomeserviceDto> filteredHomeserviceSummaryDto = services;
+
+            if (!string.IsNullOrWhiteSpace(search.Name))
+            {
+                filteredHomeserviceSummaryDto = filteredHomeserviceSummaryDto.Where(hs => hs.Name.Contains(search.Name));
+            }
+            if (search.CategoryId>0)
+            {
+                filteredHomeserviceSummaryDto = filteredHomeserviceSummaryDto.Where(hs => hs.CategoryId==search.CategoryId);
+            }
+
+            var totalCount = filteredHomeserviceSummaryDto.Count();
+            var pagedData = filteredHomeserviceSummaryDto
+                .Skip((pageNumber-1)*pageSize)
+                .Take(pageSize).ToList();   
+
+
+            return Result<HomeservicePagedDto>.Success(new HomeservicePagedDto 
+            {
+              HomeserviceDtos = pagedData 
+              , TotalCount = totalCount
+            });
         }
 
        
@@ -51,6 +74,7 @@ namespace App.Domain.Services.HomeserviceServiceAgg
 
             if (result > 0)
             {
+                _cacheService.Remove(CacheKeys.Homeservices);
                 return Result<int>.Success(result, "سرویس جدید با موفقیت ثبت شد.");
             }
 
@@ -63,6 +87,7 @@ namespace App.Domain.Services.HomeserviceServiceAgg
 
             if (isUpdated)
             {
+                _cacheService.Remove(CacheKeys.Homeservices);
                 return Result<bool>.Success(true, "سرویس با موفقیت بروزرسانی شد.");
             }
 
@@ -89,6 +114,7 @@ namespace App.Domain.Services.HomeserviceServiceAgg
 
             if (isDeleted)
             {
+                _cacheService.Remove(CacheKeys.Homeservices);
                 return Result<bool>.Success(true, "سرویس مورد نظر با موفقیت حذف  شد.");
             }
 

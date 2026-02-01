@@ -45,6 +45,6 @@ namespace App.EndPoints.MVC.HomeService.Areas.Admin.Models
         public List<int> SelectedHomeServicesId { get; set; } = new();
 
         public List<CityDto> AvailableCities { get; set; } = new();
-        public List<HomeserviceSummaryDto> AvailableServices { get; set; } = new();
+        public List<HomeserviceDto> AvailableServices { get; set; } = new();
     }
 }

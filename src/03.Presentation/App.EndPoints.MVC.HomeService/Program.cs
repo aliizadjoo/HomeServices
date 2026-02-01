@@ -49,6 +49,8 @@ using App.Domain.Services.ProposalAgg;
 using App.Domain.Services.ReviewAgg;
 using App.EndPoints.MVC.HomeService.Middlwares;
 using App.Framework;
+using App.Infra.Cache.Contracts;
+using App.Infra.Cache.InMemoryCache;
 using App.Infra.Data.Repos.Ef.AdminAgg;
 using App.Infra.Data.Repos.Ef.CategoryAgg;
 using App.Infra.Data.Repos.Ef.CityAgg;
@@ -119,6 +121,9 @@ builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IReviewAppService, ReviewAppService>();
 
 builder.Services.AddScoped<IAccountAppService, AccountAppService>();
+
+
+builder.Services.AddScoped<ICacheService, InMemoryCacheService>();
 
 builder.Services.AddIdentity<AppUser, IdentityRole<int>>(options =>
 {

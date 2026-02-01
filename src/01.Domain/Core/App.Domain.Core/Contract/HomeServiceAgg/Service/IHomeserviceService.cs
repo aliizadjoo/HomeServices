@@ -11,7 +11,7 @@ namespace App.Domain.Core.Contract.HomeServiceAgg.Service
 {
     public interface IHomeserviceService
     {
-        public Task<Result<List<HomeserviceSummaryDto>>> GetAll( CancellationToken cancellationToken);
+        public Task<Result<List<HomeserviceDto>>> GetAll( CancellationToken cancellationToken);
 
         public Task<Result<HomeservicePagedDto>> GetAll(int pageSize, int pageNumber, SearchHomeServiceDto search, CancellationToken cancellationToken);
 
