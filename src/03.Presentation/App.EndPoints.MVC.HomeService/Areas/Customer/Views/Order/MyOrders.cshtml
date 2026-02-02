@@ -175,7 +175,7 @@
 @functions {
     string GetStatusName(OrderStatus status) => status switch
     {
-        OrderStatus.WaitingForAdminApproval => "در انتظار تایید ادمین",
+        
         OrderStatus.WaitingForProposals => "در انتظار پیشنهاد",
         OrderStatus.Started => "در حال انجام",
         OrderStatus.Finished => "پایان یافته",
@@ -185,7 +185,7 @@
 
     string GetStatusClass(OrderStatus status) => status switch
     {
-        OrderStatus.WaitingForAdminApproval => "bg-info text-dark",
+      
         OrderStatus.WaitingForProposals => "bg-warning text-dark",
         OrderStatus.Finished => "bg-success",
         OrderStatus.Cancelled => "bg-danger",

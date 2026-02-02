@@ -24,7 +24,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.OrderAgg
 
             builder.Property(o => o.Status)
                 .IsRequired()
-                .HasDefaultValue(OrderStatus.WaitingForAdminApproval);
+                .HasDefaultValue(OrderStatus.WaitingForProposals);
 
 
             builder.Property(o => o.ExecutionDate)

@@ -155,7 +155,7 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 
 var app = builder.Build();
 
-//app.UseMiddleware<LoggingMiddleware>();
+app.UseMiddleware<LoggingMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -33,8 +33,6 @@ namespace App.Domain.AppServices.AccountAgg
         ) : IAccountAppService
     {
 
-
-
         public async Task<List<RoleDto>> GetRoles(CancellationToken cancellationToken)
         {
            
@@ -198,7 +196,6 @@ namespace App.Domain.AppServices.AccountAgg
             var errorMessages = string.Join(", ", result.Errors.Select(e => e.Description));
             return Result<bool>.Failure(errorMessages);
         }
-
 
         public async Task<Result<bool>> ChangePassword(ChangePasswordDto changePasswordDto)
         {

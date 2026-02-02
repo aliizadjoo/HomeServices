@@ -14,7 +14,7 @@ namespace App.Domain.Core.Dtos.OrderAgg
         public string Description { get; set; }
 
 
-        public OrderStatus Status { get; set; } = OrderStatus.WaitingForAdminApproval;
+        public OrderStatus Status { get; set; } = OrderStatus.WaitingForProposals;
 
         public DateTime ExecutionDate { get; set; }
         public TimeSpan ExecutionTime { get; set; }

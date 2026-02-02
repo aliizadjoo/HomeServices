@@ -15,7 +15,7 @@ namespace App.Domain.Core.Dtos.OrderAgg
         public string CustomerFullName { get; set; }
         public string Description { get; set; }
         public decimal BasePrice { get; set; }
-        public OrderStatus Status { get; set; } = OrderStatus.WaitingForAdminApproval;
+        public OrderStatus Status { get; set; } = OrderStatus.WaitingForProposals;
 
         public bool IsProposalSent { get; set; }
         public string HomeServiceName { get; set; }
