@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.Contract.ReviewAgg.Repository;
 using App.Domain.Core.Dtos.ReviewAgg;
+using App.Domain.Core.Entities;
 using App.Domain.Core.Enums.ReviewAgg;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
 using Microsoft.EntityFrameworkCore;
@@ -103,6 +104,30 @@ namespace App.Infra.Data.Repos.Ef.ReviewAgg
         {
            return await _context.Reviews.Where(r=>r.ExpertId==expertId && r.ReviewStatus==ReviewStatus.Approved)
                   .AverageAsync(r=>(double?)r.Score , cancellationToken)??0;
+        }
+
+        public async Task<int> Create(CreateReviewDto createReviewDto, CancellationToken cancellationToken)
+        {
+            Review review = new Review() 
+            {
+                Comment = createReviewDto.Comment,
+                Score = createReviewDto.Score,
+                OrderId = createReviewDto.OrderId,
+                CustomerId = createReviewDto.CustomerId,
+                ExpertId = createReviewDto.ExpertId,
+            
+            };
+
+           await _context.Reviews.AddAsync(review , cancellationToken);
+
+           return await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<bool> HasCustomerCommentedOnOrder(int orderId, int customerId, CancellationToken cancellationToken)
+        {
+          return await  _context.Reviews
+                 .AnyAsync(r => r.OrderId == orderId && r.CustomerId == customerId, cancellationToken);
+
         }
     }
 }

@@ -14,11 +14,11 @@ namespace App.Domain.Core.Contract.ReviewAgg.Repository
     {
         public Task<ReviewPagedDto> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken);
         public  Task<bool> ChangeStatus(int id, ReviewStatus status, CancellationToken cancellationToken);
-
+        public  Task<bool> HasCustomerCommentedOnOrder(int orderId, int customerId, CancellationToken cancellationToken);
         public Task<ReviewPagedDto> GetByExpertId(int pageSize, int pageNumber, int expertId, CancellationToken cancellationToken);
         public Task<int> GetExpertIdByReviewId(int reviewId, CancellationToken cancellationToken);
         public Task<double> AverageScore(int expertId, CancellationToken cancellationToken);
-
+        public Task<int> Create(CreateReviewDto createReviewDto, CancellationToken cancellationToken);
 
     }
 }

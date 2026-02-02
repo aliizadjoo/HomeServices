@@ -23,13 +23,12 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
     public class OrderController 
         (IHomeserviceAppService _homeserviceAppService,
         ICityAppService _cityAppService
-        , IOrderAppService _orderAppService,
+        ,IOrderAppService _orderAppService,
         IAccountAppService _accountAppService,
         IProposalAppService _proposalAppService,
         IReviewAppService _reviewAppService
         )
         : Controller
-
     {
 
 

@@ -29,6 +29,7 @@ namespace App.Domain.Core.Dtos.OrderAgg
         public int CityId { get; set; }
         public string CityName { get; set; }
 
+        public bool HasReview { get; set; }
         public List<string> ImagePaths { get; set; } = [];
         public List<ProposalSummaryDto> Proposals { get; set; } = [];
     }

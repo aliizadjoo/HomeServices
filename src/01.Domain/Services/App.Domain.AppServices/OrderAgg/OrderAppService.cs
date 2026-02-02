@@ -36,5 +36,10 @@ namespace App.Domain.AppServices.OrderAgg
         {
           return await   _orderService.GetOrderSummary(orderId, cancellationToken);
         }
+
+        public async Task<bool> IsFinished(int orderId, CancellationToken cancellationToken)
+        {
+          return await _orderService.IsFinished(orderId, cancellationToken);
+        }
     }
 }

@@ -22,7 +22,10 @@ namespace App.Domain.Core.Contract.OrderAgg.Repository
         public Task<OrderSummaryDto?> GetOrderDetails(int orderId , CancellationToken cancellationToken);
 
         public Task<bool> IsExists(int orderId, CancellationToken cancellationToken);
-       
+
+        public Task<OrderStatus> GetStatus(int orderId, CancellationToken cancellationToken);
+
+
 
     }
 }

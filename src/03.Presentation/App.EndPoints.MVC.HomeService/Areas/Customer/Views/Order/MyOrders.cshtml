@@ -121,8 +121,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer bg-white border-0 text-start p-4 pt-0">
 
+                    <div class="card-footer bg-white border-0 text-start p-4 pt-0 d-flex gap-2 flex-wrap">
+
+                       
                         @if (order.Status == OrderStatus.WaitingForProposals)
                         {
                             <a asp-action="Proposals"
@@ -138,6 +140,44 @@
                                 مشاهده پیشنهادها <i class="bi bi-lock ms-1"></i>
                             </button>
                         }
+
+                       
+                        @if (order.Status == OrderStatus.Started || order.Status == OrderStatus.Finished)
+                        {
+                            <a asp-action="Pay"
+                               asp-route-orderId="@order.Id"
+                               class="btn btn-success px-4 rounded-pill shadow-sm">
+                                پرداخت <i class="bi bi-credit-card ms-1"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <button class="btn btn-secondary px-4 rounded-pill shadow-sm" disabled
+                                    title="پرداخت در این وضعیت امکان‌پذیر نیست">
+                                پرداخت <i class="bi bi-lock ms-1"></i>
+                            </button>
+                        }
+
+
+                        @if (order.Status == OrderStatus.Finished)
+                        {
+                            @if (order.HasReview)
+                            {
+                                <button class="btn btn-outline-success px-4 rounded-pill shadow-sm" disabled>
+                                    نظر شما ارسال شد <i class="bi bi-check-circle ms-1"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <a asp-action="Create"
+                                   asp-controller="Review"
+                                   asp-route-orderId="@order.Id"
+                                   class="btn btn-outline-primary px-4 rounded-pill shadow-sm">
+                                    ثبت نظر <i class="bi bi-chat-dots ms-1"></i>
+                                </a>
+                            }
+                        }
+
 
                     </div>
 

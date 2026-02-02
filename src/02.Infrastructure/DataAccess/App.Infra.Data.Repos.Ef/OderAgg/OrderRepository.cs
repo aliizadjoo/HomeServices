@@ -29,9 +29,6 @@ namespace App.Infra.Data.Repos.Ef.OderAgg
         public async Task<int> Create(OrderCreateDto orderCreateDto, CancellationToken cancellationToken)
         {
             
-           
-
-
             var order = new Order()
             {
                 Description = orderCreateDto.Description,
@@ -190,7 +187,8 @@ namespace App.Infra.Data.Repos.Ef.OderAgg
                         HomeServiceName= o.HomeService.Name,
                         CityId = o.CityId,
                         CityName = o.City.Name,
-                         ImagePaths = o.Images.Select(path => path.ImagePath).ToList()
+                        ImagePaths = o.Images.Select(path => path.ImagePath).ToList(),
+                        HasReview = o.Review != null
                      }).ToListAsync(cancellationToken);
 
             return new OrderPagedDtos
@@ -208,6 +206,14 @@ namespace App.Infra.Data.Repos.Ef.OderAgg
            return await _context.Orders.AnyAsync(o => o.Id == orderId, cancellationToken);
         }
 
-       
+        public async Task<OrderStatus> GetStatus(int orderId, CancellationToken cancellationToken)
+        {
+            return await _context.Orders
+                .Where(o => o.Id == orderId)
+                .Select(o => o.Status)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+
+
     }
 }

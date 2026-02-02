@@ -16,7 +16,7 @@ namespace App.Domain.Core.Contract.OrderAgg.AppService
         public Task<Result<bool>> Create(OrderCreateDto orderCreateDto, CancellationToken cancellationToken);
         public Task<Result<OrderPagedDtos>> GetOrdersByAppUserId(int appUserId, int pageNumber, int pageSize, CancellationToken cancellationToken);
         public Task<Result<AvailableOrdersPagedDto>> GetAvailableForExpert(int expertId, int pageNumber, int pageSize, CancellationToken cancellationToken);
-
+        public Task<bool> IsFinished(int orderId, CancellationToken cancellationToken);
         public Task<Result<OrderSummaryDto>> GetOrderSummary(int orderId, CancellationToken cancellationToken);
 
     }

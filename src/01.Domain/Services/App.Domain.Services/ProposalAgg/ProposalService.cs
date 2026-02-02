@@ -125,5 +125,16 @@ namespace App.Domain.Services.ProposalAgg
         {
            return await _proposalRepository.IsAlreadySubmitted(expertId, orderId, cancellationToken);
         }
+
+        public async Task<Result<int>> GetExpertIdByOrderId(int orderId , CancellationToken cancellationToken) 
+        {
+           int expertId=await _proposalRepository.GetExpertIdByOrderId(orderId, cancellationToken);
+            if (expertId<=0)
+            {
+                return Result<int>.Failure("برای ثبت نظر سفارش شما باید توسط کارشناس مورد نظر تکمیل شده باشد.");
+            }
+
+            return Result<int>.Success(expertId);
+        }
     }
 }

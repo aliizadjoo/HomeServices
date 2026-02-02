@@ -107,5 +107,13 @@ namespace App.Infra.Data.Repos.Ef.ProposalAgg
                     cancellationToken);
         }
 
+        public async Task<int> GetExpertIdByOrderId(int orderId, CancellationToken cancellationToken)
+        {
+          return  await  _context.Proposals
+                 .Where(p => p.OrderId == orderId && p.Status == ProposalStatus.Accepted)
+                 .Select(p => p.ExpertId)
+                 .FirstOrDefaultAsync(cancellationToken);
+
+        }
     }
 }

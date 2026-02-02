@@ -65,5 +65,27 @@ namespace App.Domain.Services.ReviewAgg
 
             return Result<ReviewPagedDto>.Success(reviews, "عملیات با موفقیت انجام شد .");
         }
+
+        public async Task<Result<bool>> Create(CreateReviewDto createReviewDto, CancellationToken cancellationToken)
+        {
+            var result=await _reviewRepository.Create(createReviewDto, cancellationToken);
+            if (result>0)
+            {
+                return Result<bool>.Success(true, "نظر شما با موفقیت ثبت شد .");
+            }
+
+            return Result<bool>.Failure("متأسفانه در فرآیند ثبت نظر خطایی رخ داده است. لطفاً دوباره تلاش کنید.");
+        }
+
+        public async Task<Result<bool>> HasCustomerCommentedOnOrder(int orderId, int customerId, CancellationToken cancellationToken)
+        {
+            var result=await _reviewRepository.HasCustomerCommentedOnOrder(orderId, customerId, cancellationToken);
+            if (result)
+            {
+                return Result<bool>.Success(true , "شما قبلا برای این سفارش نظر ثبت کرده اید .");
+            }
+
+            return Result<bool>.Failure("نظری برای این سفارش ثبت نشده است . .");
+        }
     }
 }

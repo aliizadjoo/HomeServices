@@ -2,6 +2,7 @@
 using App.Domain.Core.Contract.OrderAgg.Repository;
 using App.Domain.Core.Contract.OrderAgg.Service;
 using App.Domain.Core.Dtos.OrderAgg;
+using App.Domain.Core.Enums.OrderAgg;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -31,7 +32,7 @@ namespace App.Domain.Services.OrderAgg
             if (orderId > 0)
             {
                
-                return Result<bool>.Success(true, "سفارش شما با موفقیت ثبت شد و در انتظار تایید ادمین  است.");
+                return Result<bool>.Success(true, "سفارش شما با موفقیت ثبت شد و در انتظار پیشنهادات از طرف کارشناسان باشید  .");
             }
 
            
@@ -82,7 +83,14 @@ namespace App.Domain.Services.OrderAgg
             return Result<OrderPagedDtos>.Success(result);
         }
 
+        public async Task<bool> IsFinished(int orderId, CancellationToken cancellationToken) 
+        {
+           var status=await _orderRepository.GetStatus(orderId, cancellationToken);
+            if (status == OrderStatus.Finished)
+                return true;
 
+            return false;
+        }
         public async Task<Result<AvailableOrdersPagedDto>> GetAvailableForExpert(int expertId, int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Attempting to fetch available orders for Expert (AppUserId: {AppUserId}). Page: {Page}, Size: {Size}",
