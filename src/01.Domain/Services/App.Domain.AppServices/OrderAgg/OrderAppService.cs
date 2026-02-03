@@ -41,5 +41,10 @@ namespace App.Domain.AppServices.OrderAgg
         {
           return await _orderService.IsFinished(orderId, cancellationToken);
         }
+
+        //public async Task<> Pay(int orderId , int price , CancellationToken cancellationToken) 
+        //{
+           
+        //}
     }
 }

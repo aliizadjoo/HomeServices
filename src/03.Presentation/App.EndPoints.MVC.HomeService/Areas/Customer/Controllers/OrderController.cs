@@ -195,5 +195,15 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
             return View(new ReviewPagedDto());
         }
 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public  IActionResult Pay(int orderId , CancellationToken cancellationToken) 
+        {
+
+
+            return View();
+        }
+
     }
 }

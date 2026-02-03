@@ -19,9 +19,8 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
     [Area(AreaConstants.Customer)]
     [Authorize(Roles = RoleConstants.Customer)]
     public class ReviewController
-       (IProposalAppService _proposalAppService ,
+       (
         IAccountAppService _accountAppService,
-        IOrderAppService _orderAppService,
         IReviewAppService _reviewAppService
         ) 
         : Controller
@@ -32,33 +31,26 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
             return View();
         }
 
+ 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateReviewViewModel createReviewViewModel , CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(
+                CreateReviewViewModel model,
+                CancellationToken cancellationToken)
         {
-
             if (!ModelState.IsValid)
-            {
-                return View(createReviewViewModel);
-            }
-
-            var resultStatus= await _orderAppService.IsFinished(createReviewViewModel.OrderId, cancellationToken);
-            if (!resultStatus)
-            {
-                TempData["ErrorMessage"] = "تا زمانیکه سفارش به وضعیت تکمیل نرسیده است نمیتوانید نظری ثبت کنید.";
-                return RedirectToAction("MyOrders", "Order");
-            }
+                return View(model);
 
             var customerId = _accountAppService.GetCustomerId(User);
 
-            var resultHasCustomerCommented = await _reviewAppService.HasCustomerCommentedOnOrder(createReviewViewModel.OrderId , customerId , cancellationToken);
-
-            if (resultHasCustomerCommented.IsSuccess)
+            var dto = new CreateReviewDto
             {
-                TempData["ErrorMessage"] = resultHasCustomerCommented.Message;
-                return RedirectToAction("MyOrders", "Order");
-            }
+                OrderId = model.OrderId,
+                Comment = model.Comment,
+                Score = model.Score,
+                CustomerId = customerId
+            };
 
-            var result =await _proposalAppService.GetExpertIdByOrderId(createReviewViewModel.OrderId, cancellationToken);
+            var result = await _reviewAppService.Create(dto, cancellationToken);
 
             if (!result.IsSuccess)
             {
@@ -66,25 +58,9 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
                 return RedirectToAction("MyOrders", "Order");
             }
 
-            CreateReviewDto createReviewDto = new CreateReviewDto() 
-            {
-              Comment = createReviewViewModel.Comment,
-              Score = createReviewViewModel.Score,
-              ExpertId = result.Data,
-              OrderId = createReviewViewModel.OrderId,
-              CustomerId = customerId
-            };
-
-            var resultCreate= await  _reviewAppService.Create(createReviewDto , cancellationToken);
-            if (!resultCreate.IsSuccess)
-            {
-                TempData["ErrorMessage"] = result.Message;
-                return View(createReviewViewModel);
-
-            }
-
-            TempData["SuccessMessage"] = resultCreate.Message;
+            TempData["SuccessMessage"] = result.Message;
             return RedirectToAction("MyOrders", "Order");
         }
+
     }
 }
