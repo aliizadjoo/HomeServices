@@ -60,7 +60,6 @@ namespace App.Domain.Services.ProposalAgg
             return Result<List<ExpertProposalDto>>.Success(proposals);
         }
 
-
         public async Task<Result<List<ProposalSummaryDto>>> GetOrderProposals(int orderId, CancellationToken cancellationToken)
         {
             var proposals = await _proposalRepository.GetByOrderId(orderId, cancellationToken);
@@ -131,10 +130,23 @@ namespace App.Domain.Services.ProposalAgg
            int expertId=await _proposalRepository.GetExpertIdByOrderId(orderId, cancellationToken);
             if (expertId<=0)
             {
-                return Result<int>.Failure("برای ثبت نظر سفارش شما باید توسط کارشناس مورد نظر تکمیل شده باشد.");
+                return Result<int>.Failure("خطایی در پیدا کردن کارشناس سفارش رخ داده است، دوباره تلاش کنید.");
             }
 
             return Result<int>.Success(expertId);
         }
+
+        public async Task<Result<decimal>> GetPriceByOrderId(int orderId , CancellationToken cancellationToken) 
+        {
+            var price= await _proposalRepository.GetPriceByOrderId(orderId, cancellationToken);
+
+            if (price<=0)
+            {
+                return Result<decimal>.Failure("برای این سفارش هنوز پیشنهادی تأیید نشده یا قیمت معتبری ثبت نگردیده است.");
+            }
+
+            return Result<decimal>.Success(price);
+        }
+
     }
 }

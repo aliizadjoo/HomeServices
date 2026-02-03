@@ -10,7 +10,8 @@ namespace App.Domain.Core.Entities
     public class Order : BaseEntity
     {
         public string Description { get; set; }
-        public OrderStatus Status { get; set; } = OrderStatus.WaitingForProposals; 
+        public OrderStatus Status { get; set; } = OrderStatus.WaitingForProposals;
+        public PaymentStatus PaymentStatus { get; set; } = PaymentStatus.Pending;
         public DateTime ExecutionDate { get; set; }
         public TimeSpan ExecutionTime { get; set; }
         public int CustomerId { get; set; }

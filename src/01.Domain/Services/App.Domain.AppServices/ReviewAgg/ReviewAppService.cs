@@ -26,13 +26,6 @@ namespace App.Domain.AppServices.ReviewAgg
           return await _reviewService.ChangeStatus(id, status, cancellationToken);
         }
 
-        //public async Task<Result<bool>> Create(CreateReviewDto createReviewDto, CancellationToken cancellationToken)
-        //{
-
-        //  return await  _reviewService.Create(createReviewDto, cancellationToken);
-        //}
-
-
         public async Task<Result<bool>> Create(
                   CreateReviewDto dto,
                CancellationToken cancellationToken)

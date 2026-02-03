@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Contract.CustomerAgg.Repository;
+﻿using App.Domain.Core._common;
+using App.Domain.Core.Contract.CustomerAgg.Repository;
 using App.Domain.Core.Dtos.CustomerAgg;
 using App.Domain.Core.Entities;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
@@ -123,7 +124,6 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
 
         }
 
-
         public async Task<bool> Delete(int appUserId,  CancellationToken cancellationToken)
         {
             
@@ -141,6 +141,18 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
                 .Where(c => c.AppUserId == appUserId)
                 .Select(c => c.Id) 
                 .FirstOrDefaultAsync(cancellationToken);
+        }
+
+        public async Task<decimal?> GetBalance(int customerId, CancellationToken cancellationToken)
+        {
+          return await _context.Customers.Where(c=>c.Id == customerId)
+                .Select(c=>c.WalletBalance)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+
+        public async Task<Customer?> GetById(int customerId, CancellationToken cancellationToken)
+        {
+            return await _context.Customers.FirstOrDefaultAsync(c => c.Id == customerId, cancellationToken);
         }
     }
 }

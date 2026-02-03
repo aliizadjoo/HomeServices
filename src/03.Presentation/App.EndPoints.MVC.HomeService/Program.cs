@@ -86,7 +86,7 @@ builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ICustomerAppService, CustomerAppService>();
 
-builder.Services.AddScoped<IExpertRepository, ExpertRepositoy>();
+builder.Services.AddScoped<IExpertRepository, ExpertRepository>();
 builder.Services.AddScoped<IExpertService, ExpertService>();
 builder.Services.AddScoped<IExpertAppService, ExpertAppService>();
 

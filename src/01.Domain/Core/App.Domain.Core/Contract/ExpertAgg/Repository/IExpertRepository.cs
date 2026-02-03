@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core._common;
 using App.Domain.Core.Dtos.CustomerAgg;
 using App.Domain.Core.Dtos.ExpertAgg;
+using App.Domain.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,8 +22,11 @@ namespace App.Domain.Core.Contract.ExpertAgg.Repository
 
         public Task<int> GetIdByAppUserId(int appUserId, CancellationToken cancellationToken);
 
-       public Task<bool> UpdateExpertScore(int expertId , double newAverageScore , CancellationToken cancellationToken);
- 
+        public Task<bool> UpdateExpertScore(int expertId , double newAverageScore , CancellationToken cancellationToken);
+
+
+        public Task<Expert?> GetById(int expertId, CancellationToken cancellationToken);
+
 
     }
 }

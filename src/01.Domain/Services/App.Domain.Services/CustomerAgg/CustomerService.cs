@@ -129,5 +129,41 @@ namespace App.Domain.Services.CustomerAgg
            
             return await _customerRepository.GetIdByAppUserId(appUserId, cancellationToken);
         }
+
+        public async Task<Result<bool>> IsBalanceEnough(int customerId, decimal amount, CancellationToken cancellationToken)
+        {
+           var balance= await _customerRepository.GetBalance(customerId, cancellationToken);
+
+            if (balance == null)
+            {
+                return Result<bool>.Failure("آیدی مشتری معتبر نیست.");
+            }
+
+            if (balance<amount)
+            {
+                return Result<bool>.Failure("موجودی  کافی نیست.");
+            }
+
+            return Result<bool>.Success(true);
+        }
+
+        public async Task<Result<bool>> DeductBalance(int customerId, decimal amount, CancellationToken cancellationToken)
+        {
+            var customer = await _customerRepository
+                .GetById(customerId, cancellationToken);
+
+            if (customer == null)
+                return Result<bool>.Failure("مشتری یافت نشد.");
+
+            if (customer.WalletBalance < amount)
+                return Result<bool>.Failure("موجودی کافی نیست.");
+
+            customer.WalletBalance = customer.WalletBalance- amount;
+
+
+            return Result<bool>.Success(true,"مبلغ از کیف پول شما با موفقیت کسر شد.");
+
+        }
+
     }
 }

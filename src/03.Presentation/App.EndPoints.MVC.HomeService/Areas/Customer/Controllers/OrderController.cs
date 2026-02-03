@@ -1,4 +1,5 @@
 ﻿using App.Domain.AppServices.HomeserviceAgg;
+using App.Domain.Core._common;
 using App.Domain.Core.Contract.AccountAgg.AppServices;
 using App.Domain.Core.Contract.CityAgg.AppService;
 using App.Domain.Core.Contract.OrderAgg.AppService;
@@ -13,6 +14,7 @@ using App.EndPoints.MVC.HomeService.Extentions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Threading.Tasks;
 
 namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
 {
@@ -198,11 +200,21 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public  IActionResult Pay(int orderId , CancellationToken cancellationToken) 
+        public  async Task<IActionResult> Pay(int orderId, CancellationToken cancellationToken) 
         {
 
+            var customerId=  _accountAppService.GetCustomerId(User);
+            var resultPay= await _orderAppService.Pay(orderId, customerId, cancellationToken);
+            if (!resultPay.IsSuccess)
+            {
+                TempData["ErrorMessage"] = resultPay.Message;
+            }
+            else
+            {
+                TempData["SuccessMessage"] = resultPay.Message;
+            }
 
-            return View();
+            return RedirectToAction("MyOrders");
         }
 
     }

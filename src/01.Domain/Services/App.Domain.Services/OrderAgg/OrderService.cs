@@ -38,7 +38,6 @@ namespace App.Domain.Services.OrderAgg
            
             return Result<bool>.Failure("متأسفانه در فرآیند ثبت سفارش خطایی رخ داده است. لطفاً دوباره تلاش کنید.");
         }
-
         public async Task<Result<OrderPagedDtos>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             _logger.LogInformation("درخواست دریافت لیست سفارشات (صفحه: {PageNumber}، تعداد در صفحه: {PageSize})",
@@ -125,6 +124,51 @@ namespace App.Domain.Services.OrderAgg
             }
 
             return Result<OrderSummaryDto>.Success(orderSummary);
+        }
+        public async Task<Result<bool>> SaveChanges(CancellationToken cancellationToken) 
+        { 
+          
+            var count= await _orderRepository.SaveChanges(cancellationToken);
+            if (count<=0)
+            {
+                return Result<bool>.Failure("عملیات به خطا خورد لطفا یک بار دیگر تلاش کنید.");
+            }
+
+            return Result<bool>.Success(true);
+
+        }
+
+        public async Task<Result<bool>> MarkAsPaid(int orderId, CancellationToken cancellationToken)
+        {
+            var order = await _orderRepository.GetById(orderId, cancellationToken);
+
+            if (order == null)
+                return Result<bool>.Failure("سفارش یافت نشد.");
+
+            if (order.PaymentStatus == PaymentStatus.Paid)
+                return Result<bool>.Failure("این سفارش قبلاً پرداخت شده است.");
+
+            if (order.Status == OrderStatus.WaitingForProposals || order.Status == OrderStatus.Cancelled )
+                return Result<bool>.Failure("امکان پرداخت این سفارش وجود ندارد.");
+
+           
+            order.PaymentStatus = PaymentStatus.Paid;
+
+            return Result<bool>.Success(true);
+        }
+
+        public async Task<Result<bool>> CheckIsPaid(int orderId, CancellationToken cancellationToken)
+        {
+            var isPaid = await _orderRepository.IsPaid(orderId, cancellationToken);
+
+            if (isPaid)
+            {
+              
+                return Result<bool>.Success(true, "این سفارش قبلاً پرداخت شده است.");
+            }
+
+          
+            return Result<bool>.Success(false);
         }
     }
 }

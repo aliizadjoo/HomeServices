@@ -30,6 +30,9 @@ namespace App.Domain.Core.Contract.ProposalAgg.Repository
         public Task<bool> IsAlreadySubmitted(int expertId, int orderId, CancellationToken cancellationToken);
 
         public Task<int> RejectOtherProposals(int proposalId, int orderId, CancellationToken cancellationToken);
-     
+
+        public Task<decimal> GetPriceByOrderId(int orderId, CancellationToken cancellationToken);
+
+
     }
 }

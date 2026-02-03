@@ -945,6 +945,11 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<int>("PaymentStatus")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -972,6 +977,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 10, 0, 0, 0),
                             HomeServiceId = 1,
                             IsDeleted = false,
+                            PaymentStatus = 0,
                             Status = 3
                         },
                         new
@@ -985,6 +991,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 14, 30, 0, 0),
                             HomeServiceId = 3,
                             IsDeleted = false,
+                            PaymentStatus = 0,
                             Status = 1
                         },
                         new
@@ -998,6 +1005,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 9, 0, 0, 0),
                             HomeServiceId = 2,
                             IsDeleted = false,
+                            PaymentStatus = 0,
                             Status = 3
                         },
                         new
@@ -1011,6 +1019,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 16, 0, 0, 0),
                             HomeServiceId = 4,
                             IsDeleted = false,
+                            PaymentStatus = 0,
                             Status = 4
                         },
                         new
@@ -1024,6 +1033,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 8, 0, 0, 0),
                             HomeServiceId = 7,
                             IsDeleted = false,
+                            PaymentStatus = 0,
                             Status = 3
                         },
                         new
@@ -1037,6 +1047,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 11, 0, 0, 0),
                             HomeServiceId = 6,
                             IsDeleted = false,
+                            PaymentStatus = 0,
                             Status = 2
                         },
                         new
@@ -1050,6 +1061,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 9, 0, 0, 0),
                             HomeServiceId = 1,
                             IsDeleted = false,
+                            PaymentStatus = 0,
                             Status = 3
                         },
                         new
@@ -1063,6 +1075,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 16, 0, 0, 0),
                             HomeServiceId = 4,
                             IsDeleted = false,
+                            PaymentStatus = 0,
                             Status = 3
                         },
                         new
@@ -1076,6 +1089,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 11, 0, 0, 0),
                             HomeServiceId = 6,
                             IsDeleted = false,
+                            PaymentStatus = 0,
                             Status = 3
                         },
                         new
@@ -1089,6 +1103,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 10, 30, 0, 0),
                             HomeServiceId = 2,
                             IsDeleted = false,
+                            PaymentStatus = 0,
                             Status = 3
                         },
                         new
@@ -1102,6 +1117,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 8, 0, 0, 0),
                             HomeServiceId = 7,
                             IsDeleted = false,
+                            PaymentStatus = 0,
                             Status = 3
                         },
                         new
@@ -1115,6 +1131,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 14, 0, 0, 0),
                             HomeServiceId = 3,
                             IsDeleted = false,
+                            PaymentStatus = 0,
                             Status = 3
                         },
                         new
@@ -1128,6 +1145,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 9, 30, 0, 0),
                             HomeServiceId = 1,
                             IsDeleted = false,
+                            PaymentStatus = 0,
                             Status = 3
                         });
                 });

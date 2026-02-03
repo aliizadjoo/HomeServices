@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Dtos.CustomerAgg;
+﻿using App.Domain.Core._common;
+using App.Domain.Core.Dtos.CustomerAgg;
 using App.Domain.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,10 @@ namespace App.Domain.Core.Contract.CustomerAgg.Repository
 
         public Task<bool> Delete(int appUserId,  CancellationToken cancellationToken);
         public Task<int> GetIdByAppUserId(int appUserId, CancellationToken cancellationToken);
+
+        public Task<decimal?> GetBalance(int customerId  , CancellationToken cancellationToken);
+
+        public Task<Customer?> GetById(int customerId, CancellationToken cancellationToken);
 
 
     }

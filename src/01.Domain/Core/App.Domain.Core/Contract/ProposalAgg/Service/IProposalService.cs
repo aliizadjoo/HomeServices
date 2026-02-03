@@ -21,5 +21,7 @@ namespace App.Domain.Core.Contract.ProposalAgg.Service
         public  Task<Result<int>> GetExpertIdByOrderId(int orderId, CancellationToken cancellationToken);
         public Task<bool> IsAlreadySubmitted(int expertId, int orderId, CancellationToken cancellationToken);
 
+        public  Task<Result<decimal>> GetPriceByOrderId(int orderId, CancellationToken cancellationToken);
+
     }
 }

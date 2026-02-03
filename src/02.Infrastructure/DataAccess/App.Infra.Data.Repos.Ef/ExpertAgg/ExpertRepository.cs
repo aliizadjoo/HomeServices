@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace App.Infra.Data.Repos.Ef.ExpertAgg
 {
-    public class ExpertRepositoy(AppDbContext _context) : IExpertRepository
+    public class ExpertRepository(AppDbContext _context) : IExpertRepository
     {
 
 
@@ -189,6 +189,14 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
                  .SetProperty(e => e.AverageScore, newAverageScore)
                  , cancellationToken);
             return rowAffect > 0;
+        }
+
+
+        public async Task<Expert?> GetById(int expertId ,  CancellationToken cancellationToken) 
+        {
+          return await _context.Experts
+                .FirstOrDefaultAsync(e => e.Id == expertId, cancellationToken);
+        
         }
     }
 }

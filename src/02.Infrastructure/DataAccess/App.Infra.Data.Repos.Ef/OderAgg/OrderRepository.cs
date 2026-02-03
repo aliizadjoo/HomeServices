@@ -214,6 +214,20 @@ namespace App.Infra.Data.Repos.Ef.OderAgg
                 .FirstOrDefaultAsync(cancellationToken);
         }
 
+        public async Task<int> SaveChanges(CancellationToken cancellationToken)
+        {
+          return await _context.SaveChangesAsync(cancellationToken);
+        }
 
+        public async Task<Order?> GetById(int orderId, CancellationToken cancellationToken)
+        {
+          return await  _context.Orders.FirstOrDefaultAsync(o=>o.Id== orderId, cancellationToken);  
+        }
+
+        public async Task<bool> IsPaid(int orderId, CancellationToken cancellationToken)
+        {
+            return await _context.Orders
+            .AnyAsync(o => o.Id == orderId && o.PaymentStatus == PaymentStatus.Paid, cancellationToken);
+        }
     }
 }

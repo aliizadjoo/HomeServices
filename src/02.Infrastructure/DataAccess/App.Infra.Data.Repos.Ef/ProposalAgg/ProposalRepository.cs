@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Contract.ProposalAgg.Repository;
+﻿using App.Domain.Core._common;
+using App.Domain.Core.Contract.ProposalAgg.Repository;
 using App.Domain.Core.Dtos.ProposalAgg;
 using App.Domain.Core.Entities;
 using App.Domain.Core.Enums.OrderAgg;
@@ -115,5 +116,15 @@ namespace App.Infra.Data.Repos.Ef.ProposalAgg
                  .FirstOrDefaultAsync(cancellationToken);
 
         }
+
+
+        public async Task<decimal> GetPriceByOrderId(int orderId, CancellationToken cancellationToken)
+        {
+          return await   _context.Proposals
+                .Where(p=>p.OrderId==orderId &&  p.Status == ProposalStatus.Accepted) 
+                .Select(p => p.Price)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+
     }
 }

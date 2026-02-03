@@ -135,6 +135,18 @@ namespace App.Domain.Services.ExpertAgg
             return await _expertRepository.GetIdByAppUserId(appUserId, cancellationToken);
         }
 
-     
+        public async Task<Result<bool>> AddBalance(int expertId, decimal amount, CancellationToken cancellationToken)
+        {
+           var expert =  await _expertRepository.GetById(expertId, cancellationToken);
+
+            if (expert == null)
+            {
+                return Result<bool>.Failure("کارشناسی با این آیدی موجود نمیباشد.");
+            }
+
+            expert.WalletBalance = expert.WalletBalance + amount;
+
+            return Result<bool>.Success(true, "مبلغ با موفقیت به حساب شما واریز شد.");
+        }
     }
 }
