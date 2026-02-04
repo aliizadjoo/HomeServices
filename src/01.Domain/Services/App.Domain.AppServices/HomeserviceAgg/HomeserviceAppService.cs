@@ -47,5 +47,10 @@ namespace App.Domain.AppServices.HomeserviceAgg
         {
           return await  _homeserviceService.GetServicesByCategoryId(categoryId, pageNumber, pageSize, cancellationToken);
         }
+
+        public async Task<Result<HomeservicePagedDto>> GetAll(int pageSize, int pageNumber, CancellationToken cancellationToken)
+        {
+          return await _homeserviceService.GetAll(pageSize , pageNumber , cancellationToken);
+        }
     }
 }

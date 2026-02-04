@@ -63,7 +63,35 @@ namespace App.Domain.Services.HomeserviceServiceAgg
             });
         }
 
-       
+
+        public async Task<Result<HomeservicePagedDto>> GetAll(int pageSize, int pageNumber,  CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("دریافت لیست سرویس‌ها - صفحه {Page}", pageNumber);
+
+            var services = await _homeserviceRepository.GetAll(cancellationToken);
+
+            if (services == null || !services.Any())
+            {
+                return Result<HomeservicePagedDto>.Failure("خدمتی یافت نشد.");
+            }
+
+            IEnumerable<HomeserviceDto> filteredHomeserviceSummaryDto = services;
+
+          
+
+            var totalCount = filteredHomeserviceSummaryDto.Count();
+            var pagedData = filteredHomeserviceSummaryDto
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize).ToList();
+
+
+            return Result<HomeservicePagedDto>.Success(new HomeservicePagedDto
+            {
+                HomeserviceDtos = pagedData
+              ,
+                TotalCount = totalCount
+            });
+        }
 
         public async Task<Result<int>> Create(CreateHomeServiceDto homeServiceDto, CancellationToken cancellationToken)
         {

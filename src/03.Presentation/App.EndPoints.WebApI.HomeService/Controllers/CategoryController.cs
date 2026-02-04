@@ -11,7 +11,7 @@ namespace App.EndPoints.WebApI.HomeService.Controllers
     {
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] int pageSize, [FromQuery] int pageNumber, CancellationToken cancellationToken) 
+        public async Task<IActionResult> GetAll([FromQuery] int pageSize=10, [FromQuery] int pageNumber=1, CancellationToken cancellationToken=default) 
         {
            var result= await _categoryAppService.GetAll(pageSize, pageNumber, null, cancellationToken);
 

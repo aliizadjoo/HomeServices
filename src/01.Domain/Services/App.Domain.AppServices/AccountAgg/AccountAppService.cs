@@ -105,10 +105,10 @@ namespace App.Domain.AppServices.AccountAgg
                 "Expert" => await _expertService.Create(user.Id, userRegisterDto.CityId, cancellationToken),
                 "Customer" => await _customerService.Create(user.Id, userRegisterDto.CityId, cancellationToken),
                 "Admin" => await _adminService.Create(user.Id, cancellationToken),
-                _ => null
+                
             };
 
-            if (profileResult is not null && !profileResult.IsSuccess)
+            if ( !profileResult.IsSuccess)
             {
                 await _userManager.DeleteAsync(user);
 

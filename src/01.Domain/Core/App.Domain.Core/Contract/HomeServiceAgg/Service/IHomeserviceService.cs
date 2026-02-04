@@ -15,8 +15,7 @@ namespace App.Domain.Core.Contract.HomeServiceAgg.Service
 
         public Task<Result<HomeservicePagedDto>> GetAll(int pageSize, int pageNumber, SearchHomeServiceDto search, CancellationToken cancellationToken);
 
-       
-
+        public Task<Result<HomeservicePagedDto>> GetAll(int pageSize, int pageNumber, CancellationToken cancellationToken);
         public Task<Result<int>> Create(CreateHomeServiceDto homeServiceDto, CancellationToken cancellationToken);
 
         public Task<Result<bool>> Update(HomeserviceDto dto, CancellationToken cancellationToken);
