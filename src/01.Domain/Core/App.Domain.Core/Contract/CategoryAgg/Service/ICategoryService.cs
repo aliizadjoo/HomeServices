@@ -23,8 +23,10 @@ namespace App.Domain.Core.Contract.CategoryAgg.Service
         public  Task<Result<bool>> Delete(int id, CancellationToken cancellationToken);
 
         public Task<Result<int>> Create(string title, string imagePath, CancellationToken cancellationToken);
-    
-       
+
+        public Task<Result<CategoryWithHomeServicesPagedDto>> GetAll(int pageSize, int pageNumber, CancellationToken cancellationToken);
+
+
 
 
 

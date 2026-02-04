@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core.Contract.CategoryAgg.Repository;
 using App.Domain.Core.Dtos.AdminAgg;
 using App.Domain.Core.Dtos.CategoryAgg;
+using App.Domain.Core.Dtos.HomeServiceAgg;
 using App.Domain.Core.Entities;
 using App.Infra.Cache;
 using App.Infra.Cache.Contracts;
@@ -67,6 +68,41 @@ namespace App.Infra.Data.Repos.Ef.CategoryAgg
             return cachedCategoryDtos;
           
         }
+
+        public async Task<List<CategoryWithHomeServices>> GetAllWithHomeServices(CancellationToken cancellationToken)
+        {
+            var cachedCategoryWithHomservicesDtos = _cacheService.Get<List<CategoryWithHomeServices>>(CacheKeys.CategoriesWithHomeservices);
+
+            if (cachedCategoryWithHomservicesDtos==null)
+            {
+                var categoryWithHomservicesDtos =await  _context.Categories
+                    .AsNoTracking()
+                    .Select(c=> new CategoryWithHomeServices 
+                    { 
+                        Id = c.Id,
+                        Title = c.Title,
+                        ImagePath = c.ImagePath,
+                        HomeserviceDtos = c.Services.Select(s=>new HomeserviceDto 
+                        {
+                            Id = s.Id,
+                            Name = s.Name,
+                            BasePrice = s.BasePrice,
+                            Description = s.Description,
+                            ImagePath = s.ImagePath,
+                            CategoryName = s.Category.Title,
+                            CategoryId = s.CategoryId
+                         
+                        }).ToList()
+                    
+                    }).ToListAsync(cancellationToken);
+
+                _cacheService.SetSliding<List<CategoryWithHomeServices>>(CacheKeys.CategoriesWithHomeservices, categoryWithHomservicesDtos, 30);
+
+                return categoryWithHomservicesDtos;
+            }
+
+            return cachedCategoryWithHomservicesDtos;
+        }
         public async Task<bool> Update(CategoryDto categoryDto, CancellationToken cancellationToken)
         {
 
@@ -91,7 +127,6 @@ namespace App.Infra.Data.Repos.Ef.CategoryAgg
             return affectedRows > 0;
         }
 
-      
-
+       
     }
 }

@@ -13,6 +13,7 @@ namespace App.Domain.Core.Contract.CategoryAgg.AppService
     public interface ICategoryAppService
     {
         public Task<Result<CategoryPagedDto>> GetAll(int pageSize, int pageNumber, string? search, CancellationToken cancellationToken);
+        public Task<Result<CategoryWithHomeServicesPagedDto>> GetAll(int pageSize, int pageNumber,  CancellationToken cancellationToken);
         public Task<Result<List<CategoryDto>>> GetAll( CancellationToken cancellationToken);
         public Task<Result<bool>> Update(CategoryDto categoryDto, CancellationToken cancellationToken);
 
@@ -24,9 +25,5 @@ namespace App.Domain.Core.Contract.CategoryAgg.AppService
         public Task<Result<int>> Create(string title, string imagePath, CancellationToken cancellationToken);
 
     
-
-
-
-
     }
 }

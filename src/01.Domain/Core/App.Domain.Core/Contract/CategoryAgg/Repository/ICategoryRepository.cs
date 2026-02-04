@@ -18,8 +18,11 @@ namespace App.Domain.Core.Contract.CategoryAgg.Repository
         public Task<CategoryDto?> GetById(int categoryId , CancellationToken cancellationToken);
 
         public  Task<List<CategoryDto>> GetAll(CancellationToken cancellationToken);
+        public  Task<List<CategoryWithHomeServices>> GetAllWithHomeServices(CancellationToken cancellationToken);
 
         public Task<bool> Delete(int id, CancellationToken cancellationToken);
+
+
 
     }
 }

@@ -44,6 +44,25 @@ namespace App.Domain.Core.Contract.CategoryAgg.Service
 
 
         }
+        public async Task<Result<CategoryWithHomeServicesPagedDto>> GetAll(int pageSize, int pageNumber, CancellationToken cancellationToken)
+        {
+            var categoryWithHomeServicesDtos = await  _categoryRepository.GetAllWithHomeServices(cancellationToken);
+            if (categoryWithHomeServicesDtos == null || !categoryWithHomeServicesDtos.Any())
+            {
+                return Result<CategoryWithHomeServicesPagedDto>.Failure("داده‌ای یافت نشد.");
+            }
+            IEnumerable<CategoryWithHomeServices> filteredData = categoryWithHomeServicesDtos;
+            var totalCount = filteredData.Count();
+
+            var pagedData = filteredData.
+                Skip((pageNumber - 1) * pageSize) .Take(pageSize).ToList();
+
+            return Result<CategoryWithHomeServicesPagedDto>.Success(new CategoryWithHomeServicesPagedDto
+            {
+                CategoryWithHomeservicesDtos = pagedData,
+                TotalCount = totalCount
+            }, "عملیات با موفقیت انجام شد.");
+        }
 
         public async Task<Result<List<CategoryDto>>> GetAll(CancellationToken cancellationToken)
         {
@@ -118,6 +137,5 @@ namespace App.Domain.Core.Contract.CategoryAgg.Service
         }
 
        
-
     }
 }
