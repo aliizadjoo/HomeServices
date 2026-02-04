@@ -11,15 +11,12 @@ namespace App.EndPoints.WebApI.HomeService.Controllers
     {
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] int pageSize, [FromQuery] int pageNumber, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAll([FromQuery] int pageSize, [FromQuery] int pageNumber, CancellationToken cancellationToken) 
         {
-           
-            var result = await _categoryAppService.GetAll(pageSize, pageNumber, cancellationToken);
+           var result= await _categoryAppService.GetAll(pageSize, pageNumber, null, cancellationToken);
 
-          
-            if (result.IsSuccess)
+            if (result.IsSuccess) 
             {
-                
                 return Ok(result.Data);
             }
 

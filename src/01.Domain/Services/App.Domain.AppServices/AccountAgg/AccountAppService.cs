@@ -2,6 +2,7 @@
 using App.Domain.Core.Constants;
 using App.Domain.Core.Contract.AccountAgg.AppServices;
 using App.Domain.Core.Contract.AdminAgg.Service;
+using App.Domain.Core.Contract.CityAgg.Service;
 using App.Domain.Core.Contract.CustomerAgg.AppService;
 using App.Domain.Core.Contract.CustomerAgg.Service;
 using App.Domain.Core.Contract.ExpertAgg.Service;
@@ -28,6 +29,7 @@ namespace App.Domain.AppServices.AccountAgg
           ICustomerService _customerService,
             IExpertService _expertService,
             IAdminService _adminService,
+            ICityService _cityService,
           ILogger<AccountAppService> _logger,
           RoleManager<IdentityRole<int>> _roleManager
         ) : IAccountAppService
@@ -44,9 +46,30 @@ namespace App.Domain.AppServices.AccountAgg
                 }).ToListAsync(cancellationToken);
         }
 
-        public async Task<IdentityResult> Register(UserRegisterDto userRegisterDto  ,CancellationToken cancellationToken)
+        public async Task<IdentityResult> Register(UserRegisterDto userRegisterDto, CancellationToken cancellationToken)
         {
-         
+            
+            if (!await _roleManager.RoleExistsAsync(userRegisterDto.Role))
+            {
+                _logger.LogError("نقش نامعتبر است: {Role}", userRegisterDto.Role);
+
+                return IdentityResult.Failed(
+                    new IdentityError { Description = "نقش انتخاب شده معتبر نیست." }
+                );
+            }
+            if (userRegisterDto.Role is "Expert" or "Customer")
+            {
+                var cityExists = await _cityService.IsExist(userRegisterDto.CityId, cancellationToken);
+
+                if (!cityExists)
+                {
+                    _logger.LogError("CityId نامعتبر است: {CityId}", userRegisterDto.CityId);
+
+                    return IdentityResult.Failed(
+                        new IdentityError { Description = "شهر انتخاب شده معتبر نیست." }
+                    );
+                }
+            }       
             var user = new AppUser
             {
                 UserName = userRegisterDto.Email,
@@ -54,81 +77,49 @@ namespace App.Domain.AppServices.AccountAgg
                 FirstName = userRegisterDto.FirstName,
                 LastName = userRegisterDto.LastName,
                 ImagePath = userRegisterDto.ImagePath,
-                
             };
 
             var result = await _userManager.CreateAsync(user, userRegisterDto.Password);
-
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-              
-                var roleResult = await _userManager.AddToRoleAsync(user, userRegisterDto.Role);
-
-                if (roleResult.Succeeded)
-                {
-
-                    if (userRegisterDto.Role == "Expert")
-                    {
-                        var profileResult = await _expertService.Create(user.Id, userRegisterDto.CityId, cancellationToken);
-
-                        if (!profileResult.IsSuccess)
-                        {
-                           
-                            await _userManager.DeleteAsync(user);
-
-                            
-                            _logger.LogError("خطا در ساخت پروفایل کارشناس: {Message}", profileResult.Message);
-
-                           
-                            return IdentityResult.Failed(new IdentityError { Description = profileResult.Message });
-                        }
-                    }
-                    else if (userRegisterDto.Role == "Customer")
-                    {
-                        var profileResult = await _customerService.Create(user.Id, userRegisterDto.CityId, cancellationToken);
-
-                        if (!profileResult.IsSuccess)
-                        {
-                            await _userManager.DeleteAsync(user);
-                            _logger.LogError("خطا در ساخت پروفایل مشتری: {Message}", profileResult.Message);
-                            return IdentityResult.Failed(new IdentityError { Description = profileResult.Message });
-                        }
-                    }
-
-                    else if (userRegisterDto.Role == "Admin") 
-                    {
-
-                        var profileResult = await _adminService.Create(user.Id, cancellationToken);
-                        if (!profileResult.IsSuccess)
-                        {
-                            await _userManager.DeleteAsync(user);
-                            _logger.LogError("خطا در ساخت پروفایل ادمین: {Message}", profileResult.Message);
-                            return IdentityResult.Failed(new IdentityError { Description = profileResult.Message });
-                        }
-                    }
-
-                    else
-                    {
-                       
-                        await _userManager.DeleteAsync(user);
-                        _logger.LogError("نقش نامعتبر است: {Role}", userRegisterDto.Role);
-                        return IdentityResult.Failed(new IdentityError { Description = "نقش انتخاب شده معتبر نیست." });
-                    }
-                }
-                else
-                {
-                    await _userManager.DeleteAsync(user);
-                    _logger.LogError("نقش اختصاص نیافت: {Errors}", string.Join(", ", roleResult.Errors.Select(e => e.Description)));
-                    return IdentityResult.Failed(new IdentityError { Description = "خطا در اختصاص نقش به کاربر." });
-                }
-            }
-            else
-            {
-
                 _logger.LogWarning("ثبت نام کاربر شکست خورد: {Email}", userRegisterDto.Email);
+                return result;
             }
 
-            return result;
+           
+            var roleResult = await _userManager.AddToRoleAsync(user, userRegisterDto.Role);
+            if (!roleResult.Succeeded)
+            {
+                await _userManager.DeleteAsync(user);
+
+                _logger.LogError("خطا در اختصاص نقش: {Errors}",
+                    string.Join(", ", roleResult.Errors.Select(e => e.Description)));
+
+                return IdentityResult.Failed(
+                    new IdentityError { Description = "خطا در اختصاص نقش به کاربر." }
+                );
+            }
+
+            var profileResult = userRegisterDto.Role switch
+            {
+                "Expert" => await _expertService.Create(user.Id, userRegisterDto.CityId, cancellationToken),
+                "Customer" => await _customerService.Create(user.Id, userRegisterDto.CityId, cancellationToken),
+                "Admin" => await _adminService.Create(user.Id, cancellationToken),
+                _ => null
+            };
+
+            if (profileResult is not null && !profileResult.IsSuccess)
+            {
+                await _userManager.DeleteAsync(user);
+
+                _logger.LogError("خطا در ساخت پروفایل: {Message}", profileResult.Message);
+
+                return IdentityResult.Failed(
+                    new IdentityError { Description = profileResult.Message }
+                );
+            }
+
+            return IdentityResult.Success;
         }
 
         public async Task<bool> Login(UserLoginDto userLoginDto)

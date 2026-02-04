@@ -29,5 +29,10 @@ namespace App.Domain.Services.CityAgg
             }
             return  cachedCities;
         }
+
+        public async Task<bool> IsExist(int CityId, CancellationToken cancellationToken)
+        {
+            return await _cityRepository.IsExist(CityId, cancellationToken);
+        }
     }
 }
