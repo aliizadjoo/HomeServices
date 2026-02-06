@@ -168,7 +168,7 @@ namespace App.Domain.Services.OrderAgg
             }
 
           
-            return Result<bool>.Success(false);
+            return Result<bool>.Failure("این سفارش قبلا پرداخت نشده .");
         }
 
         public async Task<bool> IsOrderBelongToCustomer(int orderId, int customerId, CancellationToken cancellationToken)
