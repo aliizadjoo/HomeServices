@@ -33,9 +33,8 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
 
  
         [HttpPost]
-        public async Task<IActionResult> Create(
-                CreateReviewViewModel model,
-                CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(CreateReviewViewModel model, CancellationToken cancellationToken)
+      
         {
             if (!ModelState.IsValid)
                 return View(model);
