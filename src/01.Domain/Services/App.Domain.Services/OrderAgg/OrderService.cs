@@ -170,5 +170,11 @@ namespace App.Domain.Services.OrderAgg
           
             return Result<bool>.Success(false);
         }
+
+        public async Task<bool> IsOrderBelongToCustomer(int orderId, int customerId, CancellationToken cancellationToken)
+        {
+            return await _orderRepository
+           .IsOrderBelongToCustomer(orderId, customerId, cancellationToken);
+        }
     }
 }

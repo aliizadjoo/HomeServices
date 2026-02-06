@@ -29,7 +29,7 @@ namespace App.Domain.Core.Contract.OrderAgg.Service
 
         public Task<Result<bool>> CheckIsPaid(int orderId, CancellationToken cancellationToken);
 
-
+       public Task<bool> IsOrderBelongToCustomer(int orderId, int customerId, CancellationToken cancellationToken);
 
     }
 }

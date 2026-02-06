@@ -229,5 +229,15 @@ namespace App.Infra.Data.Repos.Ef.OderAgg
             return await _context.Orders
             .AnyAsync(o => o.Id == orderId && o.PaymentStatus == PaymentStatus.Paid, cancellationToken);
         }
+
+        public async Task<bool> IsOrderBelongToCustomer(int orderId, int customerId, CancellationToken cancellationToken)
+        {
+            return await _context.Orders
+            .AsNoTracking()
+            .AnyAsync(o =>
+                o.Id == orderId &&
+                o.CustomerId == customerId,
+                cancellationToken);
+        }
     }
 }

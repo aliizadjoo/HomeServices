@@ -30,5 +30,11 @@ namespace App.Domain.Core.Contract.OrderAgg.Repository
         public Task<int> SaveChanges(CancellationToken cancellationToken);
 
         public Task<Order?> GetById(int orderId , CancellationToken cancellationToken);
+
+
+        public  Task<bool> IsOrderBelongToCustomer(int orderId, int customerId, CancellationToken cancellationToken);
+
+
+
     }
 }

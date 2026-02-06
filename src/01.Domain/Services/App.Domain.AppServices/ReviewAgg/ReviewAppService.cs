@@ -30,7 +30,17 @@ namespace App.Domain.AppServices.ReviewAgg
                   CreateReviewDto dto,
                CancellationToken cancellationToken)
         {
-           
+
+
+            var isOrderOwnedByCustomer = await _orderService
+                                           .IsOrderBelongToCustomer(dto.OrderId, dto.CustomerId, cancellationToken);
+
+            if (!isOrderOwnedByCustomer)
+            {
+                return Result<bool>.Failure(
+                    "شما مجاز به ثبت نظر برای این سفارش نیستید."
+                );
+            }
             var isFinished = await _orderService
                 .IsFinished(dto.OrderId, cancellationToken);
 
