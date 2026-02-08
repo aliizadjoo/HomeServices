@@ -72,7 +72,7 @@ namespace App.Infra.Data.Repos.Ef.OderAgg
                     HomeServiceId = o.HomeServiceId,
                     HomeServiceName = o.HomeService.Name,
                     CityId = o.CityId,
-                    CityName = o.City.Name,
+                    CityName = o.City.CityName,
                     ImagePaths = o.Images.Select(i => i.ImagePath).ToList(),
                     Proposals = o.Proposals.Select(p => new ProposalSummaryDto
                     {
@@ -186,7 +186,7 @@ namespace App.Infra.Data.Repos.Ef.OderAgg
                         HomeServiceId = o.HomeServiceId,
                         HomeServiceName= o.HomeService.Name,
                         CityId = o.CityId,
-                        CityName = o.City.Name,
+                        CityName = o.City.CityName,
                         ImagePaths = o.Images.Select(path => path.ImagePath).ToList(),
                         HasReview = o.Review != null
                      }).ToListAsync(cancellationToken);

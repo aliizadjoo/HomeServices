@@ -49,6 +49,9 @@ using App.Domain.Services.ReviewAgg;
 using App.Framework;
 using App.Infra.Cache.Contracts;
 using App.Infra.Cache.InMemoryCache;
+using App.Infra.Data.Repos.Dapper.CategoryAgg;
+using App.Infra.Data.Repos.Dapper.CityAgg;
+using App.Infra.Data.Repos.Dapper.HomeServiceAgg;
 using App.Infra.Data.Repos.Ef.AdminAgg;
 using App.Infra.Data.Repos.Ef.CategoryAgg;
 using App.Infra.Data.Repos.Ef.CityAgg;
@@ -85,10 +88,12 @@ builder.Services.AddScoped<IAdminAppService, AdminAppService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 builder.Services.AddScoped<IHomeserviceRepository, HomeServiceRepository>();
+builder.Services.AddScoped<IHomeServiceRepositoryDapper, HomeServiceRepositoryDapper>();
 builder.Services.AddScoped<IHomeserviceService, HomeserviceService>();
 builder.Services.AddScoped<IHomeserviceAppService, HomeserviceAppService>();
 
 builder.Services.AddScoped<ICityRepository, CityRepository>();
+builder.Services.AddScoped<ICityRepositoryDapper, CityRepositoryDapper>();
 builder.Services.AddScoped<ICityService, CityService>();
 builder.Services.AddScoped<ICityAppService, CityAppService>();
 
@@ -137,6 +142,9 @@ builder.Services.AddScoped<IProposalRepository, ProposalRepository>();
 builder.Services.AddScoped<IProposalService, ProposalService>();
 builder.Services.AddScoped<IProposalAppService, ProposalAppService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+
+
+builder.Services.AddScoped<ICategoryRepositoryDapper, CategoryRepositoryDapper>();
 
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

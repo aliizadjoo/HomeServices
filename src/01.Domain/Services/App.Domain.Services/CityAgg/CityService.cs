@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Services.CityAgg
 {
-    public class CityService(ICityRepository _cityRepository,
+    public class CityService(ICityRepository _cityRepository, ICityRepositoryDapper _cityRepositoryDapper,
         ILogger<CityService>  _logger , ICacheService _cacheService) : ICityService
     {
         public async Task<List<CityDto>> GetAll(CancellationToken cancellationToken)
@@ -23,7 +23,7 @@ namespace App.Domain.Services.CityAgg
 
             if (cachedCities==null)
             {
-               var cities=await _cityRepository.GetAll(cancellationToken);
+               var cities=await _cityRepositoryDapper.GetAll(cancellationToken);
                _cacheService.SetSliding<List<CityDto>>(CacheKeys.Cities , cities , 30);
                return cities;
             }

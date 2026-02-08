@@ -34,7 +34,7 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
                     ImagePath = e.AppUser.ImagePath,
                     WalletBalance = e.WalletBalance,
                     CityId = e.CityId,
-                    CityName = e.City.Name,
+                    CityName = e.City.CityName,
                     HomeServicesId = e.ExpertHomeServices
                         .Select(ehs => ehs.HomeServiceId)
                         .ToList(),
@@ -139,7 +139,7 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
                     FirstName = e.AppUser.FirstName,
                     LastName = e.AppUser.LastName,
                     Email = e.AppUser.Email,
-                    CityName = e.City.Name,
+                    CityName = e.City.CityName,
                     ServiceNames = e.ExpertHomeServices
                           .Select(ehs => ehs.HomeService.Name)
                           .ToList(),

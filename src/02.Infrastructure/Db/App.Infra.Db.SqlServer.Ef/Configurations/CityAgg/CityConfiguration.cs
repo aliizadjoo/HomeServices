@@ -14,7 +14,7 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.CityAgg
         public void Configure(EntityTypeBuilder<City> builder)
         {
             builder.HasKey(c => c.Id);
-            builder.Property(c => c.Name).IsRequired().HasMaxLength(50);
+            builder.Property(c => c.CityName).IsRequired().HasMaxLength(50);
 
             builder.HasMany(c => c.Orders)
                 .WithOne(o => o.City)
@@ -32,10 +32,10 @@ namespace App.Infra.Db.SqlServer.Ef.Configurations.CityAgg
                .OnDelete(DeleteBehavior.NoAction);
 
                 builder.HasData(
-                new City { Id = 1, Name = "تهران", CreatedAt = new DateTime(2025, 1, 1) },
-                new City { Id = 2, Name = "کرج", CreatedAt = new DateTime(2025, 1, 1) },
-                new City { Id = 3, Name = "شیراز", CreatedAt = new DateTime(2025, 1, 1) },
-                new City { Id = 4, Name = "اصفهان", CreatedAt = new DateTime(2025, 1, 1) }
+                new City { Id = 1, CityName = "تهران", CreatedAt = new DateTime(2025, 1, 1) },
+                new City { Id = 2, CityName = "کرج", CreatedAt = new DateTime(2025, 1, 1) },
+                new City { Id = 3, CityName = "شیراز", CreatedAt = new DateTime(2025, 1, 1) },
+                new City { Id = 4, CityName = "اصفهان", CreatedAt = new DateTime(2025, 1, 1) }
                );
 
             

@@ -3,14 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.CityAgg.Repository
 {
-    public interface ICityRepository
+    public interface ICityRepositoryDapper
     {
-      
-        public Task<bool> IsExist(int CityId, CancellationToken cancellationToken);
+        public Task<List<CityDto>> GetAll(CancellationToken cancellationToken);
     }
 }

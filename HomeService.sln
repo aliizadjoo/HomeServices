@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Infra.Cache", "src\02.I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.EndPoints.WebApI.HomeService", "src\03.Presentation\App.EndPoints.WebApI.HomeService\App.EndPoints.WebApI.HomeService.csproj", "{D60C3CF1-2061-40FC-8E59-0F48F6CCFF5B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Infra.Data.Repos.Dapper", "src\02.Infrastructure\DataAccess\App.Infra.Data.Repos.Dapper\App.Infra.Data.Repos.Dapper.csproj", "{2152BABD-283D-4DEC-86C0-895B87BA5B6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{D60C3CF1-2061-40FC-8E59-0F48F6CCFF5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D60C3CF1-2061-40FC-8E59-0F48F6CCFF5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D60C3CF1-2061-40FC-8E59-0F48F6CCFF5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2152BABD-283D-4DEC-86C0-895B87BA5B6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2152BABD-283D-4DEC-86C0-895B87BA5B6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2152BABD-283D-4DEC-86C0-895B87BA5B6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2152BABD-283D-4DEC-86C0-895B87BA5B6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,6 +109,7 @@ Global
 		{D386DA7F-5F8F-47FE-823F-39B320EDFE4E} = {2D1B49CF-C8B4-457A-BDB8-93CA6ABDE938}
 		{220002B4-C50A-4E1D-9847-FDC52DC55037} = {1ED647FC-6515-4D9B-A9F8-2B274B6AE47D}
 		{D60C3CF1-2061-40FC-8E59-0F48F6CCFF5B} = {03AC13CC-1B60-472D-9513-ABA3B1467226}
+		{2152BABD-283D-4DEC-86C0-895B87BA5B6E} = {859A774D-6B64-4585-BF82-FBE8D4D2289C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F68C8FE8-8772-415F-804A-B71404C5CC68}

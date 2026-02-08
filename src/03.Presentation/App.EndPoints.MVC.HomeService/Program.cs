@@ -8,6 +8,7 @@ using App.Domain.AppServices.HomeserviceAgg;
 using App.Domain.AppServices.OrderAgg;
 using App.Domain.AppServices.ProposalAgg;
 using App.Domain.AppServices.ReviewAgg;
+using App.Domain.Core.Configurations;
 using App.Domain.Core.Contract.AccountAgg.AppServices;
 using App.Domain.Core.Contract.AccountAgg.Services;
 using App.Domain.Core.Contract.AdminAgg.AppService;
@@ -50,6 +51,9 @@ using App.EndPoints.MVC.HomeService.Middlwares;
 using App.Framework;
 using App.Infra.Cache.Contracts;
 using App.Infra.Cache.InMemoryCache;
+using App.Infra.Data.Repos.Dapper.CategoryAgg;
+using App.Infra.Data.Repos.Dapper.CityAgg;
+using App.Infra.Data.Repos.Dapper.HomeServiceAgg;
 using App.Infra.Data.Repos.Ef.AdminAgg;
 using App.Infra.Data.Repos.Ef.CategoryAgg;
 using App.Infra.Data.Repos.Ef.CityAgg;
@@ -80,9 +84,12 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 #region DI Container
 
+var siteSetting = builder.Configuration.GetSection("SiteSetting").Get<SiteSetting>();
+
+builder.Services.AddSingleton<SiteSetting>(siteSetting);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer("Server=DESKTOP-M2BLLND\\SQLEXPRESS;Database=HomeService;Integrated Security=True;Encrypt=True;TrustServerCertificate=True;"));
+    options.UseSqlServer(siteSetting.ConnectionStrings.Sql));
 
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
@@ -97,12 +104,15 @@ builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IAdminAppService, AdminAppService>();
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryRepositoryDapper, CategoryRepositoryDapper>();
 
 builder.Services.AddScoped<IHomeserviceRepository, HomeServiceRepository>();
+builder.Services.AddScoped<IHomeServiceRepositoryDapper, HomeServiceRepositoryDapper>();
 builder.Services.AddScoped<IHomeserviceService, HomeserviceService>();
 builder.Services.AddScoped<IHomeserviceAppService, HomeserviceAppService>();
 
 builder.Services.AddScoped<ICityRepository, CityRepository>();
+builder.Services.AddScoped<ICityRepositoryDapper, CityRepositoryDapper>();
 builder.Services.AddScoped<ICityService, CityService>();
 builder.Services.AddScoped<ICityAppService, CityAppService>();
 

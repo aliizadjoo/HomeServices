@@ -14,12 +14,12 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Services.HomeserviceServiceAgg
 {
-    public class HomeserviceService(IHomeserviceRepository _homeserviceRepository ,
-        ILogger<HomeserviceService> _logger , ICacheService _cacheService) : IHomeserviceService
+    public class HomeserviceService(IHomeserviceRepository _homeserviceRepository , IHomeServiceRepositoryDapper _homeServiceRepositoryDapper
+        ,ILogger<HomeserviceService> _logger , ICacheService _cacheService) : IHomeserviceService
     {
         public async Task<Result<List<HomeserviceDto>>> GetAll( CancellationToken cancellationToken)
         {
-            var homeServiceDto = await  _homeserviceRepository.GetAll(cancellationToken);
+            var homeServiceDto = await _homeServiceRepositoryDapper.GetAll(cancellationToken);
             if (homeServiceDto == null || !homeServiceDto.Any())
             {
                 _logger.LogWarning("هیچ سرویس فعالی در سیستم یافت نشد.");
@@ -32,7 +32,7 @@ namespace App.Domain.Services.HomeserviceServiceAgg
         {
             _logger.LogInformation("دریافت لیست سرویس‌ها - صفحه {Page}", pageNumber);
 
-            var services = await _homeserviceRepository.GetAll( cancellationToken);
+            var services = await _homeServiceRepositoryDapper.GetAll( cancellationToken);
 
             if (services==null || !services.Any())
             {
@@ -68,7 +68,7 @@ namespace App.Domain.Services.HomeserviceServiceAgg
         {
             _logger.LogInformation("دریافت لیست سرویس‌ها - صفحه {Page}", pageNumber);
 
-            var services = await _homeserviceRepository.GetAll(cancellationToken);
+            var services = await _homeServiceRepositoryDapper.GetAll(cancellationToken);
 
             if (services == null || !services.Any())
             {

@@ -62,7 +62,7 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
                     Email = c.AppUser.Email,
                     ImagePath = c.AppUser.ImagePath,
                     Address = c.Address,
-                    CityName = c.City.Name,
+                    CityName = c.City.CityName,
                     CityId = c.CityId,
                     PhoneNumber = c.AppUser.PhoneNumber,
 
@@ -105,7 +105,7 @@ namespace App.Infra.Data.Repos.Ef.CustomerAgg
                     FirstName = c.AppUser.FirstName,
                     LastName = c.AppUser.LastName,
                     Email = c.AppUser.Email,
-                    CityName = c.City.Name,
+                    CityName = c.City.CityName,
                     WalletBalance = c.WalletBalance,
                     CreatedAt = c.CreatedAt,
                     PhoneNumber = c.AppUser.PhoneNumber

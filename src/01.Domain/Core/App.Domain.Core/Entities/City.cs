@@ -8,7 +8,7 @@ namespace App.Domain.Core.Entities
 {
     public class City : BaseEntity
     {
-        public string Name { get; set; }
+        public string CityName { get; set; }
 
         public List<Expert> Experts { get; set; } = [];
 

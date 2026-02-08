@@ -13,12 +13,12 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.CategoryAgg.Service
 {
-    public class CategoryService(ICategoryRepository _categoryRepository  , ICacheService _cacheService) : ICategoryService
+    public class CategoryService(ICategoryRepository _categoryRepository , ICategoryRepositoryDapper _categoryRepositoryDapper , ICacheService _cacheService) : ICategoryService
     {
         public async Task<Result<CategoryPagedDto>> GetAll(int pageSize, int pageNumber, string? search, CancellationToken cancellationToken)
         {
 
-          var allCategoryDtos= await _categoryRepository.GetAll(cancellationToken);
+          var allCategoryDtos= await _categoryRepositoryDapper.GetAll(cancellationToken);
 
             if (allCategoryDtos == null || !allCategoryDtos.Any())
             {
@@ -67,7 +67,7 @@ namespace App.Domain.Core.Contract.CategoryAgg.Service
         public async Task<Result<List<CategoryDto>>> GetAll(CancellationToken cancellationToken)
         {
 
-             var categoryDtos = await _categoryRepository.GetAll(cancellationToken);
+             var categoryDtos = await _categoryRepositoryDapper.GetAll(cancellationToken);
 
              if (categoryDtos == null || categoryDtos.Count == 0)
              {

@@ -36,15 +36,16 @@ namespace App.Infra.Data.Repos.Ef.HomeServiceAgg
         public async Task<List<HomeserviceDto>> GetAll(CancellationToken cancellationToken)
         {
 
-            var cachedHomeserviceDtos=_cacheService.Get<List<HomeserviceDto>>(CacheKeys.Homeservices);
+            var cachedHomeserviceDtos = _cacheService.Get<List<HomeserviceDto>>(CacheKeys.Homeservices);
 
-            if (cachedHomeserviceDtos ==null)
+            if (cachedHomeserviceDtos == null)
             {
 
-                var homeserviceDtos= await _context.HomeServices
+                var homeserviceDtos = await _context.HomeServices
                                                    .AsNoTracking()
                                                    .Select(hs => new HomeserviceDto
-                                                   {   ImagePath = hs.ImagePath,
+                                                   {
+                                                       ImagePath = hs.ImagePath,
                                                        Id = hs.Id,
                                                        Name = hs.Name,
                                                        CategoryName = hs.Category.Title,
@@ -58,12 +59,12 @@ namespace App.Infra.Data.Repos.Ef.HomeServiceAgg
 
                 return homeserviceDtos;
             }
-              
+
             return cachedHomeserviceDtos;
-       
+
         }
 
-      
+
         public async Task<HomeserviceDto?> GetById(int homeServiceId, CancellationToken cancellationToken)
         {
             return await _context.HomeServices

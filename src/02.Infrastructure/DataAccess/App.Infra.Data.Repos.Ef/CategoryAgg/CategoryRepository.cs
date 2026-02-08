@@ -46,29 +46,6 @@ namespace App.Infra.Data.Repos.Ef.CategoryAgg
                        }).FirstOrDefaultAsync(cancellationToken);
         }
 
-        
-        public async Task<List<CategoryDto>> GetAll(CancellationToken cancellationToken)
-        {
-           var cachedCategoryDtos= _cacheService.Get<List<CategoryDto>>(CacheKeys.Categories);
-            if (cachedCategoryDtos==null)
-            {
-                var categoryDtos=await _context.Categories
-                                    .AsNoTracking()
-                                    .Select(c => new CategoryDto
-                                    {
-                                        Id = c.Id,
-                                        Title = c.Title,
-                                        ImagePath = c.ImagePath,
-                                    }).ToListAsync(cancellationToken);
-
-                _cacheService.SetSliding<List<CategoryDto>>(CacheKeys.Categories , categoryDtos , 30);
-
-                return categoryDtos;
-            }
-            return cachedCategoryDtos;
-          
-        }
-
         public async Task<List<CategoryWithHomeServices>> GetAllWithHomeServices(CancellationToken cancellationToken)
         {
             var cachedCategoryWithHomservicesDtos = _cacheService.Get<List<CategoryWithHomeServices>>(CacheKeys.CategoriesWithHomeservices);
