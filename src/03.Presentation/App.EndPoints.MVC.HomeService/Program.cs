@@ -79,6 +79,8 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 
 #region DI Container
+
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer("Server=DESKTOP-M2BLLND\\SQLEXPRESS;Database=HomeService;Integrated Security=True;Encrypt=True;TrustServerCertificate=True;"));
 
