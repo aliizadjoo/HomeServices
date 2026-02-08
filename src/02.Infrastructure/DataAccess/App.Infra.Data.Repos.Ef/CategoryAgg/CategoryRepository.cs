@@ -1,7 +1,10 @@
 ﻿using App.Domain.Core.Contract.CategoryAgg.Repository;
 using App.Domain.Core.Dtos.AdminAgg;
 using App.Domain.Core.Dtos.CategoryAgg;
+using App.Domain.Core.Dtos.HomeServiceAgg;
 using App.Domain.Core.Entities;
+using App.Infra.Cache;
+using App.Infra.Cache.Contracts;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace App.Infra.Data.Repos.Ef.CategoryAgg
 {
-    public class CategoryRepository(AppDbContext _context) : ICategoryRepository
+    public class CategoryRepository(AppDbContext _context , ICacheService _cacheService ) : ICategoryRepository
     {
         public async Task<int> Create(string title, string imagePath, CancellationToken cancellationToken)
         {
@@ -43,47 +46,62 @@ namespace App.Infra.Data.Repos.Ef.CategoryAgg
                        }).FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<CategoryPagedDto> GetAll(int pageSize, int pageNumber, string? search, CancellationToken cancellationToken)
-        {
-            var query = _context.Categories
-                        .AsNoTracking();
-            var totalCount = await query.CountAsync(cancellationToken);
-            if (!string.IsNullOrWhiteSpace(search))
-            {
-                query = query.Where(c => c.Title.Contains(search));
-            }
-            
-
-            var data = await query.OrderBy(c => c.Id)
-                 .Skip((pageNumber - 1) * pageSize)
-                 .Take(pageSize)
-                 .Select(c => new CategoryDto()
-                 {
-                     Id = c.Id,
-                     Title = c.Title,
-                     ImagePath = c.ImagePath,
-                 }).ToListAsync(cancellationToken);
-
-
-            return new CategoryPagedDto
-            {
-                CategoryDtos = data,
-                TotalCount = totalCount
-            };
-
-
-        }
-
+        
         public async Task<List<CategoryDto>> GetAll(CancellationToken cancellationToken)
         {
-            return await _context.Categories
-                .AsNoTracking()
-                .Select(c => new CategoryDto
-                {
-                    Id = c.Id,
-                    Title = c.Title,
-                    ImagePath = c.ImagePath,
-                }).ToListAsync(cancellationToken);
+           var cachedCategoryDtos= _cacheService.Get<List<CategoryDto>>(CacheKeys.Categories);
+            if (cachedCategoryDtos==null)
+            {
+                var categoryDtos=await _context.Categories
+                                    .AsNoTracking()
+                                    .Select(c => new CategoryDto
+                                    {
+                                        Id = c.Id,
+                                        Title = c.Title,
+                                        ImagePath = c.ImagePath,
+                                    }).ToListAsync(cancellationToken);
+
+                _cacheService.SetSliding<List<CategoryDto>>(CacheKeys.Categories , categoryDtos , 30);
+
+                return categoryDtos;
+            }
+            return cachedCategoryDtos;
+          
+        }
+
+        public async Task<List<CategoryWithHomeServices>> GetAllWithHomeServices(CancellationToken cancellationToken)
+        {
+            var cachedCategoryWithHomservicesDtos = _cacheService.Get<List<CategoryWithHomeServices>>(CacheKeys.CategoriesWithHomeservices);
+
+            if (cachedCategoryWithHomservicesDtos==null)
+            {
+                var categoryWithHomservicesDtos =await  _context.Categories
+                    .AsNoTracking()
+                    .Select(c=> new CategoryWithHomeServices 
+                    { 
+                        Id = c.Id,
+                        Title = c.Title,
+                        ImagePath = c.ImagePath,
+                        HomeserviceDtos = c.Services.Select(s=>new HomeserviceDto 
+                        {
+                            Id = s.Id,
+                            Name = s.Name,
+                            BasePrice = s.BasePrice,
+                            Description = s.Description,
+                            ImagePath = s.ImagePath,
+                            CategoryName = s.Category.Title,
+                            CategoryId = s.CategoryId
+                         
+                        }).ToList()
+                    
+                    }).ToListAsync(cancellationToken);
+
+                _cacheService.SetSliding<List<CategoryWithHomeServices>>(CacheKeys.CategoriesWithHomeservices, categoryWithHomservicesDtos, 30);
+
+                return categoryWithHomservicesDtos;
+            }
+
+            return cachedCategoryWithHomservicesDtos;
         }
         public async Task<bool> Update(CategoryDto categoryDto, CancellationToken cancellationToken)
         {
@@ -109,9 +127,6 @@ namespace App.Infra.Data.Repos.Ef.CategoryAgg
             return affectedRows > 0;
         }
 
-      
-
-
-
+       
     }
 }

@@ -119,6 +119,7 @@
     
     string GetOrderStatusDisplayName(OrderStatus status) => status switch
     {
+        
         OrderStatus.WaitingForProposals => "در انتظار پیشنهاد",
         OrderStatus.Started => "شروع کار",
         OrderStatus.Finished => "پایان یافته",
@@ -129,6 +130,7 @@
 
     string GetStatusClass(OrderStatus status) => status switch
     {
+        
         OrderStatus.WaitingForProposals => "bg-warning text-dark",
         OrderStatus.Started => "bg-primary",
         OrderStatus.Finished => "bg-success",

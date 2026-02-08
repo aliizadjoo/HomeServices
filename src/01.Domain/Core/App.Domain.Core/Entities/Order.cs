@@ -11,20 +11,14 @@ namespace App.Domain.Core.Entities
     {
         public string Description { get; set; }
         public OrderStatus Status { get; set; } = OrderStatus.WaitingForProposals;
-
-      
+        public PaymentStatus PaymentStatus { get; set; } = PaymentStatus.Pending;
         public DateTime ExecutionDate { get; set; }
         public TimeSpan ExecutionTime { get; set; }
-
-        
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
-
         public int HomeServiceId { get; set; }
         public HomeService HomeService { get; set; }
-
         public Review? Review { get; set; }
-
         public int CityId { get; set; }
         public City City { get; set; }
         public List<Proposal> Proposals { get; set; } = [];

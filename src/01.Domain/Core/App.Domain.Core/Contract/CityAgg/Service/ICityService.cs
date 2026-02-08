@@ -10,5 +10,6 @@ namespace App.Domain.Core.Contract.CityAgg.Service
     public interface ICityService
     {
         public Task<List<CityDto>> GetAll(CancellationToken cancellationToken);
+        public Task<bool> IsExist(int CityId, CancellationToken cancellationToken);
     }
 }

@@ -23,14 +23,15 @@ namespace App.Domain.Core.Contract.ProposalAgg.Repository
         public Task<bool> IsRelatedToOrder(int proposalId, int orderId, CancellationToken cancellationToken);
 
         public Task<int> ChangeStatus(int proposalId, ProposalStatus newStatus, CancellationToken cancellationToken);
+        public Task<int> GetExpertIdByOrderId(int orderId, CancellationToken cancellationToken);
 
         public Task<bool> AnyAccepted(int orderId, CancellationToken cancellationToken);
 
         public Task<bool> IsAlreadySubmitted(int expertId, int orderId, CancellationToken cancellationToken);
 
         public Task<int> RejectOtherProposals(int proposalId, int orderId, CancellationToken cancellationToken);
-     
 
+        public Task<decimal> GetPriceByOrderId(int orderId, CancellationToken cancellationToken);
 
 
     }

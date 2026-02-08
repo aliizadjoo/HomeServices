@@ -23,6 +23,11 @@ namespace App.Domain.AppServices.ProposalAgg
           return await _proposalService.Create(proposalCreateDto, cancellationToken);
         }
 
+        public async Task<Result<int>> GetExpertIdByOrderId(int orderId, CancellationToken cancellationToken)
+        {
+          return await  _proposalService.GetExpertIdByOrderId(orderId, cancellationToken);
+        }
+
         public async Task<Result<List<ExpertProposalDto>>> GetExpertProposals(int expertId, CancellationToken cancellationToken)
         {
           return await  _proposalService.GetExpertProposals(expertId, cancellationToken);

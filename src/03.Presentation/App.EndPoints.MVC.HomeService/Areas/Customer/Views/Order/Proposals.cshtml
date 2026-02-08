@@ -1,13 +1,11 @@
 ﻿@using App.Domain.Core.Dtos.ProposalAgg
 @using App.Domain.Core.Enums.ProposalAgg
 @model List<ProposalSummaryDto>
-
 @{
     ViewData["Title"] = "مدیریت پیشنهادها";
     var acceptedProposal = Model.FirstOrDefault(p => p.Status == ProposalStatus.Accepted);
     bool hasAccepted = acceptedProposal != null;
 }
-
 <div class="container py-5" dir="rtl">
     @if (TempData["SuccessMessage"] != null)
     {
@@ -15,7 +13,6 @@
             @TempData["SuccessMessage"]
         </div>
     }
-
     @if (TempData["ErrorMessage"] != null)
     {
         <div class="alert alert-danger">
@@ -30,7 +27,6 @@
             <i class="bi bi-arrow-right me-1"></i> بازگشت
         </a>
     </div>
-
     @if (hasAccepted)
     {
         <div class="alert alert-success border-0 shadow-sm rounded-4 mb-5 d-flex align-items-center p-3">
@@ -40,7 +36,6 @@
             </div>
         </div>
     }
-
     <div class="row g-4">
         @foreach (var item in Model)
         {
@@ -55,21 +50,41 @@
                                 @item.Price.ToString("N0") <small>ریال</small>
                             </div>
                         </div>
-
                         <h6 class="fw-bold mb-1">@item.ExpertFirstName @item.ExpertLastName</h6>
+                        <div class="mb-2 text-warning small">
+                            @if (item.AverageScore.HasValue)
+                            {
+                                int fullStars = (int)item.AverageScore.Value;
+                                for (int i = 0; i < fullStars; i++)
+                                {
+                                    <i class="bi bi-star-fill"></i>
+                                }
+                                if (item.AverageScore.Value % 1 >= 0.5)
+                                {
+                                    <i class="bi bi-star-half"></i>
+                                }
+                                int emptyStars = 5 - (int)Math.Ceiling(item.AverageScore.Value);
+                                for (int i = 0; i < emptyStars; i++)
+                                {
+                                    <i class="bi bi-star"></i>
+                                }
+                                <span class="text-muted ms-1">(@item.AverageScore.Value.ToString("0.0"))</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">بدون امتیاز</span>
+                            }
+                        </div>
                         <p class="text-muted small mb-3">
                             <i class="bi bi-calendar-check me-1"></i> تاریخ: @item.PersianExecutionDate
-                        </p>
-
+                        </div>
                         <div class="bg-light p-3 rounded-3 mb-4 flex-grow-1">
                             <small class="text-secondary">توضیحات متخصص:</small>
                             <p class="small mb-0 text-dark mt-1">@item.Description</p>
                         </div>
-
                         <div class="d-flex flex-column gap-2 mt-auto">
                             @if (item.Status == ProposalStatus.Accepted)
                             {
-                               
                                 <form asp-area="Customer" asp-controller="Order" asp-action="ChangeStatus"
                                       asp-route-proposalId="@item.Id" asp-route-newStatus="@ProposalStatus.Pending" asp-route-orderId="@ViewBag.OrderId"
                                       method="post">
@@ -80,7 +95,6 @@
                             }
                             else if (item.Status == ProposalStatus.Rejected)
                             {
-                                
                                 <form asp-area="Customer" asp-controller="Order" asp-action="ChangeStatus"
                                       asp-route-proposalId="@item.Id" asp-route-newStatus="@ProposalStatus.Pending" asp-route-orderId="@ViewBag.OrderId"
                                       method="post">
@@ -91,7 +105,6 @@
                             }
                             else if (!hasAccepted)
                             {
-                              
                                 <div class="d-flex gap-2">
                                     <form asp-area="Customer" asp-controller="Order" asp-action="ChangeStatus"
                                           asp-route-proposalId="@item.Id" asp-route-newStatus="@ProposalStatus.Accepted" asp-route-orderId="@ViewBag.OrderId"
@@ -100,7 +113,6 @@
                                             تایید متخصص
                                         </button>
                                     </form>
-
                                     <form asp-area="Customer" asp-controller="Order" asp-action="ChangeStatus"
                                           asp-route-proposalId="@item.Id" asp-route-newStatus="@ProposalStatus.Rejected" asp-route-orderId="@ViewBag.OrderId"
                                           method="post" class="flex-grow-1">
@@ -112,15 +124,20 @@
                             }
                             else
                             {
-                                
                                 <button class="btn btn-light w-100 rounded-pill disabled small border text-muted py-2">
                                     غیر قابل انتخاب
                                 </button>
                             }
+
+                      
+                        <a asp-controller="Order" asp-action="GetByExpertId" asp-route-expertId="@item.ExpertId"
+                           class="btn btn-outline-primary w-100 rounded-pill fw-bold py-2 mt-2">
+                                <i class="bi bi-chat-left-text me-1"></i> مشاهده نظرات متخصص
+                            </a>
                         </div>
                     </div>
                 </div>
-            </div>
+            
         }
     </div>
 </div>

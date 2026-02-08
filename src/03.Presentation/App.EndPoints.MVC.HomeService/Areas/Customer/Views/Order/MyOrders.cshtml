@@ -121,11 +121,76 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer bg-white border-0 text-start p-4 pt-0">
-                        <a asp-action="Proposals" asp-route-orderId="@order.Id" class="btn btn-primary px-4 rounded-pill shadow-sm">
-                            مشاهده پیشنهادها  <i class="bi bi-chevron-left ms-1"></i>
-                        </a>
+
+                    <div class="card-footer bg-white border-0 text-start p-4 pt-0 d-flex gap-2 flex-wrap">
+
+                       
+                        @if (order.Status == OrderStatus.WaitingForProposals)
+                        {
+                            <a asp-action="Proposals"
+                               asp-route-orderId="@order.Id"
+                               class="btn btn-primary px-4 rounded-pill shadow-sm">
+                                مشاهده پیشنهادها <i class="bi bi-chevron-left ms-1"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <button class="btn btn-secondary px-4 rounded-pill shadow-sm" disabled
+                                    title="در این وضعیت امکان مشاهده پیشنهادها وجود ندارد">
+                                مشاهده پیشنهادها <i class="bi bi-lock ms-1"></i>
+                            </button>
+                        }
+
+
+                        @if (order.Status == OrderStatus.Started || order.Status == OrderStatus.Finished)
+                        {
+                            <form asp-action="Pay"
+                                  asp-controller="Order"
+                                  method="post"
+                                  class="d-inline">
+
+                                <input asp-for="@order.Id"
+                                       type="hidden"
+                                       name="orderId" />
+
+                                <button type="submit"
+                                        class="btn btn-success px-4 rounded-pill shadow-sm">
+                                    پرداخت <i class="bi bi-credit-card ms-1"></i>
+                                </button>
+                            </form>
+                        }
+
+                        else
+                        {
+                            <button class="btn btn-secondary px-4 rounded-pill shadow-sm" disabled
+                                    title="پرداخت در این وضعیت امکان‌پذیر نیست">
+                                پرداخت <i class="bi bi-lock ms-1"></i>
+                            </button>
+                        }
+
+
+                        @if (order.Status == OrderStatus.Finished)
+                        {
+                            @if (order.HasReview)
+                            {
+                                <button class="btn btn-outline-success px-4 rounded-pill shadow-sm" disabled>
+                                    نظر شما ارسال شد <i class="bi bi-check-circle ms-1"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <a asp-action="Create"
+                                   asp-controller="Review"
+                                   asp-route-orderId="@order.Id"
+                                   class="btn btn-outline-primary px-4 rounded-pill shadow-sm">
+                                    ثبت نظر <i class="bi bi-chat-dots ms-1"></i>
+                                </a>
+                            }
+                        }
+
+
                     </div>
+
                 </div>
             </div>
         </div>
@@ -160,6 +225,7 @@
 @functions {
     string GetStatusName(OrderStatus status) => status switch
     {
+        
         OrderStatus.WaitingForProposals => "در انتظار پیشنهاد",
         OrderStatus.Started => "در حال انجام",
         OrderStatus.Finished => "پایان یافته",
@@ -169,6 +235,7 @@
 
     string GetStatusClass(OrderStatus status) => status switch
     {
+      
         OrderStatus.WaitingForProposals => "bg-warning text-dark",
         OrderStatus.Finished => "bg-success",
         OrderStatus.Cancelled => "bg-danger",

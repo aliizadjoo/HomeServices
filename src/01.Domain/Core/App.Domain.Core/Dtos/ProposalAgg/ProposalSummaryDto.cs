@@ -11,6 +11,7 @@ namespace App.Domain.Core.Dtos.ProposalAgg
     {
         public int Id { get; set; }
         public int ExpertId { get; set; }
+        public double? AverageScore { get; set; }
         public string HomeServiceName { get; set; }
         public DateTime ExecutionDate { get; set; }
         public string PersianExecutionDate { get; set; }

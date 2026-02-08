@@ -11,12 +11,12 @@ namespace App.Domain.AppServices.HomeserviceAgg
 {
     public interface IHomeserviceAppService
     {
-        public Task<Result<List<HomeserviceSummaryDto>>> GetAll(CancellationToken cancellationToken);
+        public Task<Result<List<HomeserviceDto>>> GetAll(CancellationToken cancellationToken);
 
         public Task<Result<HomeservicePagedDto>> GetAll(int pageSize, int pageNumber, SearchHomeServiceDto search, CancellationToken cancellationToken);
 
-        
 
+        public Task<Result<HomeservicePagedDto>> GetAll(int pageSize, int pageNumber, CancellationToken cancellationToken);
         public Task<Result<int>> Create(CreateHomeServiceDto homeServiceDto, CancellationToken cancellationToken);
 
         public Task<Result<bool>> Update(HomeserviceDto dto, CancellationToken cancellationToken);

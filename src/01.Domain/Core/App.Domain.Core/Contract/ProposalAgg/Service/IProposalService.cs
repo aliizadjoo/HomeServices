@@ -18,9 +18,10 @@ namespace App.Domain.Core.Contract.ProposalAgg.Service
         public Task<Result<List<ProposalSummaryDto>>> GetOrderProposals(int orderId, CancellationToken cancellationToken);
 
         public Task<Result<bool>> ChangeStatus(int proposalId, int orderId, ProposalStatus newStatus, CancellationToken cancellationToken);
-
-
+        public  Task<Result<int>> GetExpertIdByOrderId(int orderId, CancellationToken cancellationToken);
         public Task<bool> IsAlreadySubmitted(int expertId, int orderId, CancellationToken cancellationToken);
+
+        public  Task<Result<decimal>> GetPriceByOrderId(int orderId, CancellationToken cancellationToken);
 
     }
 }

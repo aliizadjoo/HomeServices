@@ -24,7 +24,6 @@ using App.Domain.Core.Contract.CustomerAgg.Repository;
 using App.Domain.Core.Contract.CustomerAgg.Service;
 using App.Domain.Core.Contract.ExpertAgg.AppService;
 using App.Domain.Core.Contract.ExpertAgg.Repository;
-
 using App.Domain.Core.Contract.ExpertAgg.Service;
 using App.Domain.Core.Contract.HomeServiceAgg.Repository;
 using App.Domain.Core.Contract.HomeServiceAgg.Service;
@@ -49,6 +48,8 @@ using App.Domain.Services.ProposalAgg;
 using App.Domain.Services.ReviewAgg;
 using App.EndPoints.MVC.HomeService.Middlwares;
 using App.Framework;
+using App.Infra.Cache.Contracts;
+using App.Infra.Cache.InMemoryCache;
 using App.Infra.Data.Repos.Ef.AdminAgg;
 using App.Infra.Data.Repos.Ef.CategoryAgg;
 using App.Infra.Data.Repos.Ef.CityAgg;
@@ -73,13 +74,13 @@ builder.Host.UseSerilog((context, configuration) =>
 });
 
 
-
-
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 
 #region DI Container
+
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer("Server=DESKTOP-M2BLLND\\SQLEXPRESS;Database=HomeService;Integrated Security=True;Encrypt=True;TrustServerCertificate=True;"));
 
@@ -87,7 +88,7 @@ builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ICustomerAppService, CustomerAppService>();
 
-builder.Services.AddScoped<IExpertRepository, ExpertRepositoy>();
+builder.Services.AddScoped<IExpertRepository, ExpertRepository>();
 builder.Services.AddScoped<IExpertService, ExpertService>();
 builder.Services.AddScoped<IExpertAppService, ExpertAppService>();
 
@@ -119,6 +120,9 @@ builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IReviewAppService, ReviewAppService>();
 
 builder.Services.AddScoped<IAccountAppService, AccountAppService>();
+
+
+builder.Services.AddScoped<ICacheService, InMemoryCacheService>();
 
 builder.Services.AddIdentity<AppUser, IdentityRole<int>>(options =>
 {

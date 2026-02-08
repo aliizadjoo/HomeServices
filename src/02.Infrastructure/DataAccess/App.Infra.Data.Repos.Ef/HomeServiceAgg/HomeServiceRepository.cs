@@ -1,6 +1,8 @@
 ﻿using App.Domain.Core.Contract.HomeServiceAgg.Repository;
 using App.Domain.Core.Dtos.HomeServiceAgg;
 using App.Domain.Core.Entities;
+using App.Infra.Cache;
+using App.Infra.Cache.Contracts;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace App.Infra.Data.Repos.Ef.HomeServiceAgg
 {
-    public class HomeServiceRepository(AppDbContext _context) : IHomeserviceRepository
+    public class HomeServiceRepository(AppDbContext _context , ICacheService _cacheService) : IHomeserviceRepository
     {
         public async Task<int> Create(CreateHomeServiceDto homeServiceDto, CancellationToken cancellationToken)
         {
@@ -31,54 +33,37 @@ namespace App.Infra.Data.Repos.Ef.HomeServiceAgg
 
         }
 
-        public async Task<List<HomeserviceSummaryDto>> GetAll(CancellationToken cancellationToken)
+        public async Task<List<HomeserviceDto>> GetAll(CancellationToken cancellationToken)
         {
-           return await _context.HomeServices
-                 .AsNoTracking()
-                 .Select(hs => new HomeserviceSummaryDto
-                 {
-                     HomeservicesId = hs.Id,
-                     Name = hs.Name,
-                 }).ToListAsync(cancellationToken);
+
+            var cachedHomeserviceDtos=_cacheService.Get<List<HomeserviceDto>>(CacheKeys.Homeservices);
+
+            if (cachedHomeserviceDtos ==null)
+            {
+
+                var homeserviceDtos= await _context.HomeServices
+                                                   .AsNoTracking()
+                                                   .Select(hs => new HomeserviceDto
+                                                   {   ImagePath = hs.ImagePath,
+                                                       Id = hs.Id,
+                                                       Name = hs.Name,
+                                                       CategoryName = hs.Category.Title,
+                                                       BasePrice = hs.BasePrice,
+                                                       Description = hs.Description,
+                                                       CategoryId = hs.CategoryId
+                                                   }).ToListAsync(cancellationToken);
+
+
+                _cacheService.SetSliding<List<HomeserviceDto>>(CacheKeys.Homeservices, homeserviceDtos, 30);
+
+                return homeserviceDtos;
+            }
+              
+            return cachedHomeserviceDtos;
+       
         }
 
-        public async Task<HomeservicePagedDto> GetAll(int pageSize, int pageNumber, SearchHomeServiceDto search, CancellationToken cancellationToken)
-        {
-            var query = _context.HomeServices
-                        .AsNoTracking();
-            var totalCount = await query.CountAsync();
-            if (!string.IsNullOrWhiteSpace(search.Name))
-            {
-                query = query.Where(hs => hs.Name.Contains(search.Name) );
-            }
-
-            if (search.CategoryId!=null)
-            {
-                query = query.Where(hs => hs.CategoryId == search.CategoryId);
-            }
-
-
-           var date= await query.OrderBy(hs => hs.Id)
-                 .Skip((pageNumber - 1) * pageSize)
-                 .Take(pageSize)
-                 .Select(hs => new HomeserviceDto()
-                 {
-                     Id = hs.Id,
-                     Name = hs.Name,
-                     Description = hs.Description,
-                     ImagePath = hs.ImagePath,
-                     BasePrice = hs.BasePrice,
-                     CategoryId = hs.CategoryId,
-                     CategoryName = hs.Category.Title
-
-                 }).ToListAsync(cancellationToken);
-            return new HomeservicePagedDto
-            {
-                TotalCount = totalCount,
-                HomeserviceDtos=date,
-            };
-        }
-
+      
         public async Task<HomeserviceDto?> GetById(int homeServiceId, CancellationToken cancellationToken)
         {
             return await _context.HomeServices
@@ -111,8 +96,6 @@ namespace App.Infra.Data.Repos.Ef.HomeServiceAgg
             return rowsAffected > 0;
         }
 
- 
-
         public async Task<bool> Delete(int id, CancellationToken cancellationToken)
         {
             var rowsAffected = await _context.HomeServices
@@ -123,7 +106,6 @@ namespace App.Infra.Data.Repos.Ef.HomeServiceAgg
 
             return rowsAffected > 0;
         }
-
 
         public async Task<HomeservicePagedDto> GetServicesByCategoryId(int categoryId, int pageNumber, int pageSize, CancellationToken cancellationToken)
         {

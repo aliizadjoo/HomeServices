@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core._common;
 using App.Domain.Core.Contract.ReviewAgg.Repository;
+using App.Domain.Core.Dtos.CategoryAgg;
 using App.Domain.Core.Dtos.ReviewAgg;
 using App.Domain.Core.Enums.ReviewAgg;
 using System;
@@ -15,6 +16,10 @@ namespace App.Domain.Core.Contract.ReviewAgg.Service
         public Task<Result<ReviewPagedDto>> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken);
       
         public Task<Result<bool>> ChangeStatus(int id, ReviewStatus status, CancellationToken cancellationToken);
-       
+        public Task<Result<ReviewPagedDto>> GetByExpertId(int pageSize, int pageNumber, int expertId, CancellationToken cancellationToken);
+
+        public Task<Result<bool>> Create(CreateReviewDto createReviewDto, CancellationToken cancellationToken);
+
+        public Task<Result<bool>> HasCustomerCommentedOnOrder(int orderId, int customerId, CancellationToken cancellationToken);
     }
 }

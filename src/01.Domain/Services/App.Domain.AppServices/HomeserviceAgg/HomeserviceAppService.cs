@@ -17,7 +17,7 @@ namespace App.Domain.AppServices.HomeserviceAgg
            return await  _homeserviceService.Create(homeServiceDto, cancellationToken);
         }
 
-        public async Task<Result<List<HomeserviceSummaryDto>>> GetAll(CancellationToken cancellationToken)
+        public async Task<Result<List<HomeserviceDto>>> GetAll(CancellationToken cancellationToken)
         {
             return await _homeserviceService.GetAll(cancellationToken);
         }
@@ -46,6 +46,11 @@ namespace App.Domain.AppServices.HomeserviceAgg
         public async Task<Result<HomeservicePagedDto>> GetServicesByCategoryId(int categoryId, int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
           return await  _homeserviceService.GetServicesByCategoryId(categoryId, pageNumber, pageSize, cancellationToken);
+        }
+
+        public async Task<Result<HomeservicePagedDto>> GetAll(int pageSize, int pageNumber, CancellationToken cancellationToken)
+        {
+          return await _homeserviceService.GetAll(pageSize , pageNumber , cancellationToken);
         }
     }
 }

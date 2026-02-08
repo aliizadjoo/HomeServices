@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Contract.ProposalAgg.Repository;
+﻿using App.Domain.Core._common;
+using App.Domain.Core.Contract.ProposalAgg.Repository;
 using App.Domain.Core.Dtos.ProposalAgg;
 using App.Domain.Core.Entities;
 using App.Domain.Core.Enums.OrderAgg;
@@ -59,7 +60,9 @@ namespace App.Infra.Data.Repos.Ef.ProposalAgg
                              {
                                  Id = p.Id,
                                  HomeServiceName = p.Order.HomeService.Name,
+                                 AverageScore=p.Expert.AverageScore,
                                  ExecutionDate = p.Order.ExecutionDate,
+                                 ExpertId = p.ExpertId,
                                  ExpertFirstName = p.Expert.AppUser.FirstName,
                                  ExpertLastName = p.Expert.AppUser.LastName,
                                  Status = p.Status,
@@ -103,6 +106,24 @@ namespace App.Infra.Data.Repos.Ef.ProposalAgg
                 .ExecuteUpdateAsync(setter => setter
                     .SetProperty(p => p.Status, ProposalStatus.Rejected),
                     cancellationToken);
+        }
+
+        public async Task<int> GetExpertIdByOrderId(int orderId, CancellationToken cancellationToken)
+        {
+          return  await  _context.Proposals
+                 .Where(p => p.OrderId == orderId && p.Status == ProposalStatus.Accepted)
+                 .Select(p => p.ExpertId)
+                 .FirstOrDefaultAsync(cancellationToken);
+
+        }
+
+
+        public async Task<decimal> GetPriceByOrderId(int orderId, CancellationToken cancellationToken)
+        {
+          return await   _context.Proposals
+                .Where(p=>p.OrderId==orderId &&  p.Status == ProposalStatus.Accepted) 
+                .Select(p => p.Price)
+                .FirstOrDefaultAsync(cancellationToken);
         }
 
     }

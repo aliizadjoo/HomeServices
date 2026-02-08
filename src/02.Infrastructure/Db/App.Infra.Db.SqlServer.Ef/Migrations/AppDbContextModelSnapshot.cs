@@ -445,7 +445,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         {
                             Id = 1,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImagePath = "cleaning-category.jpg",
+                            ImagePath = "cleaning-category.png",
                             IsDeleted = false,
                             Title = "نظافت و پذیرایی"
                         },
@@ -453,7 +453,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         {
                             Id = 2,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImagePath = "repairs-category.jpg",
+                            ImagePath = "repairs-category.png",
                             IsDeleted = false,
                             Title = "تعمیرات و تأسیسات"
                         },
@@ -461,7 +461,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         {
                             Id = 3,
                             CreatedAt = new DateTime(2025, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImagePath = "appliances-category.jpg",
+                            ImagePath = "appliances-category.png",
                             IsDeleted = false,
                             Title = "تعمیرات لوازم خانگی"
                         },
@@ -469,7 +469,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         {
                             Id = 4,
                             CreatedAt = new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImagePath = "car-services-category.jpg",
+                            ImagePath = "car-services-category.png",
                             IsDeleted = false,
                             Title = "خدمات خودرو"
                         },
@@ -477,7 +477,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         {
                             Id = 5,
                             CreatedAt = new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImagePath = "beauty-category.jpg",
+                            ImagePath = "beauty-category.png",
                             IsDeleted = false,
                             Title = "آرایش و زیبایی"
                         },
@@ -485,7 +485,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         {
                             Id = 6,
                             CreatedAt = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImagePath = "moving-category.jpg",
+                            ImagePath = "moving-category.png",
                             IsDeleted = false,
                             Title = "اسباب‌کشی و حمل و نقل"
                         },
@@ -493,7 +493,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         {
                             Id = 7,
                             CreatedAt = new DateTime(2025, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImagePath = "gardening-category.jpg",
+                            ImagePath = "gardening-category.png",
                             IsDeleted = false,
                             Title = "باغبانی و فضای سبز"
                         });
@@ -577,7 +577,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<decimal>("WalletBalance")
+                    b.Property<decimal?>("WalletBalance")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
@@ -698,7 +698,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         {
                             Id = 1,
                             AppUserId = 3,
-                            AverageScore = 5.0,
+                            AverageScore = 4.7000000000000002,
                             Bio = "متخصص در امور فنی با ۱۰ سال سابقه کار",
                             CityId = 1,
                             CreatedAt = new DateTime(2025, 1, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
@@ -730,6 +730,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         {
                             Id = 4,
                             AppUserId = 11,
+                            AverageScore = 4.0,
                             Bio = "تکنسین برق قدرت و هوشمندسازی منازل",
                             CityId = 1,
                             CreatedAt = new DateTime(2025, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -751,6 +752,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                         {
                             Id = 6,
                             AppUserId = 13,
+                            AverageScore = 5.0,
                             Bio = "کارشناس تعمیرات لوازم خانگی دیجیتال",
                             CityId = 2,
                             CreatedAt = new DateTime(2025, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -850,7 +852,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             Description = "سرویس دوره‌ای و تعمیر موتور کولر",
                             ImagePath = "cooler-repair.jpg",
                             IsDeleted = false,
-                            Name = "تعمیر کولر آبی"
+                            Name = "تعمیر کولر "
                         },
                         new
                         {
@@ -943,6 +945,11 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<int>("PaymentStatus")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -970,7 +977,8 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 10, 0, 0, 0),
                             HomeServiceId = 1,
                             IsDeleted = false,
-                            Status = 5
+                            PaymentStatus = 0,
+                            Status = 3
                         },
                         new
                         {
@@ -983,7 +991,8 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 14, 30, 0, 0),
                             HomeServiceId = 3,
                             IsDeleted = false,
-                            Status = 2
+                            PaymentStatus = 0,
+                            Status = 1
                         },
                         new
                         {
@@ -996,7 +1005,8 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 9, 0, 0, 0),
                             HomeServiceId = 2,
                             IsDeleted = false,
-                            Status = 5
+                            PaymentStatus = 0,
+                            Status = 3
                         },
                         new
                         {
@@ -1009,7 +1019,8 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 16, 0, 0, 0),
                             HomeServiceId = 4,
                             IsDeleted = false,
-                            Status = 6
+                            PaymentStatus = 0,
+                            Status = 4
                         },
                         new
                         {
@@ -1022,7 +1033,8 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 8, 0, 0, 0),
                             HomeServiceId = 7,
                             IsDeleted = false,
-                            Status = 5
+                            PaymentStatus = 0,
+                            Status = 3
                         },
                         new
                         {
@@ -1035,7 +1047,8 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 11, 0, 0, 0),
                             HomeServiceId = 6,
                             IsDeleted = false,
-                            Status = 4
+                            PaymentStatus = 0,
+                            Status = 2
                         },
                         new
                         {
@@ -1048,7 +1061,8 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 9, 0, 0, 0),
                             HomeServiceId = 1,
                             IsDeleted = false,
-                            Status = 5
+                            PaymentStatus = 0,
+                            Status = 3
                         },
                         new
                         {
@@ -1061,7 +1075,8 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 16, 0, 0, 0),
                             HomeServiceId = 4,
                             IsDeleted = false,
-                            Status = 5
+                            PaymentStatus = 0,
+                            Status = 3
                         },
                         new
                         {
@@ -1074,7 +1089,8 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 11, 0, 0, 0),
                             HomeServiceId = 6,
                             IsDeleted = false,
-                            Status = 5
+                            PaymentStatus = 0,
+                            Status = 3
                         },
                         new
                         {
@@ -1087,7 +1103,8 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 10, 30, 0, 0),
                             HomeServiceId = 2,
                             IsDeleted = false,
-                            Status = 5
+                            PaymentStatus = 0,
+                            Status = 3
                         },
                         new
                         {
@@ -1100,7 +1117,8 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 8, 0, 0, 0),
                             HomeServiceId = 7,
                             IsDeleted = false,
-                            Status = 5
+                            PaymentStatus = 0,
+                            Status = 3
                         },
                         new
                         {
@@ -1113,7 +1131,8 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 14, 0, 0, 0),
                             HomeServiceId = 3,
                             IsDeleted = false,
-                            Status = 5
+                            PaymentStatus = 0,
+                            Status = 3
                         },
                         new
                         {
@@ -1126,7 +1145,8 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExecutionTime = new TimeSpan(0, 9, 30, 0, 0),
                             HomeServiceId = 1,
                             IsDeleted = false,
-                            Status = 5
+                            PaymentStatus = 0,
+                            Status = 3
                         });
                 });
 
@@ -1383,7 +1403,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExpertId = 1,
                             IsDeleted = false,
                             OrderId = 1,
-                            ReviewStatus = 0,
+                            ReviewStatus = 1,
                             Score = 5
                         },
                         new
@@ -1395,7 +1415,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExpertId = 2,
                             IsDeleted = false,
                             OrderId = 3,
-                            ReviewStatus = 0,
+                            ReviewStatus = 1,
                             Score = 4
                         },
                         new
@@ -1407,7 +1427,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExpertId = 5,
                             IsDeleted = false,
                             OrderId = 5,
-                            ReviewStatus = 0,
+                            ReviewStatus = 1,
                             Score = 5
                         },
                         new
@@ -1419,7 +1439,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExpertId = 1,
                             IsDeleted = false,
                             OrderId = 7,
-                            ReviewStatus = 0,
+                            ReviewStatus = 1,
                             Score = 5
                         },
                         new
@@ -1431,7 +1451,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExpertId = 4,
                             IsDeleted = false,
                             OrderId = 8,
-                            ReviewStatus = 0,
+                            ReviewStatus = 1,
                             Score = 4
                         },
                         new
@@ -1443,7 +1463,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExpertId = 6,
                             IsDeleted = false,
                             OrderId = 9,
-                            ReviewStatus = 0,
+                            ReviewStatus = 1,
                             Score = 5
                         },
                         new
@@ -1455,7 +1475,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExpertId = 2,
                             IsDeleted = false,
                             OrderId = 10,
-                            ReviewStatus = 0,
+                            ReviewStatus = 1,
                             Score = 4
                         },
                         new
@@ -1467,7 +1487,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExpertId = 5,
                             IsDeleted = false,
                             OrderId = 11,
-                            ReviewStatus = 0,
+                            ReviewStatus = 1,
                             Score = 5
                         },
                         new
@@ -1479,7 +1499,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExpertId = 6,
                             IsDeleted = false,
                             OrderId = 12,
-                            ReviewStatus = 0,
+                            ReviewStatus = 1,
                             Score = 5
                         },
                         new
@@ -1491,7 +1511,7 @@ namespace App.Infra.Db.SqlServer.Ef.Migrations
                             ExpertId = 1,
                             IsDeleted = false,
                             OrderId = 13,
-                            ReviewStatus = 0,
+                            ReviewStatus = 1,
                             Score = 4
                         });
                 });
