@@ -13,11 +13,12 @@ namespace App.Domain.Core.Contract.OrderAgg.Repository
     public interface IOrderRepository
     {
         public Task<OrderPagedDtos> GetAll(int pageNumber, int pageSize, CancellationToken cancellationToken);
+        public Task<OrderSummaryDto?> GetOrderSummary(int orderId, CancellationToken cancellationToken);
         public Task<int> Create(OrderCreateDto orderCreateDto , CancellationToken cancellationToken);
         public Task<int> ChangeStatus(int orderId, OrderStatus newStatus , CancellationToken cancellationToken);
         public Task<OrderPagedDtos> GetOrdersByAppUserId(int appUserId,int pageNumber, int pageSize, CancellationToken cancellationToken);
 
-
+        public Task<decimal?> GetBasePriceByOrderId(int orderId, CancellationToken cancellationToken);
         public Task<AvailableOrdersPagedDto> GetAvailableForExpertAsync(int expertId, int pageNumber, int pageSize, CancellationToken cancellationToken);
 
         public Task<OrderSummaryDto?> GetOrderDetails(int orderId , CancellationToken cancellationToken);

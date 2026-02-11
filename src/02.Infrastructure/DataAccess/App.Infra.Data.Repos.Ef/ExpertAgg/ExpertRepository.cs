@@ -191,7 +191,14 @@ namespace App.Infra.Data.Repos.Ef.ExpertAgg
             return rowAffect > 0;
         }
 
-
+        public async Task<bool> HasSkill(int expertId, int homeServiceId, CancellationToken cancellationToken)
+        {
+            
+            return await _context.Experts
+                .AnyAsync(e => e.Id == expertId &&
+                               e.ExpertHomeServices.Any(ehs => ehs.HomeServiceId == homeServiceId),
+                               cancellationToken);
+        }
         public async Task<Expert?> GetById(int expertId ,  CancellationToken cancellationToken) 
         {
           return await _context.Experts

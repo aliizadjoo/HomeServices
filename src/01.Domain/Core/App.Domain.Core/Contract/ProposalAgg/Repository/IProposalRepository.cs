@@ -16,7 +16,7 @@ namespace App.Domain.Core.Contract.ProposalAgg.Repository
     {
 
         public Task<int> Create(ProposalCreateDto proposalCreateDto, CancellationToken cancellationToken);
-
+        public Task<bool> HasProposal(int orderId, int expertId, CancellationToken cancellationToken);
         public Task<List<ExpertProposalDto>> GetByExpertId(int expertId, CancellationToken cancellationToken);
 
         public Task<List<ProposalSummaryDto>> GetByOrderId(int orderId, CancellationToken cancellationToken);

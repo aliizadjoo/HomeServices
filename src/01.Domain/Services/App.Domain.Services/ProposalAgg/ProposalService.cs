@@ -1,7 +1,9 @@
 ﻿using App.Domain.Core._common;
+using App.Domain.Core.Contract.ExpertAgg.Repository;
 using App.Domain.Core.Contract.OrderAgg.Repository;
 using App.Domain.Core.Contract.ProposalAgg.Repository;
 using App.Domain.Core.Contract.ProposalAgg.Service;
+using App.Domain.Core.Dtos.OrderAgg;
 using App.Domain.Core.Dtos.ProposalAgg;
 using App.Domain.Core.Entities;
 using App.Domain.Core.Enums.OrderAgg;
@@ -19,31 +21,103 @@ namespace App.Domain.Services.ProposalAgg
     public class ProposalService
         (IProposalRepository _proposalRepository 
         , ILogger<ProposalService> _logger 
-        , IOrderRepository _orderRepository) : IProposalService
+        , IOrderRepository _orderRepository
+        ,IExpertRepository _expertRepository
+        ) : IProposalService
     {
+        //public async Task<Result<bool>> Create(ProposalCreateDto proposalCreateDto, CancellationToken cancellationToken)
+        //{
+
+        //    _logger.LogInformation("Attempting to create a new proposal for OrderId: {OrderId} by ExpertId: {ExpertId}",
+        //        proposalCreateDto.OrderId, proposalCreateDto.ExpertId);
+
+
+        //    var executionDateTime = proposalCreateDto.SuggestedDate.Date.Add(proposalCreateDto.ExecutionTime);
+
+
+        //    if (executionDateTime < DateTime.Now)
+        //    {
+        //        return Result<bool>.Failure("زمان انتخاب شده نمی‌تواند در گذشته باشد. لطفاً ساعت و تاریخ معتبری را انتخاب کنید.");
+        //    }
+
+        //    decimal? basePrice = await _orderRepository.GetBasePriceByOrderId(proposalCreateDto.OrderId , cancellationToken);
+        //    if (proposalCreateDto.Price< basePrice)
+        //    {
+        //        return Result<bool>.Failure("مبلغ پیشنهادی نباید کمتر از مبلغ پایه باشد .");
+        //    }
+
+
+        //    var affectedRows = await _proposalRepository.Create(proposalCreateDto, cancellationToken);
+
+
+        //    if (affectedRows > 0)
+        //    {
+        //        _logger.LogInformation("Proposal successfully created for OrderId: {OrderId} with {Rows} affected row(s).",
+        //            proposalCreateDto.OrderId, affectedRows);
+
+        //        return Result<bool>.Success(true, "پیشنهاد شما با موفقیت ثبت شد و برای مشتری ارسال گردید.");
+        //    }
+
+
+        //    _logger.LogWarning("Failed to save the proposal in the database for OrderId: {OrderId}.",
+        //        proposalCreateDto.OrderId);
+
+        //    return Result<bool>.Failure("خطایی در هنگام ذخیره پیشنهاد در سیستم رخ داد. لطفاً مجدداً تلاش کنید.");
+        //}
+
         public async Task<Result<bool>> Create(ProposalCreateDto proposalCreateDto, CancellationToken cancellationToken)
         {
-          
-            _logger.LogInformation("Attempting to create a new proposal for OrderId: {OrderId} by ExpertId: {ExpertId}",
+            _logger.LogInformation("Starting proposal creation for OrderId: {OrderId} by ExpertId: {ExpertId}",
                 proposalCreateDto.OrderId, proposalCreateDto.ExpertId);
 
-        
-            var affectedRows = await _proposalRepository.Create(proposalCreateDto, cancellationToken);
+    
+            var order = await _orderRepository.GetOrderSummary(proposalCreateDto.OrderId, cancellationToken);
 
-           
-            if (affectedRows > 0)
+            if (order == null)
+                return Result<bool>.Failure("سفارش مورد نظر یافت نشد.");
+
+            if (order.Status != OrderStatus.WaitingForProposals)
             {
-                _logger.LogInformation("Proposal successfully created for OrderId: {OrderId} with {Rows} affected row(s).",
-                    proposalCreateDto.OrderId, affectedRows);
-
-                return Result<bool>.Success(true, "پیشنهاد شما با موفقیت ثبت شد و برای مشتری ارسال گردید.");
+                return Result<bool>.Failure("مهلت ارسال پیشنهاد برای این سفارش به پایان رسیده یا وضعیت آن تغییر کرده است.");
             }
 
-        
-            _logger.LogWarning("Failed to save the proposal in the database for OrderId: {OrderId}.",
-                proposalCreateDto.OrderId);
+            bool hasActiveProposal = await _proposalRepository.HasProposal(proposalCreateDto.OrderId, proposalCreateDto.ExpertId, cancellationToken);
+            if (hasActiveProposal)
+            {
+                return Result<bool>.Failure("شما قبلاً برای این سفارش پیشنهاد ارسال کرده‌اید.");
+            }
 
-            return Result<bool>.Failure("خطایی در هنگام ذخیره پیشنهاد در سیستم رخ داد. لطفاً مجدداً تلاش کنید.");
+           
+            bool expertHasSkill = await _expertRepository.HasSkill(proposalCreateDto.ExpertId, order.HomeServiceId, cancellationToken);
+
+            if (!expertHasSkill)
+            {
+                return Result<bool>.Failure("شما مهارت لازم برای انجام این نوع سرویس را در پروفایل خود ندارید.");
+            }
+
+
+            var executionDateTime = proposalCreateDto.SuggestedDate.Date.Add(proposalCreateDto.ExecutionTime);
+            if (executionDateTime < DateTime.Now)
+            {
+                return Result<bool>.Failure("زمان انتخاب شده نمی‌تواند در گذشته باشد.");
+            }
+
+       
+            if ( proposalCreateDto.Price < order.BasePrice)
+            {
+                return Result<bool>.Failure($"مبلغ پیشنهادی نباید کمتر از قیمت پایه ({order.BasePrice}) باشد.");
+            }
+
+            var affectedRows = await _proposalRepository.Create(proposalCreateDto, cancellationToken);
+
+            if (affectedRows > 0)
+            {
+                _logger.LogInformation("Proposal created successfully.");
+                return Result<bool>.Success(true, "پیشنهاد شما با موفقیت ثبت شد.");
+            }
+
+            _logger.LogWarning("Failed to save proposal.");
+            return Result<bool>.Failure("خطایی در ثبت پیشنهاد رخ داد.");
         }
 
         public async Task<Result<List<ExpertProposalDto>>> GetExpertProposals(int expertId, CancellationToken cancellationToken)

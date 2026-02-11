@@ -19,9 +19,6 @@ namespace App.Domain.Core.Contract.HomeServiceAgg.Repository
         public Task<HomeserviceDto?> GetById(int homeServiceId, CancellationToken cancellationToken);
 
 
-
-      
-
         public Task<bool> Delete(int id, CancellationToken cancellationToken);
 
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App.Domain.Core.Enums.OrderAgg;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,8 @@ namespace App.Domain.Core.Dtos.OrderAgg
     {
         public decimal BasePrice { get; set; }
         public string HomeServiceName { get; set; }
+        public OrderStatus Status { get; set; }
+        public int HomeServiceId { get; set; }
+        
     }
 }

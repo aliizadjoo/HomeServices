@@ -162,6 +162,16 @@ namespace App.Infra.Data.Repos.Ef.OderAgg
                 }).FirstOrDefaultAsync(cancellationToken);
         }
 
+        public async Task<decimal?> GetBasePriceByOrderId(int orderId , CancellationToken cancellationToken) 
+        {
+
+           return await _context.Orders.Where(o => o.Id == orderId)
+                            .Select(o => o.HomeService.BasePrice)
+                            .FirstOrDefaultAsync(cancellationToken);
+
+
+        }
+
         public async Task<OrderPagedDtos> GetOrdersByAppUserId(int appUserId,int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             var query = _context.Orders
@@ -239,5 +249,20 @@ namespace App.Infra.Data.Repos.Ef.OderAgg
                 o.CustomerId == customerId,
                 cancellationToken);
         }
+
+
+        public async Task<OrderSummaryDto?> GetOrderSummary(int orderId , CancellationToken cancellationToken) 
+        {
+         return await  _context.Orders.Where(o=>o.Id==orderId)
+                             .Select(o=>new OrderSummaryDto() 
+                             { 
+                               BasePrice = o.HomeService.BasePrice,
+                               HomeServiceId = o.HomeServiceId,
+                               Status = o.Status,
+                             }).FirstOrDefaultAsync(cancellationToken);
+
+        }
+
+
     }
 }

@@ -115,7 +115,9 @@ namespace App.EndPoints.MVC.HomeService.Areas.Expert.Controllers
                 Price = model.Price,
                 Description = model.Description,
                 SuggestedDate = suggestedDate,
-                ExpertId = expertId
+                ExpertId = expertId,
+                ExecutionTime = model.ExecutionTime,
+                
             };
 
            

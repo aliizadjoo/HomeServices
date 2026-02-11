@@ -19,9 +19,13 @@ namespace App.EndPoints.MVC.HomeService.Areas.Expert.Models
 
         [Display(Name = "تاریخ پیشنهادی برای شروع")]
         [Required(ErrorMessage = "لطفاً {0} را مشخص کنید.")]
+        [FuturePersianDate]
         public string SuggestedDateShamsi { get; set; }
 
-       
+        [Display(Name = "ساعت اجرا")]
+        [Required(ErrorMessage = "لطفاً {0} را مشخص کنید.")]
+        [DataType(DataType.Time)]
+        public TimeSpan ExecutionTime { get; set; }
         public decimal BasePrice { get; set; }
         public string? OrderTitle { get; set; }
     }

@@ -117,7 +117,6 @@ namespace App.Infra.Data.Repos.Ef.ProposalAgg
 
         }
 
-
         public async Task<decimal> GetPriceByOrderId(int orderId, CancellationToken cancellationToken)
         {
           return await   _context.Proposals
@@ -125,6 +124,15 @@ namespace App.Infra.Data.Repos.Ef.ProposalAgg
                 .Select(p => p.Price)
                 .FirstOrDefaultAsync(cancellationToken);
         }
+
+
+
+        public async Task<bool> HasProposal (int orderId , int expertId ,  CancellationToken cancellationToken) 
+        {
+
+          return await _context.Proposals.AnyAsync(p => p.OrderId == orderId && p.ExpertId == expertId, cancellationToken);
+        }
+
 
     }
 }

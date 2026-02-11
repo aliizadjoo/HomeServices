@@ -61,6 +61,21 @@
                         </div>
 
                         <div class="mb-4">
+                            <label asp-for="ExecutionTime" class="form-label fw-bold"></label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-clock"></i>
+                                </span>
+                                <input asp-for="ExecutionTime"
+                                       type="time"
+                                       class="form-control"
+                                       step="60" />
+                            </div>
+                            <span asp-validation-for="ExecutionTime" class="text-danger small"></span>
+                        </div>
+
+
+                        <div class="mb-4">
                             <label asp-for="Description" class="form-label fw-bold">توضیحات و رزومه</label>
                             <textarea asp-for="Description" class="form-control" rows="4" placeholder="رزومه مرتبط یا نحوه انجام کار را اینجا بنویسید..."></textarea>
                             <span asp-validation-for="Description" class="text-danger small"></span>

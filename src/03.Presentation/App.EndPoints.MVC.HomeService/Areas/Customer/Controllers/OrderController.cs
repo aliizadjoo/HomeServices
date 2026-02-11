@@ -119,7 +119,8 @@ namespace App.EndPoints.MVC.HomeService.Areas.Customer.Controllers
                 return RedirectToAction("MyOrders", "Order");
             }
 
-
+            var citieDtos = await _cityAppService.GetAll(cancellationToken);
+            model.Cities = citieDtos.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.CityName }).ToList();
             TempData["ErrorMessage"] = result.Message;
             return View(model);
         }

@@ -14,5 +14,7 @@ namespace App.Domain.Core.Dtos.ProposalAgg
         public string Description { get; set; }
 
         public DateTime SuggestedDate { get; set; }
+        public TimeSpan ExecutionTime { get; set; }
+       
     }
 }
