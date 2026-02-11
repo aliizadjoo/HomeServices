@@ -9,6 +9,8 @@ namespace App.Domain.Core.Dtos.ProposalAgg
 {
     public class ProposalSummaryDto
     {
+
+        public string? Bio { get; set; }
         public int Id { get; set; }
         public int ExpertId { get; set; }
         public double? AverageScore { get; set; }
@@ -20,6 +22,9 @@ namespace App.Domain.Core.Dtos.ProposalAgg
         public ProposalStatus Status { get; set; } = ProposalStatus.Pending;
         public decimal Price { get; set; }
         public string Description { get; set; }
-      
+        public string CityName { get; set; }
+
+        public List<string> HomeserivceName { get; set; } = [];
+
     }
 }

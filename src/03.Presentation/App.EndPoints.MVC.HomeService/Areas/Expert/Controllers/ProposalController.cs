@@ -79,10 +79,6 @@ namespace App.EndPoints.MVC.HomeService.Areas.Expert.Controllers
         public async Task<IActionResult> SubmitProposal(ProposalViewModel model, CancellationToken cancellationToken)
         {
            
-            if (model.Price < model.BasePrice)
-            {
-                ModelState.AddModelError("Price", $"قیمت پیشنهادی نمی‌تواند کمتر از {model.BasePrice:N0} ریال باشد.");
-            }
 
             if (!ModelState.IsValid)
             {
@@ -98,15 +94,6 @@ namespace App.EndPoints.MVC.HomeService.Areas.Expert.Controllers
                 return RedirectToAction("Login", "Account", new { area = "Identity" });
             }
 
-            
-            var alreadySubmitted = await _proposalAppService.IsAlreadySubmitted(expertId, model.OrderId, cancellationToken);
-            if (alreadySubmitted)
-            {
-                TempData["ErrorMessage"] = "شما قبلاً برای این سفارش پیشنهادی ثبت کرده‌اید. امکان ثبت پیشنهاد مجدد وجود ندارد.";
-                return RedirectToAction("Index", "Order");
-            }
-
-            
             DateTime suggestedDate = model.SuggestedDateShamsi.ToGregorianDate();
 
             var proposalDto = new ProposalCreateDto
@@ -132,8 +119,6 @@ namespace App.EndPoints.MVC.HomeService.Areas.Expert.Controllers
             TempData["ErrorMessage"] = result.Message;
             return View(model);
         }
-
-
 
     }
 }

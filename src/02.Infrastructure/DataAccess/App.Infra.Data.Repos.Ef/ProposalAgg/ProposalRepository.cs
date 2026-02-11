@@ -61,14 +61,17 @@ namespace App.Infra.Data.Repos.Ef.ProposalAgg
                                  Id = p.Id,
                                  HomeServiceName = p.Order.HomeService.Name,
                                  AverageScore=p.Expert.AverageScore,
-                                 ExecutionDate = p.Order.ExecutionDate,
+                                 Bio = p.Expert.Bio,
                                  ExpertId = p.ExpertId,
                                  ExpertFirstName = p.Expert.AppUser.FirstName,
                                  ExpertLastName = p.Expert.AppUser.LastName,
+                                 CityName = p.Expert.City.CityName,
+                                 HomeserivceName = p.Expert.ExpertHomeServices.Select(p => p.HomeService.Name).ToList(),
                                  Status = p.Status,
                                  Price = p.Price,
+                                 ExecutionDate = p.Order.ExecutionDate,
                                  Description = p.Description,
-
+                                
                              })
                              .ToListAsync(cancellationToken);
 

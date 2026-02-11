@@ -75,6 +75,39 @@
                                 <span class="text-muted">بدون امتیاز</span>
                             }
                         </div>
+                        <div class="mb-2 text-muted small">
+                            <i class="bi bi-geo-alt-fill me-1 text-danger"></i>
+                            <span class="fw-bold">شهر:</span> @item.CityName
+                        </div>
+
+                        @if (item.HomeserivceName != null && item.HomeserivceName.Any())
+                        {
+                            <div class="mb-3">
+                                <small class="text-muted d-block mb-2 fw-bold">
+                                    <i class="bi bi-tools me-1"></i> تخصص‌ها :
+                                </small>
+
+                                <div class="d-flex flex-wrap gap-1">
+                                    @foreach (var skill in item.HomeserivceName)
+                                    {
+                                        <span class="badge bg-light text-secondary border rounded-pill px-3 fw-normal">
+                                            @skill
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+                        }
+
+                        @if (!string.IsNullOrWhiteSpace(item.Bio))
+                        {
+                            <div class="alert alert-info py-2 px-3 mb-3 small border-0 bg-opacity-10 text-dark">
+                                <i class="bi bi-info-circle me-1 text-info"></i>
+                                <strong>درباره متخصص:</strong> @item.Bio
+                            </div>
+                        }
+
+                        
+
                         <p class="text-muted small mb-3">
                             <i class="bi bi-calendar-check me-1"></i> تاریخ: @item.PersianExecutionDate
                         </div>
