@@ -81,7 +81,7 @@
                             <i class="bi bi-tags"></i> تخصص‌ها
                         </label>
                         <select asp-for="SelectedHomeServicesId" class="form-select select2-multiple"
-                                asp-items="@(new SelectList(Model.AvailableServices, "HomeservicesId", "Name"))"
+                                asp-items="@(new SelectList(Model.AvailableServices, "Id", "Name"))"
                                 multiple="multiple">
                         </select>
                         <div class="form-text text-muted small">می‌توانید چند مورد را انتخاب کنید.</div>
